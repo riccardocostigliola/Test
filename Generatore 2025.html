@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generatore Email Unico B&B</title>
+  <style>
+	body { font-family: Helvetica, sans-serif; padding: 20px; max-width: 800px; margin: auto; transition: background 0.5s; }
+	input, select { width: 100%; padding: 8px; margin: 5px 0 15px; }
+	label { font-weight: bold; }
+	button { padding: 10px 20px; margin-right: 10px; }
+	iframe#preview { width: 100%; height: 400px; border: 1px solid #ccc; margin-top: 20px; font-family: Helvetica; font-size: 14px; }
+	.container { border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.7); padding: 1px 30px 15px 10px; background: #fff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+	<h1 id="title" style="text-align: center;">Generatore Email B&B</h1>
+
+	<label for="bbSelector">Scegli B&B:</label>
+	<select id="bbSelector">
+	  <option value="stories">B&B Vatican Stories</option>
+	  <option value="toto">B&B Toto al Vaticano</option>
+	</select>
+
+	<label for="nome">Nome Ospite:</label>
+	<input type="text" id="nome">
+
+	<label for="checkin">Data Check-In:</label>
+	<input type="date" id="checkin">
+
+	<label for="checkout">Data Check-Out:</label>
+	<input type="date" id="checkout">
+
+	<label for="camera">Camera:</label>
+	<select id="camera"></select>
+
+	<label for="adulti">Numero Adulti:</label>
+	<input type="number" id="adulti" min="0">
+
+	<label for="bambini">Numero Bambini:</label>
+	<input type="number" id="bambini" min="0">
+
+	<label for="prezzo">Prezzo per Notte (€):</label>
+	<input type="number" id="prezzo" step="0.01">
+
+	<label for="tassa">Totale Tassa di Soggiorno (€):</label>
+	<input type="text" id="tassa">
+
+	<label for="acconto">Importo Acconto (€):</label>
+	<input type="number" id="acconto" value="50" step="1">
+
+	<button onclick="generaEmail()">Genera Email</button>
+	<button onclick="copiaVisuale()">Copia Testo Formattato</button>
+
+	<iframe id="preview"></iframe>
+  </div>
+
+  <script>
+	// Configurazioni per ciascun B&B
+	const bbConfigs = {
+	  stories: {
+		name: 'B&B Vatican Stories',
+		gradient: 'linear-gradient(90deg, #eb5e3e, #cb3975)',
+		cameras: ['Camera Diamante','Camera Panorama','Camera Stella','Camera Oro'],
+		serviziMap: {
+		  'Camera Diamante': 'Bagno privato interno',
+		  'Camera Panorama': 'Bagno privato interno, Balcone Privato con vista sulla Cupola di San Pietro',
+		  'Camera Stella': 'Bagno privato esterno ad utilizzo esclusivo',
+		  'Camera Oro': 'Bagno privato esterno ad utilizzo esclusivo'
+		},
+		addressLine: 'Via delle Fornaci, 20, Roma, Interno 9 - Piano 4 (senza ascensore)',
+		mapLink: 'https://www.bbvaticanstories.it/dove-siamo-bb-roma-vaticano/',
+		website: 'https://www.bbvaticanstories.it',
+		phone: '347/9282875',
+		payment: {
+		  paypalBase: 'https://paypal.me/costigliola/',
+		  postePayNumber: '4023601034886028',
+		  postePayName: 'Carmen Famiglietti',
+		  postePayCF: 'FMGCMN99S62I281R',
+		  iban: 'IT51A0760103200001065017004',
+		  ibanName: 'Carmen Famiglietti'
+		}
+	  },
+	  toto: {
+		name: 'B&B Toto al Vaticano',
+		gradient: 'linear-gradient(90deg, #057c7c, #8acbbf)',
+		cameras: ['Camera Corallo','Camera Perla','Camera Smeraldo'],
+		serviziMap: {},
+		defaultServizi: 'Bagno privato interno, Colazione Inclusa, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.',
+		addressLine: 'Via Agostino Valiero, 12, Roma, Scala C - Interno 2 - Piano Terra',
+		mapLink: 'https://www.bbvatican.it/dove-siamo-bb-toto-al-vaticano/',
+		website: 'https://www.bbvatican.it',
+		phone: '376/2059504',
+		payment: {
+		  paypalBase: 'https://paypal.me/costigliola/',
+		  postePayNumber: '4023601034886028',
+		  postePayName: 'Carmen Famiglietti',
+		  postePayCF: 'FMGCMN99S62I281R',
+		  iban: 'IT66D0760103200001068361219',
+		  ibanName: 'Riccardo Costigliola'
+		}
+	  }
+	};
+
+	// Inizializza interfaccia
+	const bbSelector = document.getElementById('bbSelector');
+	const cameraSelect = document.getElementById('camera');
+	const title = document.getElementById('title');
+	function populateFields() {
+	  const key = bbSelector.value;
+	  const cfg = bbConfigs[key];
+	  document.body.style.background = cfg.gradient;
+	  title.textContent = `Generatore Email ${cfg.name}`;
+	  // Popola camere
+	  cameraSelect.innerHTML = '';
+	  cfg.cameras.forEach(cam => {
+		const o = document.createElement('option');
+		o.value = cam;
+		o.textContent = cam;
+		cameraSelect.appendChild(o);
+	  });
+	}
+	bbSelector.addEventListener('change', populateFields);
+	populateFields();
+
+	function formattaData(data) {
+	  const [yyyy, mm, dd] = data.split('-');
+	  return `${dd}/${mm}/${yyyy}`;
+	}
+	function giorniDifferenza(ci, co) {
+	  return Math.round((new Date(co) - new Date(ci))/(1000*60*60*24));
+	}
+
+	function generaEmail() {
+	  const key = bbSelector.value;
+	  const cfg = bbConfigs[key];
+	  const nome = document.getElementById('nome').value;
+	  const checkinRaw = document.getElementById('checkin').value;
+	  const checkoutRaw = document.getElementById('checkout').value;
+	  const checkin = formattaData(checkinRaw);
+	  const checkout = formattaData(checkoutRaw);
+	  const camera = cameraSelect.value;
+	  const adulti = parseInt(document.getElementById('adulti').value)||0;
+	  const bambini = parseInt(document.getElementById('bambini').value)||0;
+	  const prezzo = parseFloat(document.getElementById('prezzo').value)||0;
+	  const totaleTassa = parseFloat(document.getElementById('tassa').value)||0;
+	  const acconto = parseFloat(document.getElementById('acconto').value)||0;
+	  if(adulti===0){ alert('Devi indicare almeno 1 adulto.'); return; }
+	  const notti = giorniDifferenza(checkinRaw, checkoutRaw);
+	  const totaleCamera = prezzo * notti;
+	  let descrPersone = adulti===1? '1 adulto': `${adulti} adulti`;
+	  if(bambini>0) descrPersone += bambini===1? ' + 1 bambino': ` + ${bambini} bambini`;
+	  let servizi = cfg.defaultServizi || cfg.serviziMap[camera] + ', Colazione Inclusa, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.';
+
+	  const html = `
+	  <div style="font-family: Helvetica; font-size: 14px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2); padding: 15px;">
+<p>Buonasera <b>${nome}</b>,</p>
+<p>Grazie per aver scelto il nostro <b>${cfg.name}</b> per il vostro soggiorno a Roma.</p>
+<p>Ecco il riepilogo della vostra prenotazione:</p>
+<ul>
+  <li><b>Camera:</b> N.1 per ${descrPersone} (${camera})</li>
+  <li><b>Servizi Inclusi:</b> ${servizi}</li>
+  <li><b>Check-In:</b> ${checkin} (dalle 14.00)</li>
+  <li><b>Check-Out:</b> ${checkout} (entro le ore 10.00)</li>
+  <li><b>Prezzo a Camera per Notte:</b> ${prezzo.toFixed(2)} €</li>
+  <li><b>Tassa di soggiorno:</b> 6€ a persona per notte (esclusi i bambini sotto ai 10 anni o per motivi ospedalieri)</li>
+  <li><b>Totale Prenotazione:</b> ${totaleCamera.toFixed(2)} € + ${totaleTassa.toFixed(2)} € di tassa di soggiorno</li>
+</ul>
+<p>Per confermare la prenotazione, vi chiediamo gentilmente di effettuare un acconto di <b>${acconto.toFixed(2)}€</b> utilizzando uno dei seguenti metodi di pagamento:</p>
+<ul>
+  <li>PayPal: <a href='${cfg.payment.paypalBase}${acconto.toFixed(0)}'>${cfg.payment.paypalBase}${acconto.toFixed(0)}</a></li>
+  <li>Ricarica PostePay: ${cfg.payment.postePayNumber} intestata a ${cfg.payment.postePayName}, Codice Fiscale: ${cfg.payment.postePayCF}</li>
+  <li>Bonifico IBAN: ${cfg.payment.iban} intestato a ${cfg.payment.ibanName}</li>
+</ul>
+<p>Il B&B si trova in ${cfg.addressLine}.<br>
+<a href='${cfg.mapLink}'>Visualizza la posizione sul nostro sito web</a></p>
+<p><b>Attendo gentilmente un riscontro con i seguenti dati:</b></p>
+<ul>
+  <li>Nominativi di tutti gli ospiti</li>
+  <li>Numero di telefono</li>
+  <li>Orario di arrivo presso stazione / aeroporto</li>
+</ul>
+<p>Resto a disposizione per qualsiasi ulteriore richiesta.</p>
+<p>Grazie e a presto,<br>
+<b>Carmen & Riccardo</b><br>
+${cfg.name}<br>
+${cfg.addressLine.split('.')[0]}<br>
+<a href='${cfg.website}'>${cfg.website}</a><br>
+Tel. ${cfg.phone}</p>
+</div>`;
+
+	  const preview = document.getElementById('preview').contentDocument;
+	  preview.open(); preview.write(html); preview.close();
+	}
+	function copiaVisuale() {
+	  const doc = document.getElementById('preview').contentWindow.document;
+	  doc.execCommand('selectAll'); doc.execCommand('copy');
+	  alert('Contenuto formattato copiato!');
+	}
+  </script>
+</body>
+</html>
