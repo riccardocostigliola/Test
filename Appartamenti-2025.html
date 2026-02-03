@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generatore Email Case Vacanze</title>
+  <style>
+	body { font-family: Helvetica; sans-serif; padding: 20px; max-width: 800px; margin: auto; transition: background 0.5s; }
+	.container { background: #fff; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.7); padding: 30px; }
+	label { font-weight: bold; display: block; margin-top: 15px; }
+	input, select { width: 100%; padding: 8px; margin-top: 5px; }
+	button { padding: 10px 20px; margin-top: 20px; }
+	iframe#preview { width: 100%; height: 400px; border: 1px solid #ccc; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+	<h1 style="text-align:center;">Generatore Email Case Vacanze</h1>
+
+	<label for="aptSelector">Scegli Appartamento:</label>
+	<select id="aptSelector">
+	  <option value="totoHouse">Toto Vatican House</option>
+	  <option value="totoSuite">Toto Vatican Suite</option>
+	  <option value="kingSuite">King Vatican Suite</option>
+	</select>
+
+	<label for="nome">Nome Ospite:</label>
+	<input type="text" id="nome">
+
+	<label for="ospiti">Numero Ospiti:</label>
+	<input type="number" id="ospiti" min="1" value="1">
+
+	<label for="checkin">Data Check-In:</label>
+	<input type="date" id="checkin">
+
+	<label for="checkout">Data Check-Out:</label>
+	<input type="date" id="checkout">
+
+	<label for="prezzo">Prezzo per Notte (€):</label>
+	<input type="number" id="prezzo" step="0.01">
+
+	<label for="tassa">Totale Tassa di Soggiorno (€):</label>
+	<input type="text" id="tassa">
+
+	<label for="acconto">Importo Acconto (€):</label>
+	<input type="number" id="acconto" value="50" step="1">
+
+	<button onclick="generaEmail()">Genera Email</button>
+	<button onclick="copiaVisuale()">Copia Testo Formattato</button>
+
+	<iframe id="preview"></iframe>
+  </div>
+
+  <script>
+	const aptConfigs = {
+	  totoHouse: {
+		name: 'Toto Vatican House',
+		gradient: 'linear-gradient(90deg, #4254f5, #76a7ff)',
+		addressFull: 'Via Gregorio VII, 407, Piano terra, Interno 1',
+		addressSimple: 'Via Gregorio VII, 407, Roma',
+		website: 'https://www.totovaticanhouse.it',
+		phone: '347/9282875',
+		iban: 'IT51A0760103200001065017004',
+		ibanName: 'Carmen Famiglietti'
+	  },
+	  totoSuite: {
+		name: 'Toto Vatican Suite',
+		gradient: 'linear-gradient(90deg, #A34521, #E6A935)',
+		addressFull: 'Via San Tommaso d\'Aquino, 18, Piano terra, Interno 1',
+		addressSimple: 'Via San Tommaso d\'Aquino, 18, Roma',
+		website: 'https://www.totovaticansuite.it',
+		phone: '376/2059504',
+		iban: 'IT66D0760103200001068361219',
+		ibanName: 'Riccardo Costigliola'
+	  },
+	  kingSuite: {
+		name: 'King Vatican Suite',
+		gradient: 'linear-gradient(90deg, #5D3A9B, #7D49BD)',
+		addressFull: 'Via Gregorio VII, 90, Scala B, Interno 5, Primo piano (con ascensore)',
+		addressSimple: 'Via Gregorio VII, 90, Roma',
+		website: 'https://www.kingvaticansuite.com',
+		phone: '347/9282875',
+		iban: 'IT51A0760103200001065017004',
+		ibanName: 'Carmen Famiglietti'
+	  }
+	};
+
+	const aptSelector = document.getElementById('aptSelector');
+	function populate() {
+	  document.body.style.background = aptConfigs[aptSelector.value].gradient;
+	}
+	aptSelector.addEventListener('change', populate);
+	populate();
+
+	function formattaData(data) {
+	  const [yyyy, mm, dd] = data.split('-'); return `${dd}/${mm}/${yyyy}`;
+	}
+	function giorni(ci, co) { return Math.round((new Date(co)-new Date(ci))/(1000*60*60*24)); }
+
+	function generaEmail() {
+	  const key = aptSelector.value;
+	  const cfg = aptConfigs[key];
+	  const nome = document.getElementById('nome').value;
+	  const ospiti = parseInt(document.getElementById('ospiti').value) || 1;
+	  const ospitiText = ospiti === 1 ? 'per 1 ospite' : `per ${ospiti} ospiti`;
+	  const checkinRaw = document.getElementById('checkin').value;
+	  const checkoutRaw = document.getElementById('checkout').value;
+	  const checkin = formattaData(checkinRaw);
+	  const checkout = formattaData(checkoutRaw);
+	  const prezzo = parseFloat(document.getElementById('prezzo').value) || 0;
+	  const totaleTassa = document.getElementById('tassa').value;
+	  const acconto = parseFloat(document.getElementById('acconto').value) || 0;
+	  const nNotti = giorni(checkinRaw, checkoutRaw);
+	  const totalAlloggio = prezzo * nNotti;
+
+	  const soggiornoDesc = ospiti > 2 ? 'Soggiorno con divano letto matrimoniale' : 'Soggiorno';
+	  const esterno = key === 'kingSuite' ? 'balcone' : 'Ampio terrazzo esterno';
+	  const servizi = `Camera da letto matrimoniale, ${soggiornoDesc}, bagno, cucina, ${esterno}, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.`;
+	  
+	  const paymentHTML = `
+	  <ul>
+		<li>Trasferimento PayPal: <a href="https://paypal.me/costigliola/${acconto.toFixed(0)}">https://paypal.me/costigliola/${acconto.toFixed(0)}</a></li>
+		<li>Ricarica PostePay N: 4023601034886028 intestata a Carmen Famiglietti, Codice Fiscale: FMGCMN99S62I281R</li>
+		<li>Bonifico al seguente IBAN: ${cfg.iban} intestato a ${cfg.ibanName}</li>
+	  </ul>
+	  `;
+
+	  const html = `
+	  <div style="font-family: Helvetica; font-size: 14px; padding: 15px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+<p>Buongiorno <b>${nome}</b>,</p>
+<p>Grazie per averci scelto per il vostro soggiorno a Roma.</p>
+<p>Ecco il riepilogo della vostra prenotazione:</p>
+<ul>
+  <li><b>Intero Appartamento:</b> ${ospitiText}</li>
+  <li><b>Servizi:</b> ${servizi}</li>
+  <li><b>Check-In:</b> ${checkin} (dalle 14.00)</li>
+  <li><b>Check-Out:</b> ${checkout} (entro le ore 10.00)</li>
+  <li><b>Prezzo per Notte:</b> ${prezzo.toFixed(2)}€</li>
+  <li><b>Tassa di Soggiorno:</b> 6€ a persona per notte (esclusi bambini sotto ai 10 anni e per motivi ospedalieri)</li>
+  <li><b>Totale Prenotazione:</b> € ${totalAlloggio.toFixed(2)} + ${totaleTassa} tassa di soggiorno</li>
+</ul>
+<p>Per confermare la prenotazione, vi chiediamo gentilmente di effettuare un acconto di <b>${acconto.toFixed(2)}€</b> utilizzando uno dei seguenti metodi di pagamento:</p>
+${paymentHTML}
+<p>L’appartamento si trova in <b>${cfg.addressFull}</b>.</p>
+<p>Attendo gentilmente un riscontro a questo messaggio con i seguenti dati:</p>
+<ul>
+  <li>Nominativi di tutti gli ospiti</li>
+  <li>Numero di telefono</li>
+  <li>Orario di arrivo presso stazione / aeroporto</li>
+</ul>
+<p>Siamo a vostra disposizione per qualsiasi ulteriore informazione, non esitate a contattarci.</p>
+<p>Grazie mille e a presto,<br>
+Carmen & Riccardo.<br>
+<b>${cfg.name}</b><br>
+${cfg.addressSimple}<br>
+<a href="${cfg.website}">${cfg.website}</a><br>
+Tel. ${cfg.phone}</p>
+</div>`;
+	  
+	  const preview = document.getElementById('preview').contentDocument;
+	  preview.open(); preview.write(html); preview.close();
+	}
+
+	function copiaVisuale() {
+	  const doc = document.getElementById('preview').contentWindow.document;
+	  doc.execCommand('selectAll'); doc.execCommand('copy');
+	  alert('Contenuto formattato copiato!');
+	}
+  </script>
+</body>
+</html>
