@@ -91,6 +91,7 @@
 		addressSimple: 'Via Gregorio VII, 42, Roma',
 		website: 'https://www.totocollection.com',
 		phone: '347/9282875',
+		services: 'Camera da letto matrimoniale, Soggiorno con divano letto, bagno, cucina, Giardino privato, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.',
 		iban: 'IT24U0569603242000002501X55',
 		ibanName: 'Toto Collection S.r.l.'
 	  }
@@ -125,8 +126,8 @@
 	  const totalAlloggio = prezzo * nNotti;
 
 	  const soggiornoDesc = ospiti > 2 ? 'Soggiorno con divano letto matrimoniale' : 'Soggiorno';
-	  const esterno = key === 'kingSuite' ? 'balcone' : key === 'totoCollection' ? 'Giardino privato' : 'Ampio terrazzo esterno';
-	  const servizi = `Camera da letto matrimoniale, ${soggiornoDesc}, bagno, cucina, ${esterno}, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.`;
+	  const esterno = key === 'kingSuite' ? 'balcone' : 'Ampio terrazzo esterno';
+	  const servizi = cfg.services || `Camera da letto matrimoniale, ${soggiornoDesc}, bagno, cucina, ${esterno}, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.`;
 	  
 	  const paymentHTML = `
 	  <ul>
