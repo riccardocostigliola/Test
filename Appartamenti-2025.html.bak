@@ -22,7 +22,6 @@
 	  <option value="totoHouse">Toto Vatican House</option>
 	  <option value="totoSuite">Toto Vatican Suite</option>
 	  <option value="kingSuite">King Vatican Suite</option>
-	  <option value="totoCollection">Toto Collection Vaticano</option>
 	</select>
 
 	<label for="nome">Nome Ospite:</label>
@@ -83,16 +82,6 @@
 		phone: '347/9282875',
 		iban: 'IT51A0760103200001065017004',
 		ibanName: 'Carmen Famiglietti'
-	  },
-	  totoCollection: {
-		name: 'Toto Collection Vaticano',
-		gradient: 'linear-gradient(90deg, #1D6D8A, #4BA7C4)',
-		addressFull: 'Via Gregorio VII, 42, Interno 1, Piano terra',
-		addressSimple: 'Via Gregorio VII, 42, Roma',
-		website: 'https://www.totocollection.com',
-		phone: '347/9282875',
-		iban: 'IT24U0569603242000002501X55',
-		ibanName: 'Toto Collection S.r.l.'
 	  }
 	};
 
@@ -125,7 +114,7 @@
 	  const totalAlloggio = prezzo * nNotti;
 
 	  const soggiornoDesc = ospiti > 2 ? 'Soggiorno con divano letto matrimoniale' : 'Soggiorno';
-	  const esterno = key === 'kingSuite' ? 'balcone' : key === 'totoCollection' ? 'Giardino privato' : 'Ampio terrazzo esterno';
+	  const esterno = key === 'kingSuite' ? 'balcone' : 'Ampio terrazzo esterno';
 	  const servizi = `Camera da letto matrimoniale, ${soggiornoDesc}, bagno, cucina, ${esterno}, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.`;
 	  
 	  const paymentHTML = `
