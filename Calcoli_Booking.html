@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calcoli Booking - 7 posti letto</title>
+  <style>
+    :root {
+      --bg: #f3f4f6;
+      --card: #ffffff;
+      --line: #d1d5db;
+      --text: #111827;
+      --muted: #4b5563;
+      --head: #dfe3e8;
+      --accent: #2563eb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.35;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 14px 32px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: clamp(1.3rem, 2vw, 1.8rem);
+    }
+
+    .subtitle {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .input-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+      display: grid;
+      gap: 8px;
+    }
+
+    label {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    input[type="number"] {
+      width: min(360px, 100%);
+      border: 1px solid #9ca3af;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 1rem;
+    }
+
+    .legend {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .table-wrap {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 9px 8px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    th {
+      background: var(--head);
+      font-size: 0.95rem;
+    }
+
+    .scenario {
+      font-weight: 700;
+      text-align: left;
+      background: #f9fafb;
+      min-width: 180px;
+      position: sticky;
+      left: 0;
+      z-index: 1;
+    }
+
+    thead .scenario { z-index: 2; }
+
+    .cell-paid {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .cell-net {
+      margin-top: 2px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .chip {
+      display: inline-block;
+      background: #e5edff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      padding: 2px 8px;
+      margin-left: 6px;
+      white-space: nowrap;
+    }
+
+    .footnote {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 700px) {
+      .container { padding: 14px 10px 22px; }
+      th, td { padding: 8px 6px; }
+      .scenario { min-width: 170px; }
+      .cell-paid { font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>Calcoli Booking - Appartamento 7 posti letto</h1>
+    <p class="subtitle">Inserisci solo il prezzo base (Standard Rate per 7 ospiti). Il calcolatore aggiorna automaticamente tutte le combinazioni e il netto (commissione Booking 24%).</p>
+
+    <section class="input-card">
+      <label for="prezzoBase">Prezzo base 7 ospiti (Standard Rate)</label>
+      <input id="prezzoBase" type="number" min="0" step="0.01" value="300" inputmode="decimal" />
+      <p class="legend">Regola ospiti: -10€ per ogni ospite in meno rispetto a 7, fino a 2 ospiti. (Se fosse 1 ospite, il prezzo resta uguale a 2 ospiti.)</p>
+    </section>
+
+    <section class="table-wrap" aria-live="polite">
+      <table>
+        <thead>
+          <tr>
+            <th class="scenario">Tariffa / Condizione</th>
+            <th>7 ospiti</th>
+            <th>6 ospiti</th>
+            <th>5 ospiti</th>
+            <th>4 ospiti</th>
+            <th>3 ospiti</th>
+            <th>2 ospiti</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </section>
+
+    <p class="footnote">In ogni cella: riga in alto = <strong>Prezzo pagato dall'ospite</strong>, riga sotto = <strong>Netto incassato</strong> dopo -24% commissioni Booking.</p>
+  </main>
+
+  <script>
+    const guests = [7, 6, 5, 4, 3, 2];
+    const scenarios = [
+      { key: 'std', label: 'Standard Rate', baseDiscount: 0, extraDiscount: 0 },
+      { key: 'nr', label: 'Non Rimborsabile', baseDiscount: 0, extraDiscount: 0.10, badge: '-10% NR' },
+      { key: 'genius', label: 'Standard + Genius', baseDiscount: 0.10, extraDiscount: 0, badge: '-10% Genius' },
+      { key: 'genius_nr', label: 'Non Rimb. + Genius', baseDiscount: 0.10, extraDiscount: 0.10, badge: '-10% Genius + -10% NR' },
+      { key: 'welcome', label: 'Standard + Welcome', baseDiscount: 0.20, extraDiscount: 0, badge: '-20% Welcome' },
+      { key: 'welcome_nr', label: 'Non Rimb. + Welcome', baseDiscount: 0.20, extraDiscount: 0.10, badge: '-20% Welcome + -10% NR' }
+    ];
+
+    const tbody = document.getElementById('tbody');
+    const input = document.getElementById('prezzoBase');
+
+    const euro = new Intl.NumberFormat('it-IT', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
+    function round2(value) {
+      return Math.round((value + Number.EPSILON) * 100) / 100;
+    }
+
+    function guestAdjustedBase(basePrice, guestCount) {
+      const reduction = (7 - guestCount) * 10;
+      return Math.max(basePrice - reduction, basePrice - 50);
+    }
+
+    function applyDiscounts(amount, scenario) {
+      const afterBaseDiscount = amount * (1 - scenario.baseDiscount);
+      return afterBaseDiscount * (1 - scenario.extraDiscount);
+    }
+
+    function netAmount(amount) {
+      return amount * 0.76;
+    }
+
+    function drawTable() {
+      const base = Math.max(parseFloat(input.value) || 0, 0);
+      tbody.innerHTML = '';
+
+      for (const scenario of scenarios) {
+        const tr = document.createElement('tr');
+
+        const labelCell = document.createElement('td');
+        labelCell.className = 'scenario';
+        labelCell.innerHTML = `${scenario.label}${scenario.badge ? `<span class="chip">${scenario.badge}</span>` : ''}`;
+        tr.appendChild(labelCell);
+
+        for (const guest of guests) {
+          const rawBase = guestAdjustedBase(base, guest);
+          const paid = round2(applyDiscounts(rawBase, scenario));
+          const net = round2(netAmount(paid));
+
+          const td = document.createElement('td');
+          td.innerHTML = `
+            <div class="cell-paid">${euro.format(paid)}</div>
+            <div class="cell-net">Netto: ${euro.format(net)}</div>
+          `;
+          tr.appendChild(td);
+        }
+
+        tbody.appendChild(tr);
+      }
+    }
+
+    input.addEventListener('input', drawTable);
+    drawTable();
+  </script>
+</body>
+</html>
