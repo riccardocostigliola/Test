@@ -215,6 +215,16 @@
       return amount * 0.76;
     }
 
+    function highlightedCellColor(net) {
+      if (net <= 99) {
+        return '#fecaca';
+      }
+      if (net <= 119) {
+        return '#fed7aa';
+      }
+      return '#bbf7d0';
+    }
+
     function drawTable() {
       const base = Math.max(parseFloat(input.value) || 0, 0);
       tbody.innerHTML = '';
@@ -233,6 +243,11 @@
           const net = round2(netAmount(paid));
 
           const td = document.createElement('td');
+
+          if (scenario.key === 'genius_nr' && guest === 2) {
+            td.style.backgroundColor = highlightedCellColor(net);
+          }
+
           td.innerHTML = `
             <div class="cell-paid">${euro.format(paid)}</div>
             <div class="cell-net">Netto: ${euro.format(net)}</div>
