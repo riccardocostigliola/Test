@@ -103,6 +103,11 @@
 		</div>
 	  </div>
 
+	  <div class="bnbw__childAges" data-bnbw-child-ages hidden>
+		<div class="bnbw__childAgesTitle">Età dei bambini:</div>
+		<div class="bnbw__childAgesGrid" data-bnbw-child-ages-grid></div>
+	  </div>
+
 	  <div class="bnbw__selectWrap">
 		<select class="bnbw__select" data-bnbw-pets aria-label="Animali">
 		  <option value="0" selected>viaggio senza animali</option>
@@ -471,6 +476,36 @@
 	color:#333;
   }
 
+  .bnbw__childAges{
+	padding: 18px 6px 10px;
+	border-bottom: 2px dotted #d8d8d8;
+  }
+
+  .bnbw__childAgesTitle{
+	font-size: 24px;
+	font-weight: 700;
+	color:#666;
+	margin-bottom: 14px;
+  }
+
+  .bnbw__childAgesGrid{
+	display:grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+  }
+
+  .bnbw__childAge{
+	width: 100%;
+	height: 66px;
+	border-radius: 10px;
+	border: 2px solid #cfcfcf;
+	padding: 0 12px;
+	font-size: 24px;
+	font-weight: 700;
+	color:#4b5563;
+	background:#fff;
+  }
+
   .bnbw__selectWrap{
 	padding: 18px 6px 10px;
 	border-bottom: 2px dotted #d8d8d8;
@@ -489,10 +524,12 @@
   }
 
   .bnbw__apply{
-	display:none; /* desktop: non visibile (chiudi cliccando fuori) */
-	margin: 18px auto 2px;
+	display:block;
+	width: calc(100% - 12px);
+	margin: 18px 6px 2px;
 	padding: 14px 28px;
 	font-size: 28px;
+	font-weight: 700;
 	border-radius: 10px;
 	border: 2px solid #a8a8a8;
 	background:#fff;
@@ -556,8 +593,9 @@
 	.bnbw__rowLabel{ font-size: 32px; }
 	.bnbw__btn{ width: 110px; height: 64px; }
 	.bnbw__val{ font-size: 32px; }
+	.bnbw__childAgesTitle{ font-size: 22px; }
+	.bnbw__childAge{ height: 62px; font-size: 22px; }
 	.bnbw__select{ font-size: 28px; }
-	.bnbw__apply{ display:block; }
 	.bnbw__popClose--guests{ display:block; }
   }
 </style>
@@ -616,13 +654,15 @@
 	var valRoomsEl = root.querySelector('[data-bnbw-val="rooms"]');
 	var valAdultsEl = root.querySelector('[data-bnbw-val="adults"]');
 	var valChildrenEl = root.querySelector('[data-bnbw-val="children"]');
+	var childAgesWrapEl = root.querySelector('[data-bnbw-child-ages]');
+	var childAgesGridEl = root.querySelector('[data-bnbw-child-ages-grid]');
 	var petsEl = root.querySelector('[data-bnbw-pets]');
 
 	// Config limiti (puoi cambiare qui se vuoi)
 	var LIMITS = {
 	  rooms:   { min: 1, max: 9 },
-	  adults:  { min: 1, max: 12 },
-	  children:{ min: 0, max: 12 }
+	  adults:  { min: 1, max: 20 },
+	  children:{ min: 0, max: 9 }
 	};
 
 	var today = startOfDay(new Date());
@@ -634,6 +674,7 @@
 	  rooms: 1,
 	  adults: 2,
 	  children: 0,
+	  childAges: [],
 	  pets: 0,
 	  open: null,           // 'calendar' | 'guests' | null
 	  selecting: 'in',      // 'in' | 'out'
@@ -705,12 +746,45 @@
 	  }
 	}
 
+	function ageOptionsHtml(selectedAge){
+	  var html = '';
+	  for(var age=0; age<=17; age++){
+		var label = age === 0 ? '<1' : String(age);
+		html += '<option value="' + age + '"' + (age === selectedAge ? ' selected' : '') + '>' + label + '</option>';
+	  }
+	  return html;
+	}
+
+	function syncChildAgesLength(){
+	  while(state.childAges.length < state.children) state.childAges.push(0);
+	  if(state.childAges.length > state.children) state.childAges.length = state.children;
+	}
+
+	function renderChildAges(){
+	  syncChildAgesLength();
+	  if(state.children === 0){
+		childAgesWrapEl.hidden = true;
+		childAgesGridEl.innerHTML = '';
+		return;
+	  }
+
+	  childAgesWrapEl.hidden = false;
+	  var html = '';
+	  for(var i=0;i<state.children;i++){
+		html += '<select class="bnbw__childAge" data-bnbw-child-age="' + i + '" aria-label="Età bambino ' + (i+1) + '">';
+		html += ageOptionsHtml(state.childAges[i] || 0);
+		html += '</select>';
+	  }
+	  childAgesGridEl.innerHTML = html;
+	}
+
 	function renderGuests(){
 	  valRoomsEl.textContent = state.rooms;
 	  valAdultsEl.textContent = state.adults;
 	  valChildrenEl.textContent = state.children;
 	  petsEl.value = String(state.pets);
 	  updateMinusButtons();
+	  renderChildAges();
 	  renderTopDates();
 	}
 
@@ -856,6 +930,7 @@
 	  state.rooms = 1;
 	  state.adults = 2;
 	  state.children = 0;
+	  state.childAges = [];
 	  state.pets = 0;
 	  state.selecting = 'in';
 	  renderTopDates();
@@ -869,17 +944,21 @@
 		state.checkOut = addDays(state.checkIn, 1);
 	  }
 
-	  var totalPeople = state.adults + state.children;
+	  syncChildAgesLength();
 
 	  var u = new URL(baseUrl);
 	  u.searchParams.set('numberRooms', String(state.rooms));
-	  u.searchParams.set('numberPeople', String(totalPeople));
-	  // children: vuoto se 0 (come esempio)
-	  u.searchParams.set('children', state.children > 0 ? String(state.children) : '');
+	  u.searchParams.set('numberPeople', String(state.adults));
+	  u.searchParams.set('children', state.children > 0 ? state.childAges.join(',') : '');
 	  u.searchParams.set('idPm', String(idPm));
 	  u.searchParams.set('utm_source', String(utmSource));
 	  u.searchParams.set('checkIn', formatForUrl(state.checkIn));
 	  u.searchParams.set('checkOut', formatForUrl(state.checkOut));
+	  if(state.children > 0){
+		for(var i=0;i<state.childAges.length;i++){
+		  u.searchParams.set('ageChild_' + i, String(state.childAges[i]));
+		}
+	  }
 	  u.searchParams.set('animaliAmmessi', String(state.pets));
 
 	  // Apri
@@ -956,6 +1035,14 @@
 	petsEl.addEventListener('change', function(){
 	  state.pets = parseInt(petsEl.value, 10) || 0;
 	  renderTopDates();
+	});
+
+	childAgesGridEl.addEventListener('change', function(e){
+	  var t = e.target;
+	  if(!t || !t.matches || !t.matches('[data-bnbw-child-age]')) return;
+	  var idx = parseInt(t.getAttribute('data-bnbw-child-age'), 10);
+	  if(isNaN(idx)) return;
+	  state.childAges[idx] = parseInt(t.value, 10) || 0;
 	});
 
 	// calendar nav
