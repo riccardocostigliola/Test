@@ -1,0 +1,1006 @@
+<div class="contenitore-test">
+<!-- BnB Booking Widget - compatibile WordPress/Divi (vanilla JS) -->
+<div class="bnbw" data-bnbw
+	 data-base-url="https://www.bed-and-breakfast.it/it/strutturepm/181"
+	 data-id-pm="181"
+	 data-utm-source="widgetPm"
+	 data-open-target="_blank">
+
+  <div class="bnbw__bar" role="group" aria-label="Selettore disponibilità">
+	<!-- Check-in -->
+	<button type="button" class="bnbw__seg bnbw__seg--date" data-bnbw-open="calendar" data-bnbw-date-part="in" aria-haspopup="dialog">
+	  <div class="bnbw__label">Check-In</div>
+	  <div class="bnbw__dateRow">
+		<div class="bnbw__bigDay" data-bnbw-in-day>--</div>
+		<div class="bnbw__dateText">
+		  <div class="bnbw__monthYear" data-bnbw-in-monthyear>--</div>
+		  <div class="bnbw__weekday" data-bnbw-in-weekday>--</div>
+		</div>
+	  </div>
+	</button>
+
+	<!-- Check-out -->
+	<button type="button" class="bnbw__seg bnbw__seg--date" data-bnbw-open="calendar" data-bnbw-date-part="out" aria-haspopup="dialog">
+	  <div class="bnbw__label">Check-Out</div>
+	  <div class="bnbw__dateRow">
+		<div class="bnbw__bigDay" data-bnbw-out-day>--</div>
+		<div class="bnbw__dateText">
+		  <div class="bnbw__monthYear" data-bnbw-out-monthyear>--</div>
+		  <div class="bnbw__weekday" data-bnbw-out-weekday>--</div>
+		</div>
+	  </div>
+	</button>
+
+	<!-- Reset (icona X tra date e ospiti, come reference) -->
+	<button type="button" class="bnbw__reset" data-bnbw-reset aria-label="Reimposta date e ospiti" title="Reimposta">
+	  <span aria-hidden="true">×</span>
+	</button>
+
+	<!-- Ospiti -->
+	<button type="button" class="bnbw__seg bnbw__seg--guests" data-bnbw-open="guests" aria-haspopup="dialog">
+	  <div class="bnbw__label">Ospiti</div>
+	  <div class="bnbw__guestsRow">
+		<div class="bnbw__guestsText" data-bnbw-guests-summary>--</div>
+		<span class="bnbw__chev" aria-hidden="true">
+		  <svg viewBox="0 0 24 24" width="18" height="18" focusable="false" aria-hidden="true">
+			<path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+		  </svg>
+		</span>
+	  </div>
+	</button>
+
+	<!-- CTA -->
+	<button type="button" class="bnbw__cta" data-bnbw-submit>
+	  Verifica disponibilità
+	</button>
+  </div>
+
+  <!-- Overlay (usato soprattutto su mobile) -->
+  <div class="bnbw__overlay" data-bnbw-overlay hidden></div>
+
+  <!-- POPUP: Calendario -->
+  <div class="bnbw__pop bnbw__pop--calendar" data-bnbw-pop="calendar" role="dialog" aria-modal="true" aria-label="Selezione date" hidden>
+	<div class="bnbw__popHead">
+	  <button type="button" class="bnbw__nav" data-bnbw-cal-prev aria-label="Mese precedente">‹</button>
+	  <div class="bnbw__popTitle" data-bnbw-cal-title>Seleziona il <strong>check-in</strong></div>
+	  <button type="button" class="bnbw__nav" data-bnbw-cal-next aria-label="Mese successivo">›</button>
+	  <button type="button" class="bnbw__popClose" data-bnbw-close aria-label="Chiudi">×</button>
+	</div>
+
+	<div class="bnbw__months" data-bnbw-months></div>
+
+	<!-- (mobile) chiusura in basso stile reference -->
+	<button type="button" class="bnbw__bottomClose" data-bnbw-close aria-label="Chiudi calendario">×</button>
+  </div>
+
+  <!-- POPUP: Ospiti -->
+  <div class="bnbw__pop bnbw__pop--guests" data-bnbw-pop="guests" role="dialog" aria-modal="true" aria-label="Selezione ospiti" hidden>
+	<div class="bnbw__guestRows">
+	  <div class="bnbw__row">
+		<div class="bnbw__rowLabel">Camere</div>
+		<div class="bnbw__stepper">
+		  <button type="button" class="bnbw__btn bnbw__btn--minus" data-bnbw-dec="rooms" aria-label="Diminuisci camere">−</button>
+		  <div class="bnbw__val" data-bnbw-val="rooms">1</div>
+		  <button type="button" class="bnbw__btn bnbw__btn--plus" data-bnbw-inc="rooms" aria-label="Aumenta camere">+</button>
+		</div>
+	  </div>
+
+	  <div class="bnbw__row">
+		<div class="bnbw__rowLabel">Adulti</div>
+		<div class="bnbw__stepper">
+		  <button type="button" class="bnbw__btn bnbw__btn--minus" data-bnbw-dec="adults" aria-label="Diminuisci adulti">−</button>
+		  <div class="bnbw__val" data-bnbw-val="adults">2</div>
+		  <button type="button" class="bnbw__btn bnbw__btn--plus" data-bnbw-inc="adults" aria-label="Aumenta adulti">+</button>
+		</div>
+	  </div>
+
+	  <div class="bnbw__row">
+		<div class="bnbw__rowLabel">Bambini</div>
+		<div class="bnbw__stepper">
+		  <button type="button" class="bnbw__btn bnbw__btn--minus" data-bnbw-dec="children" aria-label="Diminuisci bambini">−</button>
+		  <div class="bnbw__val" data-bnbw-val="children">0</div>
+		  <button type="button" class="bnbw__btn bnbw__btn--plus" data-bnbw-inc="children" aria-label="Aumenta bambini">+</button>
+		</div>
+	  </div>
+
+	  <div class="bnbw__selectWrap">
+		<select class="bnbw__select" data-bnbw-pets aria-label="Animali">
+		  <option value="0" selected>viaggio senza animali</option>
+		  <option value="1">viaggio con animali</option>
+		</select>
+	  </div>
+
+	  <button type="button" class="bnbw__apply" data-bnbw-apply>Applica</button>
+	  <button type="button" class="bnbw__popClose bnbw__popClose--guests" data-bnbw-close aria-label="Chiudi">×</button>
+	</div>
+  </div>
+
+</div>
+
+<style>
+  /* =========================
+	 BnB Widget (scoped)
+	 ========================= */
+  .contenitore-test: {max-width: 1000px;}
+  .bnbw, .bnbw * { box-sizing: border-box; }
+  .bnbw{
+	--bnbw-yellow:#f6c63f;
+	--bnbw-yellow-2:#f2c94c;
+	--bnbw-text:#0f172a;
+	--bnbw-muted:#9aa0a6;
+	--bnbw-line:#e6e6e6;
+	--bnbw-shadow: 0 18px 50px rgba(0,0,0,.25);
+	font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+	position: relative;
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+  }
+
+  .bnbw__bar{
+	background:#fff;
+	border-radius: 22px;
+	box-shadow: var(--bnbw-shadow);
+	overflow: hidden;
+	display: flex;
+	align-items: stretch;
+	min-height: 120px;
+  }
+
+  .bnbw__seg{
+	border:0;
+	background:transparent;
+	padding: 22px 28px;
+	cursor: pointer;
+	text-align: left;
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 12px;
+	min-width: 0;
+  }
+
+  .bnbw__seg--date{ flex: 1.1; }
+  .bnbw__seg--guests{ flex: .9; padding-right: 18px; }
+
+  .bnbw__label{
+	font-weight: 800;
+	color: var(--bnbw-text);
+	font-size: 24px;
+	letter-spacing: .2px;
+  }
+
+  .bnbw__dateRow{
+	display:flex;
+	align-items:center;
+	gap: 16px;
+  }
+
+  .bnbw__bigDay{
+	font-size: 50px;
+	line-height: 1;
+	font-weight: 900;
+	color: var(--bnbw-yellow);
+	min-width: 64px;
+  }
+
+  .bnbw__monthYear{
+	font-size: 20px;
+	font-weight: 500;
+	color: #111827;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+  }
+
+  .bnbw__weekday{
+	font-size: 16px;
+	color: var(--bnbw-muted);
+	margin-top: 4px;
+  }
+
+  .bnbw__reset{
+	align-self: center;
+	border:0;
+	width: 34px;
+	height: 34px;
+	border-radius: 999px;
+	background: #e5e5e5;
+	color:#666;
+	font-size: 22px;
+	line-height: 34px;
+	cursor: pointer;
+	margin: 0 6px;
+	flex: 0 0 auto;
+  }
+
+  .bnbw__guestsRow{
+	display:flex;
+	align-items:center;
+	justify-content: space-between;
+	gap: 10px;
+  }
+
+  .bnbw__guestsText{
+	font-size: 20px;
+	color:#374151;
+	font-weight: 500;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+  }
+
+  .bnbw__chev{ color:#111827; opacity:.9; display:flex; align-items:center; }
+
+  .bnbw__cta{
+	border:0;
+	background: var(--bnbw-yellow);
+	color:#fff;
+	font-weight: 600;
+	font-size: 26px;
+	padding: 0 28px;
+	cursor: pointer;
+	min-width: 340px;
+  }
+  .bnbw__cta:hover{ filter: brightness(.98); }
+
+  /* Overlay */
+  .bnbw__overlay{
+	position: fixed;
+	inset: 0;
+	background: rgba(0,0,0,.35);
+	z-index: 9998;
+  }
+
+  /* Popover base */
+  .bnbw__pop{
+	position: absolute;
+	z-index: 9999;
+	background: #fff;
+	border-radius: 18px;
+	box-shadow: var(--bnbw-shadow);
+	overflow: hidden;
+  }
+
+  .bnbw__popHead{
+	position: relative;
+	padding: 18px 18px 10px;
+	display:flex;
+	align-items:center;
+	justify-content: space-between;
+	gap: 12px;
+  }
+
+  .bnbw__popTitle{
+	font-size: 28px;
+	color:#4b5563;
+	font-weight: 500;
+	text-align: center;
+	flex: 1;
+  }
+
+  .bnbw__nav{
+	width: 44px;
+	height: 44px;
+	border-radius: 999px;
+	border: 2px solid #d4d4d4;
+	background: #fff;
+	font-size: 28px;
+	color:#4b5563;
+	cursor:pointer;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	flex: 0 0 auto;
+  }
+
+  .bnbw__popClose{
+	position: absolute;
+	right: 14px;
+	top: 12px;
+	width: 36px;
+	height: 36px;
+	border-radius: 999px;
+	border:0;
+	background:#e5e5e5;
+	color:#666;
+	font-size: 22px;
+	cursor: pointer;
+	display:none; /* desktop: chiudi cliccando fuori; mobile lo mostriamo */
+  }
+
+  /* Calendario */
+  .bnbw__pop--calendar{
+	left: 0;
+	top: calc(100% + 10px);
+	width: 100%;
+	padding-bottom: 18px;
+  }
+
+  .bnbw__months{
+	display:flex;
+	gap: 28px;
+	padding: 0 24px 18px;
+  }
+
+  .bnbw__month{
+	flex: 1;
+	min-width: 280px;
+  }
+
+  .bnbw__monthName{
+	font-size: 30px;
+	font-weight: 800;
+	text-align: center;
+	margin: 10px 0 12px;
+	color:#111827;
+  }
+
+  .bnbw__dow{
+	background:#dedede;
+	border-radius: 8px;
+	padding: 12px 10px;
+	display:grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 0;
+	font-weight: 700;
+	color:#3f3f46;
+	text-align:center;
+	font-size: 20px;
+  }
+
+  .bnbw__grid{
+	margin-top: 14px;
+	display:grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 12px 0;
+	padding: 10px 4px 0;
+  }
+
+  .bnbw__day{
+	height: 46px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	font-size: 22px;
+	color:#111827;
+	border-radius: 12px;
+	cursor: pointer;
+	user-select:none;
+  }
+
+  .bnbw__day--muted{ color:#c7c7c7; cursor: not-allowed; }
+  .bnbw__day--selected{
+	background:#3f3f3f;
+	color:#fff;
+	border-radius: 10px;
+	height: 78px;
+	flex-direction: column;
+	gap: 6px;
+	padding-top: 8px;
+  }
+  .bnbw__tag{
+	font-size: 16px;
+	font-weight: 800;
+	text-transform: none;
+	opacity: .95;
+  }
+
+  .bnbw__bottomClose{
+	display:none;
+	margin: 10px auto 0;
+	width: 52px;
+	height: 52px;
+	border-radius: 999px;
+	border: 2px solid #d4d4d4;
+	background: #f2f2f2;
+	color:#666;
+	font-size: 28px;
+	cursor:pointer;
+  }
+
+  /* Ospiti popup */
+  .bnbw__pop--guests{
+	right: 18px;
+	top: calc(100% - 28px);
+	width: 520px;
+	padding: 18px;
+  }
+
+  .bnbw__guestRows{ position: relative; padding-top: 6px; }
+
+  .bnbw__row{
+	display:flex;
+	align-items:center;
+	justify-content: space-between;
+	padding: 18px 6px;
+	border-bottom: 2px dotted #d8d8d8;
+	gap: 14px;
+  }
+
+  .bnbw__rowLabel{
+	font-size: 34px;
+	font-weight: 800;
+	color:#6b7280;
+  }
+
+  .bnbw__stepper{
+	display:flex;
+	align-items:center;
+	gap: 18px;
+  }
+
+  .bnbw__btn{
+	width: 120px;
+	height: 66px;
+	border-radius: 10px;
+	border: 2px solid #e5e5e5;
+	background:#fff;
+	font-size: 36px;
+	cursor:pointer;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+  }
+
+  .bnbw__btn--plus{
+	background: var(--bnbw-yellow);
+	border-color: var(--bnbw-yellow);
+	color:#fff;
+	font-weight: 900;
+  }
+
+  .bnbw__btn--minus.is-disabled{
+	background:#fff;
+	color:#c9c9c9;
+	border-color:#ededed;
+	cursor:not-allowed;
+  }
+  .bnbw__btn--minus:not(.is-disabled){
+	background: var(--bnbw-yellow);
+	border-color: var(--bnbw-yellow);
+	color:#fff;
+	font-weight: 900;
+  }
+
+  .bnbw__val{
+	min-width: 40px;
+	text-align:center;
+	font-size: 34px;
+	font-weight: 700;
+	color:#333;
+  }
+
+  .bnbw__selectWrap{
+	padding: 18px 6px 10px;
+	border-bottom: 2px dotted #d8d8d8;
+  }
+
+  .bnbw__select{
+	width: 100%;
+	height: 66px;
+	border-radius: 10px;
+	border: 2px solid #cfcfcf;
+	padding: 0 18px;
+	font-size: 30px;
+	font-weight: 700;
+	color:#4b5563;
+	background:#fff;
+  }
+
+  .bnbw__apply{
+	display:none; /* desktop: non visibile (chiudi cliccando fuori) */
+	margin: 18px auto 2px;
+	padding: 14px 28px;
+	font-size: 28px;
+	border-radius: 10px;
+	border: 2px solid #a8a8a8;
+	background:#fff;
+	color:#5b5b5b;
+	cursor:pointer;
+  }
+
+  .bnbw__popClose--guests{
+	display:none; /* lo abilitiamo su mobile */
+	position: absolute;
+	right: 10px;
+	top: 6px;
+  }
+
+  /* ===== Responsive (mobile come reference) ===== */
+  @media (max-width: 820px){
+	.bnbw__bar{
+	  display:grid;
+	  grid-template-columns: 1fr 1fr;
+	  grid-template-areas:
+		"in out"
+		"guests guests"
+		"cta cta";
+	  min-height: auto;
+	  border-radius: 22px;
+	}
+
+	.bnbw__seg--date:nth-child(1){ grid-area: in; }
+	.bnbw__seg--date:nth-child(2){ grid-area: out; }
+	.bnbw__seg--guests{ grid-area: guests; padding-top: 16px; padding-bottom: 18px; border-top: 2px dotted #d8d8d8; }
+	.bnbw__cta{ grid-area: cta; min-width: 0; margin: 16px; height: 98px; border-radius: 18px; font-size: 28px; }
+
+	.bnbw__reset{ display:none; } /* mobile reference: X in alto a destra spesso del contenitore; qui semplifichiamo */
+
+	.bnbw__label{ font-size: 28px; }
+	.bnbw__monthYear{ font-size: 26px; }
+	.bnbw__weekday{ font-size: 22px; }
+	.bnbw__bigDay{ font-size: 62px; }
+
+	/* Popover come modal */
+	.bnbw__pop{
+	  position: fixed;
+	  left: 14px !important;
+	  right: 14px !important;
+	  top: 22px !important;
+	  width: auto !important;
+	  max-height: calc(100vh - 44px);
+	  overflow: auto;
+	  border-radius: 20px;
+	}
+
+	.bnbw__popClose{ display:block; }
+	.bnbw__bottomClose{ display:block; }
+
+	.bnbw__months{ flex-direction: column; gap: 12px; }
+	.bnbw__month{ min-width: 0; }
+	.bnbw__dow{ font-size: 18px; }
+	.bnbw__day{ font-size: 22px; height: 44px; }
+
+	.bnbw__pop--guests{ padding: 18px 18px 22px; }
+	.bnbw__rowLabel{ font-size: 32px; }
+	.bnbw__btn{ width: 110px; height: 64px; }
+	.bnbw__val{ font-size: 32px; }
+	.bnbw__select{ font-size: 28px; }
+	.bnbw__apply{ display:block; }
+	.bnbw__popClose--guests{ display:block; }
+  }
+</style>
+
+<script>
+(function(){
+  'use strict';
+
+  function pad2(n){ return (n<10?'0':'') + n; }
+  function startOfDay(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function addDays(d, n){
+	var x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+	x.setDate(x.getDate() + n);
+	return x;
+  }
+  function cap(s){ return s ? (s.charAt(0).toUpperCase() + s.slice(1)) : s; }
+  function formatForUrl(d){ return pad2(d.getDate()) + '/' + pad2(d.getMonth()+1) + '/' + d.getFullYear(); }
+  function isSameDay(a,b){
+	return a && b && a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+  }
+
+  var MONTHS = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+  var DOW = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
+
+  function buildSummary(adults, children){
+	var parts = [];
+	if(adults === 1) parts.push('1 adulto');
+	else parts.push(adults + ' adulti');
+	if(children > 0){
+	  if(children === 1) parts.push('1 bambino');
+	  else parts.push(children + ' bambini');
+	}
+	return parts.join(', ');
+  }
+
+  function initWidget(root){
+	var baseUrl = root.getAttribute('data-base-url');
+	var idPm = root.getAttribute('data-id-pm');
+	var utmSource = root.getAttribute('data-utm-source') || 'widgetPm';
+	var openTarget = root.getAttribute('data-open-target') || '_blank';
+
+	var overlay = root.querySelector('[data-bnbw-overlay]');
+	var popCalendar = root.querySelector('[data-bnbw-pop="calendar"]');
+	var popGuests = root.querySelector('[data-bnbw-pop="guests"]');
+	var monthsWrap = root.querySelector('[data-bnbw-months]');
+	var calTitle = root.querySelector('[data-bnbw-cal-title]');
+
+	var inDayEl = root.querySelector('[data-bnbw-in-day]');
+	var inMYEl = root.querySelector('[data-bnbw-in-monthyear]');
+	var inWDEl = root.querySelector('[data-bnbw-in-weekday]');
+	var outDayEl = root.querySelector('[data-bnbw-out-day]');
+	var outMYEl = root.querySelector('[data-bnbw-out-monthyear]');
+	var outWDEl = root.querySelector('[data-bnbw-out-weekday]');
+	var guestsSummaryEl = root.querySelector('[data-bnbw-guests-summary]');
+
+	var valRoomsEl = root.querySelector('[data-bnbw-val="rooms"]');
+	var valAdultsEl = root.querySelector('[data-bnbw-val="adults"]');
+	var valChildrenEl = root.querySelector('[data-bnbw-val="children"]');
+	var petsEl = root.querySelector('[data-bnbw-pets]');
+
+	// Config limiti (puoi cambiare qui se vuoi)
+	var LIMITS = {
+	  rooms:   { min: 1, max: 9 },
+	  adults:  { min: 1, max: 12 },
+	  children:{ min: 0, max: 12 }
+	};
+
+	var today = startOfDay(new Date());
+
+	// Stato
+	var state = {
+	  checkIn: addDays(today, 1),
+	  checkOut: addDays(today, 2),
+	  rooms: 1,
+	  adults: 2,
+	  children: 0,
+	  pets: 0,
+	  open: null,           // 'calendar' | 'guests' | null
+	  selecting: 'in',      // 'in' | 'out'
+	  baseMonth: new Date(today.getFullYear(), today.getMonth(), 1)
+	};
+
+	function setOverlay(show){
+	  if(show){
+		overlay.hidden = false;
+	  }else{
+		overlay.hidden = true;
+	  }
+	}
+
+	function openPop(which){
+	  closeAll();
+
+	  state.open = which;
+
+	  // su mobile usiamo overlay; su desktop lo usiamo comunque per click-outside più affidabile
+	  setOverlay(true);
+
+	  if(which === 'calendar'){
+		popCalendar.hidden = false;
+		// baseMonth: mostra sempre dal mese del check-in
+		state.baseMonth = new Date(state.checkIn.getFullYear(), state.checkIn.getMonth(), 1);
+		renderCalendar();
+	  } else if(which === 'guests'){
+		popGuests.hidden = false;
+		renderGuests();
+	  }
+	}
+
+	function closeAll(){
+	  state.open = null;
+	  popCalendar.hidden = true;
+	  popGuests.hidden = true;
+	  setOverlay(false);
+	}
+
+	function renderTopDates(){
+	  // Check-in
+	  inDayEl.textContent = pad2(state.checkIn.getDate()).replace(/^0/,'');
+	  inMYEl.textContent = MONTHS[state.checkIn.getMonth()] + ' ' + state.checkIn.getFullYear();
+	  inWDEl.textContent = cap(state.checkIn.toLocaleDateString('it-IT', { weekday:'long' }));
+
+	  // Check-out
+	  outDayEl.textContent = pad2(state.checkOut.getDate()).replace(/^0/,'');
+	  outMYEl.textContent = MONTHS[state.checkOut.getMonth()] + ' ' + state.checkOut.getFullYear();
+	  outWDEl.textContent = cap(state.checkOut.toLocaleDateString('it-IT', { weekday:'long' }));
+
+	  guestsSummaryEl.textContent = buildSummary(state.adults, state.children);
+	}
+
+	function clamp(key, v){
+	  var min = LIMITS[key].min, max = LIMITS[key].max;
+	  if(v < min) v = min;
+	  if(v > max) v = max;
+	  return v;
+	}
+
+	function updateMinusButtons(){
+	  var minusBtns = root.querySelectorAll('[data-bnbw-dec]');
+	  for(var i=0;i<minusBtns.length;i++){
+		var k = minusBtns[i].getAttribute('data-bnbw-dec');
+		var val = state[k];
+		if(val <= LIMITS[k].min) minusBtns[i].classList.add('is-disabled');
+		else minusBtns[i].classList.remove('is-disabled');
+	  }
+	}
+
+	function renderGuests(){
+	  valRoomsEl.textContent = state.rooms;
+	  valAdultsEl.textContent = state.adults;
+	  valChildrenEl.textContent = state.children;
+	  petsEl.value = String(state.pets);
+	  updateMinusButtons();
+	  renderTopDates();
+	}
+
+	function monthMeta(year, month){
+	  var first = new Date(year, month, 1);
+	  var daysInMonth = new Date(year, month+1, 0).getDate();
+	  // Monday-first index: 0..6
+	  var dow = (first.getDay() + 6) % 7;
+	  return { first:first, days:daysInMonth, offset:dow };
+	}
+
+	function renderMonth(year, month){
+	  var meta = monthMeta(year, month);
+	  var wrap = document.createElement('div');
+	  wrap.className = 'bnbw__month';
+
+	  var name = document.createElement('div');
+	  name.className = 'bnbw__monthName';
+	  name.textContent = MONTHS[month] + ' ' + year;
+	  wrap.appendChild(name);
+
+	  var dow = document.createElement('div');
+	  dow.className = 'bnbw__dow';
+	  for(var i=0;i<7;i++){
+		var s = document.createElement('div');
+		s.textContent = DOW[i];
+		dow.appendChild(s);
+	  }
+	  wrap.appendChild(dow);
+
+	  var grid = document.createElement('div');
+	  grid.className = 'bnbw__grid';
+
+	  // blanks
+	  for(var b=0;b<meta.offset;b++){
+		var blank = document.createElement('div');
+		blank.className = 'bnbw__day bnbw__day--muted';
+		blank.textContent = '';
+		grid.appendChild(blank);
+	  }
+
+	  for(var d=1; d<=meta.days; d++){
+		(function(dayNum){
+		  var date = new Date(year, month, dayNum);
+		  var cell = document.createElement('div');
+		  cell.className = 'bnbw__day';
+		  cell.textContent = String(dayNum);
+
+		  var disabled = startOfDay(date) < today;
+		  if(disabled){
+			cell.className += ' bnbw__day--muted';
+		  }else{
+			cell.setAttribute('role','button');
+			cell.setAttribute('tabindex','0');
+			cell.setAttribute('aria-label', 'Seleziona ' + formatForUrl(date));
+			cell.addEventListener('click', function(){ onPickDate(date); });
+			cell.addEventListener('keydown', function(e){
+			  if(e.key === 'Enter' || e.key === ' '){
+				e.preventDefault();
+				onPickDate(date);
+			  }
+			});
+		  }
+
+		  // selected style
+		  if(isSameDay(date, state.checkIn)){
+			cell.className += ' bnbw__day--selected';
+			cell.textContent = String(dayNum);
+			var tag = document.createElement('div');
+			tag.className = 'bnbw__tag';
+			tag.textContent = 'Check-in';
+			cell.appendChild(tag);
+		  } else if(isSameDay(date, state.checkOut)){
+			cell.className += ' bnbw__day--selected';
+			cell.textContent = String(dayNum);
+			var tag2 = document.createElement('div');
+			tag2.className = 'bnbw__tag';
+			tag2.textContent = 'Check-out';
+			cell.appendChild(tag2);
+		  }
+
+		  grid.appendChild(cell);
+		})(d);
+	  }
+
+	  wrap.appendChild(grid);
+	  return wrap;
+	}
+
+	function renderCalendar(){
+	  // Titolo
+	  if(state.selecting === 'in'){
+		calTitle.innerHTML = 'Seleziona il <strong>check-in</strong>';
+	  } else {
+		calTitle.innerHTML = 'Seleziona il <strong>check-out</strong>';
+	  }
+
+	  // Render 2 mesi: baseMonth e baseMonth+1 (desktop affiancati, mobile in colonna)
+	  monthsWrap.innerHTML = '';
+
+	  var y1 = state.baseMonth.getFullYear();
+	  var m1 = state.baseMonth.getMonth();
+	  var next = new Date(y1, m1+1, 1);
+
+	  monthsWrap.appendChild(renderMonth(y1, m1));
+	  monthsWrap.appendChild(renderMonth(next.getFullYear(), next.getMonth()));
+	}
+
+	function onPickDate(date){
+	  var picked = startOfDay(date);
+
+	  if(state.selecting === 'in'){
+		state.checkIn = picked;
+		// se check-out non valido, forza +1
+		if(startOfDay(state.checkOut) <= state.checkIn){
+		  state.checkOut = addDays(state.checkIn, 1);
+		}
+		state.selecting = 'out';
+		renderCalendar();
+		renderTopDates();
+		return;
+	  }
+
+	  // selecting out
+	  if(picked <= state.checkIn){
+		// se clicchi un giorno <= check-in, lo trattiamo come nuovo check-in (UX comune)
+		state.checkIn = picked;
+		state.checkOut = addDays(state.checkIn, 1);
+		state.selecting = 'out';
+		renderCalendar();
+		renderTopDates();
+		return;
+	  }
+
+	  state.checkOut = picked;
+	  renderTopDates();
+	  closeAll();
+	}
+
+	function resetAll(){
+	  state.checkIn = addDays(today, 1);
+	  state.checkOut = addDays(today, 2);
+	  state.rooms = 1;
+	  state.adults = 2;
+	  state.children = 0;
+	  state.pets = 0;
+	  state.selecting = 'in';
+	  renderTopDates();
+	  renderGuests();
+	  closeAll();
+	}
+
+	function buildAndOpenUrl(){
+	  // sicurezza: check-out almeno 1 notte
+	  if(startOfDay(state.checkOut) <= startOfDay(state.checkIn)){
+		state.checkOut = addDays(state.checkIn, 1);
+	  }
+
+	  var totalPeople = state.adults + state.children;
+
+	  var u = new URL(baseUrl);
+	  u.searchParams.set('numberRooms', String(state.rooms));
+	  u.searchParams.set('numberPeople', String(totalPeople));
+	  // children: vuoto se 0 (come esempio)
+	  u.searchParams.set('children', state.children > 0 ? String(state.children) : '');
+	  u.searchParams.set('idPm', String(idPm));
+	  u.searchParams.set('utm_source', String(utmSource));
+	  u.searchParams.set('checkIn', formatForUrl(state.checkIn));
+	  u.searchParams.set('checkOut', formatForUrl(state.checkOut));
+	  u.searchParams.set('animaliAmmessi', String(state.pets));
+
+	  // Apri
+	  window.open(u.toString(), openTarget, 'noopener,noreferrer');
+	}
+
+	// Eventi apertura
+	root.addEventListener('click', function(e){
+	  var t = e.target;
+
+	  // open calendar
+	  var openBtn = t.closest ? t.closest('[data-bnbw-open]') : null;
+	  if(openBtn && root.contains(openBtn)){
+		var which = openBtn.getAttribute('data-bnbw-open');
+		if(which === 'calendar'){
+		  state.selecting = openBtn.getAttribute('data-bnbw-date-part') || 'in';
+		  openPop('calendar');
+		  return;
+		}
+		if(which === 'guests'){
+		  openPop('guests');
+		  return;
+		}
+	  }
+
+	  // close
+	  if(t.closest && t.closest('[data-bnbw-close]')){
+		closeAll();
+		return;
+	  }
+
+	  // overlay click
+	  if(t === overlay){
+		closeAll();
+		return;
+	  }
+
+	  // reset
+	  if(t.closest && t.closest('[data-bnbw-reset]')){
+		resetAll();
+		return;
+	  }
+
+	  // submit
+	  if(t.closest && t.closest('[data-bnbw-submit]')){
+		buildAndOpenUrl();
+		return;
+	  }
+
+	  // guests +/- and apply
+	  var inc = t.closest && t.closest('[data-bnbw-inc]');
+	  var dec = t.closest && t.closest('[data-bnbw-dec]');
+	  if(inc && root.contains(inc)){
+		var k1 = inc.getAttribute('data-bnbw-inc');
+		state[k1] = clamp(k1, state[k1] + 1);
+		renderGuests();
+		return;
+	  }
+	  if(dec && root.contains(dec)){
+		var k2 = dec.getAttribute('data-bnbw-dec');
+		if(state[k2] <= LIMITS[k2].min) return;
+		state[k2] = clamp(k2, state[k2] - 1);
+		renderGuests();
+		return;
+	  }
+
+	  if(t.closest && t.closest('[data-bnbw-apply]')){
+		closeAll();
+		return;
+	  }
+	});
+
+	// pets change
+	petsEl.addEventListener('change', function(){
+	  state.pets = parseInt(petsEl.value, 10) || 0;
+	  renderTopDates();
+	});
+
+	// calendar nav
+	root.querySelector('[data-bnbw-cal-prev]').addEventListener('click', function(){
+	  state.baseMonth = new Date(state.baseMonth.getFullYear(), state.baseMonth.getMonth()-1, 1);
+	  renderCalendar();
+	});
+	root.querySelector('[data-bnbw-cal-next]').addEventListener('click', function(){
+	  state.baseMonth = new Date(state.baseMonth.getFullYear(), state.baseMonth.getMonth()+1, 1);
+	  renderCalendar();
+	});
+
+	// ESC close
+	document.addEventListener('keydown', function(e){
+	  if(e.key === 'Escape' && state.open){
+		closeAll();
+	  }
+	});
+
+	// Click fuori dal widget (desktop) -> chiudi
+	document.addEventListener('click', function(e){
+	  if(!state.open) return;
+	  if(!root.contains(e.target)){
+		closeAll();
+	  }
+	});
+
+	// Init
+	renderTopDates();
+	renderGuests();
+  }
+
+  function boot(){
+	var nodes = document.querySelectorAll('[data-bnbw]');
+	for(var i=0;i<nodes.length;i++){
+	  initWidget(nodes[i]);
+	}
+  }
+
+  if(document.readyState === 'loading'){
+	document.addEventListener('DOMContentLoaded', boot);
+  } else {
+	boot();
+  }
+
+})();
+</script>
+</div>
