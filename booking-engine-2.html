@@ -257,14 +257,24 @@
 	z-index: 9998;
   }
 
-  /* Popover base */
+  body.bnbw-no-scroll{
+	overflow: hidden;
+	touch-action: none;
+  }
+
+  /* Popover base (strategia universale) */
   .bnbw__pop{
-	position: absolute;
+	position: fixed;
 	z-index: 9999;
+	left: calc(var(--bnbw-vv-left, 0px) + (var(--bnbw-vw, 100vw) / 2));
+	top: calc(var(--bnbw-vv-top, 0px) + (var(--bnbw-vh, 100vh) / 2));
+	transform: translate(-50%, -50%);
 	background: #fff;
 	border-radius: 18px;
 	box-shadow: var(--bnbw-shadow);
-	overflow: hidden;
+	overflow: auto;
+	width: min(1100px, calc(var(--bnbw-vw, 100vw) - 28px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)));
+	max-height: calc(var(--bnbw-vh, 100vh) - 28px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
   }
 
   .bnbw__popHead{
@@ -316,9 +326,7 @@
 
   /* Calendario */
   .bnbw__pop--calendar{
-	left: 0;
-	top: calc(100% + 10px);
-	width: 100%;
+	width: min(1100px, calc(var(--bnbw-vw, 100vw) - 28px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)));
 	padding-bottom: 18px;
   }
 
@@ -406,9 +414,7 @@
 
   /* Ospiti popup */
   .bnbw__pop--guests{
-	right: 18px;
-	top: calc(100% - 28px);
-	width: 520px;
+	width: min(640px, calc(var(--bnbw-vw, 100vw) - 28px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)));
 	padding: 18px;
   }
 
@@ -568,18 +574,7 @@
 	.bnbw__monthYear{ font-size: 26px; }
 	.bnbw__weekday{ font-size: 22px; }
 	.bnbw__bigDay{ font-size: 62px; }
-
-	/* Popover come modal */
-	.bnbw__pop{
-	  position: fixed;
-	  left: 14px !important;
-	  right: 14px !important;
-	  top: 22px !important;
-	  width: auto !important;
-	  max-height: calc(100vh - 44px);
-	  overflow: auto;
-	  border-radius: 20px;
-	}
+	.bnbw__pop{ border-radius: 20px; }
 
 	.bnbw__popClose{ display:block; }
 	.bnbw__bottomClose{ display:block; }
@@ -689,13 +684,31 @@
 	  }
 	}
 
+	function setBodyScrollLocked(locked){
+	  document.body.classList.toggle('bnbw-no-scroll', !!locked);
+	}
+
+	function updateViewportHeightVar(){
+	  var vv = window.visualViewport;
+	  var vh = (vv && vv.height) ? vv.height : window.innerHeight;
+	  var vw = (vv && vv.width) ? vv.width : window.innerWidth;
+	  var vt = (vv && vv.offsetTop) ? vv.offsetTop : 0;
+	  var vl = (vv && vv.offsetLeft) ? vv.offsetLeft : 0;
+	  document.documentElement.style.setProperty('--bnbw-vh', vh + 'px');
+	  document.documentElement.style.setProperty('--bnbw-vw', vw + 'px');
+	  document.documentElement.style.setProperty('--bnbw-vv-top', vt + 'px');
+	  document.documentElement.style.setProperty('--bnbw-vv-left', vl + 'px');
+	}
+
 	function openPop(which){
 	  closeAll();
 
 	  state.open = which;
 
-	  // su mobile usiamo overlay; su desktop lo usiamo comunque per click-outside più affidabile
+	  // overlay + lock scroll per comportamento uniforme su tutti i device
 	  setOverlay(true);
+	  setBodyScrollLocked(true);
+	  updateViewportHeightVar();
 
 	  if(which === 'calendar'){
 		popCalendar.hidden = false;
@@ -713,6 +726,7 @@
 	  popCalendar.hidden = true;
 	  popGuests.hidden = true;
 	  setOverlay(false);
+	  setBodyScrollLocked(false);
 	}
 
 	function renderTopDates(){
@@ -1070,7 +1084,15 @@
 	  }
 	});
 
+	window.addEventListener('resize', updateViewportHeightVar);
+	window.addEventListener('orientationchange', updateViewportHeightVar);
+	if(window.visualViewport){
+	  window.visualViewport.addEventListener('resize', updateViewportHeightVar);
+	  window.visualViewport.addEventListener('scroll', updateViewportHeightVar);
+	}
+
 	// Init
+	updateViewportHeightVar();
 	renderTopDates();
 	renderGuests();
   }
