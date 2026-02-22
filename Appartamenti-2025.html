@@ -23,6 +23,7 @@
 	  <option value="totoSuite">Toto Vatican Suite</option>
 	  <option value="kingSuite">King Vatican Suite</option>
 	  <option value="totoCollection">Toto Collection Vaticano</option>
+	  <option value="totoCollectionOttaviano">Toto Collection Ottaviano</option>
 	</select>
 
 	<label for="nome">Nome Ospite:</label>
@@ -93,6 +94,17 @@
 		phone: '347/9282875',
 		iban: 'IT24U0569603242000002501X55',
 		ibanName: 'Toto Collection S.r.l.'
+	  },
+	  totoCollectionOttaviano: {
+		name: 'Toto Collection Ottaviano',
+		gradient: 'linear-gradient(90deg, #d4af37, #1a1a1a)',
+		addressFull: 'Via Ottaviano, 118, Interno 9, Piano 3',
+		addressSimple: 'Via Ottaviano, 118, Roma',
+		website: 'https://www.totocollection.com',
+		phone: '347/9282875',
+		services: 'Due camere da letto matrimoniali, Soggiorno con divano letto, bagno, cucina, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.',
+		iban: 'IT24U0569603242000002501X55',
+		ibanName: 'Toto Collection S.r.l.'
 	  }
 	};
 
@@ -126,7 +138,9 @@
 
 	  const soggiornoDesc = ospiti > 2 ? 'Soggiorno con divano letto matrimoniale' : 'Soggiorno';
 	  const esterno = key === 'kingSuite' ? 'balcone' : key === 'totoCollection' ? 'Giardino privato' : 'Ampio terrazzo esterno';
-	  const servizi = `Camera da letto matrimoniale, ${soggiornoDesc}, bagno, cucina, ${esterno}, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.`;
+	  const servizi = key === 'totoCollectionOttaviano'
+		? cfg.services
+		: `Camera da letto matrimoniale, ${soggiornoDesc}, bagno, cucina, ${esterno}, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.`;
 	  
 	  const paymentHTML = `
 	  <ul>
@@ -148,7 +162,7 @@
   <li><b>Check-Out:</b> ${checkout} (entro le ore 10.00)</li>
   <li><b>Prezzo per Notte:</b> ${prezzo.toFixed(2)}€</li>
   <li><b>Tassa di Soggiorno:</b> 6€ a persona per notte (esclusi bambini sotto ai 10 anni e per motivi ospedalieri)</li>
-  <li><b>Totale Prenotazione:</b> € ${totalAlloggio.toFixed(2)} + ${totaleTassa} tassa di soggiorno</li>
+  <li><b>Totale Prenotazione:</b> € ${totalAlloggio.toFixed(2)} + ${totaleTassa},00 € tassa di soggiorno</li>
 </ul>
 <p>Per confermare la prenotazione, vi chiediamo gentilmente di effettuare un acconto di <b>${acconto.toFixed(2)}€</b> utilizzando uno dei seguenti metodi di pagamento:</p>
 ${paymentHTML}
