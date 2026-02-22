@@ -257,14 +257,26 @@
 	z-index: 9998;
   }
 
-  /* Popover base */
+  body.bnbw-no-scroll{
+	overflow: hidden;
+	touch-action: none;
+  }
+
+  .bnbw__portalHost, .bnbw__portalHost * { box-sizing: border-box; }
+
+  /* Popover base (strategia universale) */
   .bnbw__pop{
-	position: absolute;
-	z-index: 9999;
+	position: fixed !important;
+	z-index: 9999 !important;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
 	background: #fff;
 	border-radius: 18px;
 	box-shadow: var(--bnbw-shadow);
-	overflow: hidden;
+	overflow: auto;
+	width: min(1100px, calc(var(--bnbw-vw, 100vw) - 28px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))) !important;
+	max-height: calc(var(--bnbw-vh, 100vh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 28px);
   }
 
   .bnbw__popHead{
@@ -316,9 +328,7 @@
 
   /* Calendario */
   .bnbw__pop--calendar{
-	left: 0;
-	top: calc(100% + 10px);
-	width: 100%;
+	width: min(1100px, calc(var(--bnbw-vw, 100vw) - 28px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))) !important;
 	padding-bottom: 18px;
   }
 
@@ -406,9 +416,7 @@
 
   /* Ospiti popup */
   .bnbw__pop--guests{
-	right: 18px;
-	top: calc(100% - 28px);
-	width: 520px;
+	width: min(640px, calc(var(--bnbw-vw, 100vw) - 28px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)));
 	padding: 18px;
   }
 
@@ -568,16 +576,9 @@
 	.bnbw__monthYear{ font-size: 26px; }
 	.bnbw__weekday{ font-size: 22px; }
 	.bnbw__bigDay{ font-size: 62px; }
-
-	/* Popover come modal */
 	.bnbw__pop{
-	  position: fixed;
-	  left: 14px !important;
-	  right: 14px !important;
-	  top: 22px !important;
-	  width: auto !important;
-	  max-height: calc(100vh - 44px);
-	  overflow: auto;
+	  top: calc(env(safe-area-inset-top, 0px) + 14px) !important;
+	  transform: translateX(-50%) !important;
 	  border-radius: 20px;
 	}
 
@@ -640,8 +641,15 @@
 	var overlay = root.querySelector('[data-bnbw-overlay]');
 	var popCalendar = root.querySelector('[data-bnbw-pop="calendar"]');
 	var popGuests = root.querySelector('[data-bnbw-pop="guests"]');
-	var monthsWrap = root.querySelector('[data-bnbw-months]');
-	var calTitle = root.querySelector('[data-bnbw-cal-title]');
+
+	var portalHost = document.createElement('div');
+	portalHost.className = 'bnbw__portalHost';
+	document.body.appendChild(portalHost);
+	portalHost.appendChild(overlay);
+	portalHost.appendChild(popCalendar);
+	portalHost.appendChild(popGuests);
+	var monthsWrap = popCalendar.querySelector('[data-bnbw-months]');
+	var calTitle = popCalendar.querySelector('[data-bnbw-cal-title]');
 
 	var inDayEl = root.querySelector('[data-bnbw-in-day]');
 	var inMYEl = root.querySelector('[data-bnbw-in-monthyear]');
@@ -651,12 +659,12 @@
 	var outWDEl = root.querySelector('[data-bnbw-out-weekday]');
 	var guestsSummaryEl = root.querySelector('[data-bnbw-guests-summary]');
 
-	var valRoomsEl = root.querySelector('[data-bnbw-val="rooms"]');
-	var valAdultsEl = root.querySelector('[data-bnbw-val="adults"]');
-	var valChildrenEl = root.querySelector('[data-bnbw-val="children"]');
-	var childAgesWrapEl = root.querySelector('[data-bnbw-child-ages]');
-	var childAgesGridEl = root.querySelector('[data-bnbw-child-ages-grid]');
-	var petsEl = root.querySelector('[data-bnbw-pets]');
+	var valRoomsEl = popGuests.querySelector('[data-bnbw-val="rooms"]');
+	var valAdultsEl = popGuests.querySelector('[data-bnbw-val="adults"]');
+	var valChildrenEl = popGuests.querySelector('[data-bnbw-val="children"]');
+	var childAgesWrapEl = popGuests.querySelector('[data-bnbw-child-ages]');
+	var childAgesGridEl = popGuests.querySelector('[data-bnbw-child-ages-grid]');
+	var petsEl = popGuests.querySelector('[data-bnbw-pets]');
 
 	// Config limiti (puoi cambiare qui se vuoi)
 	var LIMITS = {
@@ -689,13 +697,27 @@
 	  }
 	}
 
+	function setBodyScrollLocked(locked){
+	  document.body.classList.toggle('bnbw-no-scroll', !!locked);
+	}
+
+	function updateViewportHeightVar(){
+	  var vv = window.visualViewport;
+	  var vh = (vv && vv.height) ? vv.height : window.innerHeight;
+	  var vw = (vv && vv.width) ? vv.width : window.innerWidth;
+	  document.documentElement.style.setProperty('--bnbw-vh', vh + 'px');
+	  document.documentElement.style.setProperty('--bnbw-vw', vw + 'px');
+	}
+
 	function openPop(which){
 	  closeAll();
 
 	  state.open = which;
 
-	  // su mobile usiamo overlay; su desktop lo usiamo comunque per click-outside più affidabile
+	  // overlay + lock scroll per comportamento uniforme su tutti i device
 	  setOverlay(true);
+	  setBodyScrollLocked(true);
+	  updateViewportHeightVar();
 
 	  if(which === 'calendar'){
 		popCalendar.hidden = false;
@@ -713,6 +735,7 @@
 	  popCalendar.hidden = true;
 	  popGuests.hidden = true;
 	  setOverlay(false);
+	  setBodyScrollLocked(false);
 	}
 
 	function renderTopDates(){
@@ -966,7 +989,7 @@
 	}
 
 	// Eventi apertura
-	root.addEventListener('click', function(e){
+	document.addEventListener('click', function(e){
 	  var t = e.target;
 
 	  // open calendar
@@ -1011,13 +1034,13 @@
 	  // guests +/- and apply
 	  var inc = t.closest && t.closest('[data-bnbw-inc]');
 	  var dec = t.closest && t.closest('[data-bnbw-dec]');
-	  if(inc && root.contains(inc)){
+	  if(inc && (root.contains(inc) || popGuests.contains(inc))){
 		var k1 = inc.getAttribute('data-bnbw-inc');
 		state[k1] = clamp(k1, state[k1] + 1);
 		renderGuests();
 		return;
 	  }
-	  if(dec && root.contains(dec)){
+	  if(dec && (root.contains(dec) || popGuests.contains(dec))){
 		var k2 = dec.getAttribute('data-bnbw-dec');
 		if(state[k2] <= LIMITS[k2].min) return;
 		state[k2] = clamp(k2, state[k2] - 1);
@@ -1046,11 +1069,11 @@
 	});
 
 	// calendar nav
-	root.querySelector('[data-bnbw-cal-prev]').addEventListener('click', function(){
+	popCalendar.querySelector('[data-bnbw-cal-prev]').addEventListener('click', function(){
 	  state.baseMonth = new Date(state.baseMonth.getFullYear(), state.baseMonth.getMonth()-1, 1);
 	  renderCalendar();
 	});
-	root.querySelector('[data-bnbw-cal-next]').addEventListener('click', function(){
+	popCalendar.querySelector('[data-bnbw-cal-next]').addEventListener('click', function(){
 	  state.baseMonth = new Date(state.baseMonth.getFullYear(), state.baseMonth.getMonth()+1, 1);
 	  renderCalendar();
 	});
@@ -1065,12 +1088,25 @@
 	// Click fuori dal widget (desktop) -> chiudi
 	document.addEventListener('click', function(e){
 	  if(!state.open) return;
-	  if(!root.contains(e.target)){
+	  var insideWidget = root.contains(e.target);
+	  var insideCalendar = popCalendar.contains(e.target);
+	  var insideGuests = popGuests.contains(e.target);
+	  var onOverlay = (e.target === overlay);
+	  if(!insideWidget && !insideCalendar && !insideGuests && !onOverlay){
 		closeAll();
 	  }
 	});
 
+	window.addEventListener('resize', updateViewportHeightVar);
+	window.addEventListener('pagehide', function(){ setBodyScrollLocked(false); });
+	window.addEventListener('orientationchange', updateViewportHeightVar);
+	if(window.visualViewport){
+	  window.visualViewport.addEventListener('resize', updateViewportHeightVar);
+	  window.visualViewport.addEventListener('scroll', updateViewportHeightVar);
+	}
+
 	// Init
+	updateViewportHeightVar();
 	renderTopDates();
 	renderGuests();
   }
