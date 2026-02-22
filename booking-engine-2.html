@@ -266,15 +266,15 @@
   .bnbw__pop{
 	position: fixed;
 	z-index: 9999;
-	left: calc(var(--bnbw-vv-left, 0px) + (var(--bnbw-vw, 100vw) / 2));
-	top: calc(var(--bnbw-vv-top, 0px) + (var(--bnbw-vh, 100vh) / 2));
-	transform: translate(-50%, -50%);
+	left: 50%;
+	top: calc(env(safe-area-inset-top, 0px) + 14px);
+	transform: translateX(-50%);
 	background: #fff;
 	border-radius: 18px;
 	box-shadow: var(--bnbw-shadow);
 	overflow: auto;
 	width: min(1100px, calc(var(--bnbw-vw, 100vw) - 28px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)));
-	max-height: calc(var(--bnbw-vh, 100vh) - 28px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+	max-height: calc(var(--bnbw-vh, 100vh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 28px);
   }
 
   .bnbw__popHead{
@@ -692,12 +692,8 @@
 	  var vv = window.visualViewport;
 	  var vh = (vv && vv.height) ? vv.height : window.innerHeight;
 	  var vw = (vv && vv.width) ? vv.width : window.innerWidth;
-	  var vt = (vv && vv.offsetTop) ? vv.offsetTop : 0;
-	  var vl = (vv && vv.offsetLeft) ? vv.offsetLeft : 0;
 	  document.documentElement.style.setProperty('--bnbw-vh', vh + 'px');
 	  document.documentElement.style.setProperty('--bnbw-vw', vw + 'px');
-	  document.documentElement.style.setProperty('--bnbw-vv-top', vt + 'px');
-	  document.documentElement.style.setProperty('--bnbw-vv-left', vl + 'px');
 	}
 
 	function openPop(which){
