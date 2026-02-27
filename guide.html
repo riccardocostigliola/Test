@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>La nostra Guida</title>
+    <style>
+      :root {
+        --color-accent-1: #cb3975;
+        --color-accent-2: #eb5e3e;
+        --color-text: #486066;
+        --color-white: #ffffff;
+        --card-shadow: 0 8px 22px rgba(72, 96, 102, 0.16);
+        --radius-lg: 18px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+          sans-serif;
+        color: var(--color-text);
+        background: linear-gradient(180deg, rgba(203, 57, 117, 0.06) 0%, rgba(235, 94, 62, 0.08) 100%);
+        min-height: 100vh;
+      }
+
+      .guide-wrapper {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 24px 16px 38px;
+      }
+
+      .lang-switcher {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 14px;
+      }
+
+      .lang-btn {
+        border: 0;
+        cursor: pointer;
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-size: 1.2rem;
+        line-height: 1;
+        background: var(--color-white);
+        box-shadow: 0 4px 14px rgba(72, 96, 102, 0.18);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .lang-btn:focus-visible,
+      .card-btn:focus-visible,
+      .close-modal:focus-visible {
+        outline: 3px solid rgba(203, 57, 117, 0.35);
+        outline-offset: 2px;
+      }
+
+      .lang-btn[aria-pressed="true"] {
+        background: linear-gradient(145deg, var(--color-accent-1), var(--color-accent-2));
+        transform: translateY(-1px);
+      }
+
+      .lang-btn:hover,
+      .lang-btn:active {
+        transform: translateY(-1px);
+      }
+
+      h1 {
+        margin: 0 0 20px;
+        font-size: clamp(1.7rem, 4vw, 2.4rem);
+        text-align: center;
+        color: var(--color-accent-2);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .card-btn {
+        border: 0;
+        border-radius: var(--radius-lg);
+        min-height: 132px;
+        background: var(--color-white);
+        box-shadow: var(--card-shadow);
+        cursor: pointer;
+        padding: 14px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--color-text);
+      }
+
+      .card-btn:hover,
+      .card-btn:active {
+        transform: translateY(-1px);
+      }
+
+      .emoji {
+        font-size: clamp(1.6rem, 4.8vw, 2.3rem);
+        margin-bottom: 8px;
+      }
+
+      .label {
+        font-size: 0.95rem;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(30, 38, 41, 0.88);
+        display: none;
+        z-index: 9999;
+        padding: env(safe-area-inset-top, 16px) 16px env(safe-area-inset-bottom, 16px);
+      }
+
+      .modal.open {
+        display: block;
+      }
+
+      .modal-content {
+        background: var(--color-white);
+        max-width: 860px;
+        margin: 0 auto;
+        height: min(100%, 920px);
+        border-radius: 16px;
+        padding: 18px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .modal-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .modal h2 {
+        margin: 0;
+        color: var(--color-accent-2);
+        font-size: clamp(1.25rem, 3vw, 1.7rem);
+      }
+
+      .close-modal {
+        border: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        background: linear-gradient(145deg, var(--color-accent-1), var(--color-accent-2));
+        color: var(--color-white);
+        font-size: 1.4rem;
+        cursor: pointer;
+        flex: 0 0 auto;
+      }
+
+      .modal p,
+      .modal li {
+        line-height: 1.6;
+        font-size: 1rem;
+      }
+
+      @media (max-width: 850px) {
+        .grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 680px) {
+        .guide-wrapper {
+          padding: 20px 12px 24px;
+        }
+
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .card-btn {
+          min-height: 120px;
+        }
+      }
+
+      @media (max-width: 380px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .lang-btn {
+          font-size: 1.1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="guide-wrapper">
+      <div class="lang-switcher" aria-label="Language switcher">
+        <button class="lang-btn" data-lang="en" aria-pressed="false" type="button">🇬🇧</button>
+        <button class="lang-btn" data-lang="it" aria-pressed="true" type="button">🇮🇹</button>
+        <button class="lang-btn" data-lang="es" aria-pressed="false" type="button">🇪🇸</button>
+      </div>
+
+      <h1 data-i18n="mainTitle">La nostra Guida</h1>
+
+      <div class="grid" id="guideGrid">
+        <button class="card-btn" type="button" data-item="wifi">
+          <span class="emoji" aria-hidden="true">📶</span>
+          <span class="label" data-i18n="wifiLabel">Wi-Fi</span>
+        </button>
+        <button class="card-btn" type="button" data-item="room">
+          <span class="emoji" aria-hidden="true">🛏️</span>
+          <span class="label" data-i18n="roomLabel">La tua Camera</span>
+        </button>
+        <button class="card-btn" type="button" data-item="checkin">
+          <span class="emoji" aria-hidden="true">🧳</span>
+          <span class="label" data-i18n="checkinLabel">Check-In / Check out</span>
+        </button>
+        <button class="card-btn" type="button" data-item="restaurants">
+          <span class="emoji" aria-hidden="true">🍽️</span>
+          <span class="label" data-i18n="restaurantsLabel">Ristoranti</span>
+        </button>
+        <button class="card-btn" type="button" data-item="shops">
+          <span class="emoji" aria-hidden="true">🛍️</span>
+          <span class="label" data-i18n="shopsLabel">Negozi</span>
+        </button>
+        <button class="card-btn" type="button" data-item="places">
+          <span class="emoji" aria-hidden="true">📍</span>
+          <span class="label" data-i18n="placesLabel">Luoghi di interesse</span>
+        </button>
+        <button class="card-btn" type="button" data-item="numbers">
+          <span class="emoji" aria-hidden="true">📞</span>
+          <span class="label" data-i18n="numbersLabel">Numeri Utili</span>
+        </button>
+        <button class="card-btn" type="button" data-item="issues">
+          <span class="emoji" aria-hidden="true">⚠️</span>
+          <span class="label" data-i18n="issuesLabel">Problemi</span>
+        </button>
+        <button class="card-btn" type="button" data-item="transfer">
+          <span class="emoji" aria-hidden="true">🚗</span>
+          <span class="label" data-i18n="transferLabel">Transfer</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="modal" id="guideModal" aria-hidden="true">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modalTitle">Titolo</h2>
+          <button class="close-modal" id="closeModal" type="button" aria-label="Chiudi">✕</button>
+        </div>
+        <div id="modalBody"></div>
+      </div>
+    </div>
+
+    <script>
+      const translations = {
+        it: {
+          mainTitle: "La nostra Guida",
+          wifiLabel: "Wi-Fi",
+          roomLabel: "La tua Camera",
+          checkinLabel: "Check-In / Check out",
+          restaurantsLabel: "Ristoranti",
+          shopsLabel: "Negozi",
+          placesLabel: "Luoghi di interesse",
+          numbersLabel: "Numeri Utili",
+          issuesLabel: "Problemi",
+          transferLabel: "Transfer",
+          closeLabel: "Chiudi",
+          content: {
+            wifi: {
+              title: "Wi-Fi",
+              body: `<p>Nome rete: <strong>CasaBella_Guest</strong></p><p>Password: <strong>Benvenuti2026!</strong></p><p>Se la connessione non funziona, riavvia il router e contattaci.</p>`,
+            },
+            room: {
+              title: "La tua Camera",
+              body: `<p><strong>Informazioni Utili:</strong><br />Nella tua camera troverai tutto il necessario per la colazione del giorno successivo. Se hai una prenotazione di più notti, noi torneremo ogni mattina alle 10:00 AM per fare una pulizia giornaliera della stanza e rifare le colazioni.</p><p>Nel periodo invernale il riscaldamento si accende in automatico. Per personalizzare la temperatura della stanza potete usare il climatizzatore con il telecomando bianco.</p><p>A questo link troverai un breve video con le istruzioni su come usare la nostra macchina del caffè:<br /><a href="https://www.bbvaticanstories.it/bb-roma-vaticano/how-to-use-our-coffee-machine/" target="_blank" rel="noopener noreferrer">Come usare la nostra macchina del caffè</a></p><p><strong>Regole della casa:</strong></p><ul><li>Nelle stanze è severamente vietato fumare.</li><li>Si prega di rispettare l'orario di silenzio e non fare rumore dalle 22:00 alle 08:00.</li></ul>`,
+            },
+            checkin: {
+              title: "Check-In / Check out",
+              body: `<p>Check-in dalle 15:00, check-out entro le 10:00.</p><p>Scrivici 30 minuti prima dell'arrivo e lascia le chiavi sul tavolo prima della partenza.</p>`,
+            },
+            restaurants: {
+              title: "Ristoranti",
+              body: `<p>Alcuni ristoranti consigliati:</p><ul><li>Trattoria del Centro</li><li>Osteria Mare Blu</li><li>Pizzeria La Piazza</li></ul>`,
+            },
+            shops: {
+              title: "Negozi",
+              body: `<p>Servizi utili nelle vicinanze:</p><ul><li>Supermercato aperto fino alle 22:00</li><li>Farmacia comunale</li><li>Lavanderia self-service</li></ul>`,
+            },
+            places: {
+              title: "Luoghi di interesse",
+              body: `<p>I nostri suggerimenti:</p><ul><li>Centro storico</li><li>Belvedere panoramico</li><li>Museo locale</li></ul>`,
+            },
+            numbers: {
+              title: "Numeri Utili",
+              body: `<p>Contatti rapidi:</p><ul><li>Host: +39 333 0000000</li><li>Taxi: +39 333 1111111</li><li>Emergenze: 112</li></ul>`,
+            },
+            issues: {
+              title: "Problemi",
+              body: `<p>Se hai un problema, scrivici subito su WhatsApp oppure chiamaci.</p><p>Descrivi brevemente il problema e, se possibile, invia una foto.</p>`,
+            },
+            transfer: {
+              title: "Transfer",
+              body: `<p>Qui puoi inserire il tuo booking engine per prenotare transfer e servizi extra.</p><p>Testo provvisorio modificabile.</p>`,
+            },
+          },
+        },
+        en: {
+          mainTitle: "Our Guide",
+          wifiLabel: "Wi-Fi",
+          roomLabel: "Your Room",
+          checkinLabel: "Check-In / Check out",
+          restaurantsLabel: "Restaurants",
+          shopsLabel: "Shops",
+          placesLabel: "Places of Interest",
+          numbersLabel: "Useful Numbers",
+          issuesLabel: "Problems",
+          transferLabel: "Transfer",
+          closeLabel: "Close",
+          content: {
+            wifi: {
+              title: "Wi-Fi",
+              body: `<p>Network name: <strong>CasaBella_Guest</strong></p><p>Password: <strong>Benvenuti2026!</strong></p><p>If the connection is unstable, restart the router and contact us.</p>`,
+            },
+            room: {
+              title: "Your Room",
+              body: `<p><strong>Useful Information:</strong><br />In your room you will find everything you need for breakfast the next day. If your booking includes multiple nights, we will return every morning at 10:00 AM to clean the room and refresh breakfast supplies.</p><p>During the winter period, the heating turns on automatically. To customize the room temperature, you can use the air conditioner with the white remote control.</p><p>At this link you will find a short video with instructions on how to use our coffee machine:<br /><a href="https://www.bbvaticanstories.it/bb-roma-vaticano/how-to-use-our-coffee-machine/" target="_blank" rel="noopener noreferrer">How to use our coffee machine</a></p><p><strong>House Rules:</strong></p><ul><li>Smoking is strictly prohibited in the rooms.</li><li>Please respect quiet hours and do not make noise from 10:00 PM to 8:00 AM.</li></ul>`,
+            },
+            checkin: {
+              title: "Check-In / Check out",
+              body: `<p>Check-in from 3:00 PM, check-out by 10:00 AM.</p><p>Please message us 30 minutes before arrival and leave the keys on the table before departure.</p>`,
+            },
+            restaurants: {
+              title: "Restaurants",
+              body: `<p>Recommended nearby restaurants:</p><ul><li>Trattoria del Centro</li><li>Osteria Mare Blu</li><li>Pizzeria La Piazza</li></ul>`,
+            },
+            shops: {
+              title: "Shops",
+              body: `<p>Useful services nearby:</p><ul><li>Supermarket open until 10:00 PM</li><li>Local pharmacy</li><li>Self-service laundry</li></ul>`,
+            },
+            places: {
+              title: "Places of Interest",
+              body: `<p>Our suggestions:</p><ul><li>Historic city center</li><li>Panoramic viewpoint</li><li>Local museum</li></ul>`,
+            },
+            numbers: {
+              title: "Useful Numbers",
+              body: `<p>Quick contacts:</p><ul><li>Host: +39 333 0000000</li><li>Taxi: +39 333 1111111</li><li>Emergency: 112</li></ul>`,
+            },
+            issues: {
+              title: "Problems",
+              body: `<p>If you have a problem, please contact us immediately on WhatsApp or phone.</p><p>Briefly describe the issue and, if possible, send a photo.</p>`,
+            },
+            transfer: {
+              title: "Transfer",
+              body: `<p>You can place your booking engine here for transfer and extra services.</p><p>Temporary placeholder text.</p>`,
+            },
+          },
+        },
+        es: {
+          mainTitle: "Nuestra Guía",
+          wifiLabel: "Wi-Fi",
+          roomLabel: "Tu Habitación",
+          checkinLabel: "Check-In / Check out",
+          restaurantsLabel: "Restaurantes",
+          shopsLabel: "Tiendas",
+          placesLabel: "Lugares de interés",
+          numbersLabel: "Números útiles",
+          issuesLabel: "Problemas",
+          transferLabel: "Transfer",
+          closeLabel: "Cerrar",
+          content: {
+            wifi: {
+              title: "Wi-Fi",
+              body: `<p>Nombre de la red: <strong>CasaBella_Guest</strong></p><p>Contraseña: <strong>Benvenuti2026!</strong></p><p>Si la conexión falla, reinicia el router y contáctanos.</p>`,
+            },
+            room: {
+              title: "Tu Habitación",
+              body: `<p><strong>Información útil:</strong><br />En tu habitación encontrarás todo lo necesario para el desayuno del día siguiente. Si tienes una reserva de varias noches, volveremos cada mañana a las 10:00 AM para hacer la limpieza diaria de la habitación y reponer los desayunos.</p><p>Durante el período invernal, la calefacción se enciende automáticamente. Para personalizar la temperatura de la habitación, puedes usar el aire acondicionado con el mando blanco.</p><p>En este enlace encontrarás un breve video con instrucciones sobre cómo usar nuestra cafetera:<br /><a href="https://www.bbvaticanstories.it/bb-roma-vaticano/how-to-use-our-coffee-machine/" target="_blank" rel="noopener noreferrer">Cómo usar nuestra cafetera</a></p><p><strong>Reglas de la casa:</strong></p><ul><li>Está estrictamente prohibido fumar en las habitaciones.</li><li>Por favor, respeta el horario de silencio y no hagas ruido de 22:00 a 08:00.</li></ul>`,
+            },
+            checkin: {
+              title: "Check-In / Check out",
+              body: `<p>Check-in desde las 15:00, check-out antes de las 10:00.</p><p>Escríbenos 30 minutos antes de llegar y deja las llaves sobre la mesa antes de salir.</p>`,
+            },
+            restaurants: {
+              title: "Restaurantes",
+              body: `<p>Restaurantes recomendados:</p><ul><li>Trattoria del Centro</li><li>Osteria Mare Blu</li><li>Pizzeria La Piazza</li></ul>`,
+            },
+            shops: {
+              title: "Tiendas",
+              body: `<p>Servicios útiles cerca:</p><ul><li>Supermercado abierto hasta las 22:00</li><li>Farmacia local</li><li>Lavandería autoservicio</li></ul>`,
+            },
+            places: {
+              title: "Lugares de interés",
+              body: `<p>Nuestras sugerencias:</p><ul><li>Centro histórico</li><li>Mirador panorámico</li><li>Museo local</li></ul>`,
+            },
+            numbers: {
+              title: "Números útiles",
+              body: `<p>Contactos rápidos:</p><ul><li>Anfitrión: +39 333 0000000</li><li>Taxi: +39 333 1111111</li><li>Emergencias: 112</li></ul>`,
+            },
+            issues: {
+              title: "Problemas",
+              body: `<p>Si tienes un problema, contáctanos de inmediato por WhatsApp o teléfono.</p><p>Describe brevemente la incidencia y, si es posible, envía una foto.</p>`,
+            },
+            transfer: {
+              title: "Transfer",
+              body: `<p>Aquí podrás colocar tu motor de reservas para transfer y servicios extra.</p><p>Texto provisional editable.</p>`,
+            },
+          },
+        },
+      };
+
+      const langButtons = document.querySelectorAll(".lang-btn");
+      const i18nNodes = document.querySelectorAll("[data-i18n]");
+      const modal = document.getElementById("guideModal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalBody = document.getElementById("modalBody");
+      const closeModalBtn = document.getElementById("closeModal");
+      const cards = document.querySelectorAll(".card-btn");
+
+      let currentLang = "it";
+
+      function applyLanguage(lang) {
+        currentLang = translations[lang] ? lang : "it";
+        i18nNodes.forEach((node) => {
+          const key = node.dataset.i18n;
+          if (translations[currentLang][key]) {
+            node.textContent = translations[currentLang][key];
+          }
+        });
+
+        closeModalBtn.setAttribute("aria-label", translations[currentLang].closeLabel);
+
+        langButtons.forEach((btn) => {
+          btn.setAttribute("aria-pressed", String(btn.dataset.lang === currentLang));
+        });
+      }
+
+      function openModal(itemKey) {
+        const section = translations[currentLang].content[itemKey];
+        if (!section) return;
+
+        modalTitle.textContent = section.title;
+        modalBody.innerHTML = section.body;
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+
+      langButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          applyLanguage(button.dataset.lang);
+        });
+      });
+
+      cards.forEach((card) => {
+        card.addEventListener("click", () => openModal(card.dataset.item));
+      });
+
+      closeModalBtn.addEventListener("click", closeModal);
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeModal();
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modal.classList.contains("open")) {
+          closeModal();
+        }
+      });
+
+      applyLanguage("it");
+    </script>
+  </body>
+</html>
