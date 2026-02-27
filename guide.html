@@ -169,6 +169,36 @@
         font-size: 1rem;
       }
 
+      .restaurant-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .restaurant-card {
+        border: 1px solid rgba(203, 57, 117, 0.22);
+        border-radius: 14px;
+        padding: 14px;
+        background: linear-gradient(180deg, rgba(203, 57, 117, 0.05), rgba(235, 94, 62, 0.08));
+        box-shadow: 0 6px 14px rgba(72, 96, 102, 0.12);
+      }
+
+      .restaurant-card h3 {
+        margin: 0 0 8px;
+        color: var(--color-accent-2);
+        font-size: 1.05rem;
+      }
+
+      .restaurant-card p {
+        margin: 0 0 8px;
+      }
+
+      .map-link {
+        color: var(--color-accent-2);
+        font-weight: 700;
+        text-decoration: underline;
+        word-break: break-word;
+      }
+
       @media (max-width: 850px) {
         .grid {
           grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -289,7 +319,7 @@
             },
             restaurants: {
               title: "Ristoranti",
-              body: `<p>Alcuni ristoranti consigliati:</p><ul><li>Trattoria del Centro</li><li>Osteria Mare Blu</li><li>Pizzeria La Piazza</li></ul>`,
+              body: `<p>Ecco i nostri ristoranti consigliati:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Ristorante Dai Miei</h3><p>Il migliore per i piatti di pasta tipici della cucina Romana. Consigliamo di prenotare.</p><p><strong>Via delle Fornaci, 75</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/Tw7zjydJza7RVtAH9" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Il Piccolo Pub</h3><p>Ottima Pinsa Romana (variante della Pizza), ottime birre alla spina, vicinissimo al nostro B&amp;B.</p><p><strong>Via delle Fornaci, 22</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/WM1tmL39637HUFnE7" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Osteria Sant'Uffizio Vaticano</h3><p>Gestione Italiana, ottima cucina e orari di apertura estesi.</p><p><strong>Via delle Fornaci, 5</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/1pcsPJNQiFeyzowF7" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div></div>`,
             },
             shops: {
               title: "Negozi",
@@ -340,7 +370,7 @@
             },
             restaurants: {
               title: "Restaurants",
-              body: `<p>Recommended nearby restaurants:</p><ul><li>Trattoria del Centro</li><li>Osteria Mare Blu</li><li>Pizzeria La Piazza</li></ul>`,
+              body: `<p>Here are our recommended restaurants:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Ristorante Dai Miei</h3><p>The best place for traditional Roman pasta dishes. We recommend booking in advance.</p><p><strong>Via delle Fornaci, 75</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/Tw7zjydJza7RVtAH9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Il Piccolo Pub</h3><p>Excellent Roman Pinsa (a variation of pizza), great draft beers, and very close to our B&amp;B.</p><p><strong>Via delle Fornaci, 22</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/WM1tmL39637HUFnE7" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Osteria Sant'Uffizio Vaticano</h3><p>Italian management, excellent cuisine, and extended opening hours.</p><p><strong>Via delle Fornaci, 5</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/1pcsPJNQiFeyzowF7" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div></div>`,
             },
             shops: {
               title: "Shops",
@@ -391,7 +421,7 @@
             },
             restaurants: {
               title: "Restaurantes",
-              body: `<p>Restaurantes recomendados:</p><ul><li>Trattoria del Centro</li><li>Osteria Mare Blu</li><li>Pizzeria La Piazza</li></ul>`,
+              body: `<p>Aquí están nuestros restaurantes recomendados:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Ristorante Dai Miei</h3><p>El mejor para platos de pasta típicos de la cocina romana. Recomendamos reservar.</p><p><strong>Via delle Fornaci, 75</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/Tw7zjydJza7RVtAH9" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Il Piccolo Pub</h3><p>Excelente Pinsa Romana (variante de la pizza), excelentes cervezas de barril y muy cerca de nuestro B&amp;B.</p><p><strong>Via delle Fornaci, 22</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/WM1tmL39637HUFnE7" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Osteria Sant'Uffizio Vaticano</h3><p>Gestión italiana, excelente cocina y horarios de apertura amplios.</p><p><strong>Via delle Fornaci, 5</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/1pcsPJNQiFeyzowF7" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div></div>`,
             },
             shops: {
               title: "Tiendas",
