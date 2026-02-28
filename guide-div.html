@@ -572,71 +572,89 @@
         },
       };
 
-      const root = document.getElementById("gvd-root");
-      const langButtons = root.querySelectorAll(".lang-btn");
-      const i18nNodes = root.querySelectorAll("[data-i18n]");
-      const modal = root.querySelector("#guideModal");
-      const modalTitle = root.querySelector("#modalTitle");
-      const modalBody = root.querySelector("#modalBody");
-      const closeModalBtn = root.querySelector("#closeModal");
-      const cards = root.querySelectorAll(".card-btn");
+      function initGuideDiv() {
+        const root = document.getElementById("gvd-root");
+        if (!root || root.dataset.gvdInitialized === "true") return false;
 
-      let currentLang = "it";
+        const langButtons = root.querySelectorAll(".lang-btn");
+        const i18nNodes = root.querySelectorAll("[data-i18n]");
+        const modal = root.querySelector("#guideModal");
+        const modalTitle = root.querySelector("#modalTitle");
+        const modalBody = root.querySelector("#modalBody");
+        const closeModalBtn = root.querySelector("#closeModal");
+        const cards = root.querySelectorAll(".card-btn");
 
-      function applyLanguage(lang) {
-        currentLang = translations[lang] ? lang : "it";
-        i18nNodes.forEach((node) => {
-          const key = node.dataset.i18n;
-          if (translations[currentLang][key]) {
-            node.textContent = translations[currentLang][key];
+        if (!modal || !modalTitle || !modalBody || !closeModalBtn || !langButtons.length || !cards.length) {
+          return false;
+        }
+
+        let currentLang = "it";
+
+        function applyLanguage(lang) {
+          currentLang = translations[lang] ? lang : "it";
+          i18nNodes.forEach((node) => {
+            const key = node.dataset.i18n;
+            if (translations[currentLang][key]) {
+              node.textContent = translations[currentLang][key];
+            }
+          });
+
+          closeModalBtn.setAttribute("aria-label", translations[currentLang].closeLabel);
+
+          langButtons.forEach((btn) => {
+            btn.setAttribute("aria-pressed", String(btn.dataset.lang === currentLang));
+          });
+        }
+
+        function openModal(itemKey) {
+          const section = translations[currentLang].content[itemKey];
+          if (!section) return;
+
+          modalTitle.textContent = section.title;
+          modalBody.innerHTML = section.body;
+          modal.classList.add("open");
+          modal.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+          modal.classList.remove("open");
+          modal.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+        }
+
+        langButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            applyLanguage(button.dataset.lang);
+          });
+        });
+
+        cards.forEach((card) => {
+          card.addEventListener("click", () => openModal(card.dataset.item));
+        });
+
+        closeModalBtn.addEventListener("click", closeModal);
+        modal.addEventListener("click", (event) => {
+          if (event.target === modal) closeModal();
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && modal.classList.contains("open")) {
+            closeModal();
           }
         });
 
-        closeModalBtn.setAttribute("aria-label", translations[currentLang].closeLabel);
+        applyLanguage("it");
+        root.dataset.gvdInitialized = "true";
+        return true;
+      }
 
-        langButtons.forEach((btn) => {
-          btn.setAttribute("aria-pressed", String(btn.dataset.lang === currentLang));
+      if (!initGuideDiv()) {
+        document.addEventListener("DOMContentLoaded", initGuideDiv, { once: true });
+        const observer = new MutationObserver(() => {
+          if (initGuideDiv()) observer.disconnect();
         });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
       }
-
-      function openModal(itemKey) {
-        const section = translations[currentLang].content[itemKey];
-        if (!section) return;
-
-        modalTitle.textContent = section.title;
-        modalBody.innerHTML = section.body;
-        modal.classList.add("open");
-        modal.setAttribute("aria-hidden", "false");
-        document.body.style.overflow = "hidden";
-      }
-
-      function closeModal() {
-        modal.classList.remove("open");
-        modal.setAttribute("aria-hidden", "true");
-        document.body.style.overflow = "";
-      }
-
-      langButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          applyLanguage(button.dataset.lang);
-        });
-      });
-
-      cards.forEach((card) => {
-        card.addEventListener("click", () => openModal(card.dataset.item));
-      });
-
-      closeModalBtn.addEventListener("click", closeModal);
-      modal.addEventListener("click", (event) => {
-        if (event.target === modal) closeModal();
-      });
-
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && modal.classList.contains("open")) {
-          closeModal();
-        }
-      });
-
-      applyLanguage("it");
     
 </script>
