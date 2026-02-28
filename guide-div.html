@@ -108,29 +108,31 @@
         font-weight: 700;
         line-height: 1.3;
       }
-
       .modal {
         position: fixed;
         inset: 0;
-        background: rgba(30, 38, 41, 0.88);
+        background: rgba(18, 24, 28, 0.78);
         display: none;
-        z-index: 9999;
-        padding: calc(var(--gvd-header-offset, 0px) + env(safe-area-inset-top, 16px) + 8px) 16px env(safe-area-inset-bottom, 16px);
+        z-index: 2147483647;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 16px;
       }
 
       .modal.open {
-        display: block;
+        display: flex;
       }
 
       .modal-content {
         background: var(--color-white);
-        max-width: 860px;
-        margin: 0 auto;
-        height: min(100%, 920px);
-        border-radius: 16px;
+        width: min(920px, 92vw);
+        max-height: min(84vh, 920px);
+        margin-top: max(18px, calc(var(--gvd-header-offset, 0px) + 8px));
+        border-radius: 18px;
         padding: 18px;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        box-shadow: 0 28px 70px rgba(0, 0, 0, 0.35);
       }
 
       .modal-header {
@@ -235,6 +237,30 @@
 
         .card-btn {
           min-height: 120px;
+        }
+
+        .modal {
+          padding: env(safe-area-inset-top, 8px) 0 env(safe-area-inset-bottom, 8px);
+          background: rgba(18, 24, 28, 0.96);
+        }
+
+        .modal-content {
+          width: 100vw;
+          max-width: none;
+          max-height: none;
+          height: calc(100dvh - env(safe-area-inset-top, 8px) - env(safe-area-inset-bottom, 8px));
+          margin-top: 0;
+          border-radius: 0;
+          padding: 14px 14px 18px;
+          box-shadow: none;
+        }
+
+        .modal-header {
+          position: sticky;
+          top: 0;
+          background: var(--color-white);
+          z-index: 2;
+          padding-bottom: 8px;
         }
       }
 
