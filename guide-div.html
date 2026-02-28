@@ -1,0 +1,660 @@
+<!-- Snippet pronto da incollare dentro un <div> esistente -->
+<style>
+      :root {
+        --color-accent-1: #cb3975;
+        --color-accent-2: #eb5e3e;
+        --color-text: #486066;
+        --color-white: #ffffff;
+        --card-shadow: 0 8px 22px rgba(72, 96, 102, 0.16);
+        --radius-lg: 18px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+          sans-serif;
+        color: var(--color-text);
+        background: linear-gradient(180deg, rgba(203, 57, 117, 0.06) 0%, rgba(235, 94, 62, 0.08) 100%);
+        min-height: 100vh;
+      }
+
+      .guide-wrapper {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 24px 16px 38px;
+      }
+
+      .lang-switcher {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 14px;
+      }
+
+      .lang-btn {
+        border: 0;
+        cursor: pointer;
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-size: 1.2rem;
+        line-height: 1;
+        background: var(--color-white);
+        box-shadow: 0 4px 14px rgba(72, 96, 102, 0.18);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .lang-btn:focus-visible,
+      .card-btn:focus-visible,
+      .close-modal:focus-visible {
+        outline: 3px solid rgba(203, 57, 117, 0.35);
+        outline-offset: 2px;
+      }
+
+      .lang-btn[aria-pressed="true"] {
+        background: linear-gradient(145deg, var(--color-accent-1), var(--color-accent-2));
+        transform: translateY(-1px);
+      }
+
+      .lang-btn:hover,
+      .lang-btn:active {
+        transform: translateY(-1px);
+      }
+
+      h1 {
+        margin: 0 0 20px;
+        font-size: clamp(1.7rem, 4vw, 2.4rem);
+        text-align: center;
+        color: var(--color-accent-2);
+      }
+
+      .guide-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .card-btn {
+        border: 0;
+        border-radius: var(--radius-lg);
+        min-height: 132px;
+        background: var(--color-white);
+        box-shadow: var(--card-shadow);
+        cursor: pointer;
+        padding: 14px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--color-text);
+      }
+
+      .card-btn:hover,
+      .card-btn:active {
+        transform: translateY(-1px);
+      }
+
+      .emoji {
+        font-size: clamp(1.6rem, 4.8vw, 2.3rem);
+        margin-bottom: 8px;
+      }
+
+      .label {
+        font-size: 0.95rem;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(30, 38, 41, 0.88);
+        display: none;
+        z-index: 9999;
+        padding: env(safe-area-inset-top, 16px) 16px env(safe-area-inset-bottom, 16px);
+      }
+
+      .modal.open {
+        display: block;
+      }
+
+      .modal-content {
+        background: var(--color-white);
+        max-width: 860px;
+        margin: 0 auto;
+        height: min(100%, 920px);
+        border-radius: 16px;
+        padding: 18px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .modal-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .modal h2 {
+        margin: 0;
+        color: var(--color-accent-2);
+        font-size: clamp(1.25rem, 3vw, 1.7rem);
+      }
+
+      .close-modal {
+        border: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        background: linear-gradient(145deg, var(--color-accent-1), var(--color-accent-2));
+        color: var(--color-white);
+        font-size: 1.4rem;
+        cursor: pointer;
+        flex: 0 0 auto;
+      }
+
+      .modal p,
+      .modal li {
+        line-height: 1.6;
+        font-size: 1rem;
+      }
+
+      .restaurant-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .restaurant-card {
+        border: 1px solid rgba(203, 57, 117, 0.22);
+        border-radius: 14px;
+        padding: 14px;
+        background: linear-gradient(180deg, rgba(203, 57, 117, 0.05), rgba(235, 94, 62, 0.08));
+        box-shadow: 0 6px 14px rgba(72, 96, 102, 0.12);
+      }
+
+      .restaurant-card h3 {
+        margin: 0 0 8px;
+        color: var(--color-accent-2);
+        font-size: 1.05rem;
+      }
+
+      .restaurant-card p {
+        margin: 0 0 8px;
+      }
+
+      .map-link {
+        color: var(--color-accent-2);
+        font-weight: 700;
+        text-decoration: underline;
+        word-break: break-word;
+      }
+
+
+      /* Strong embed isolation against theme CSS conflicts */
+      #gvd-root .guide-grid,
+      #gvd-root .grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+        align-items: stretch !important;
+      }
+
+      #gvd-root .guide-grid > .card-btn,
+      #gvd-root .grid > .card-btn {
+        width: 100% !important;
+        margin: 0 !important;
+        float: none !important;
+        max-width: none !important;
+      }
+
+      #gvd-root .guide-wrapper {
+        width: 100% !important;
+      }
+
+      @media (max-width: 850px) {
+        .guide-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 680px) {
+        .guide-wrapper {
+          padding: 20px 12px 24px;
+        }
+
+        .guide-grid,
+        #gvd-root .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        }
+
+        .card-btn {
+          min-height: 120px;
+        }
+      }
+
+      @media (max-width: 340px) {
+        .guide-grid,
+        #gvd-root .grid {
+          grid-template-columns: 1fr !important;
+        }
+
+        .lang-btn {
+          font-size: 1.1rem;
+        }
+      }
+    
+</style>
+
+    <div id="gvd-root">
+    <div class="guide-wrapper">
+      <div class="lang-switcher" aria-label="Language switcher">
+        <button class="lang-btn" data-lang="en" aria-pressed="false" type="button">🇬🇧</button>
+        <button class="lang-btn" data-lang="it" aria-pressed="true" type="button">🇮🇹</button>
+        <button class="lang-btn" data-lang="es" aria-pressed="false" type="button">🇪🇸</button>
+        <button class="lang-btn" data-lang="fr" aria-pressed="false" type="button">🇫🇷</button>
+        <button class="lang-btn" data-lang="de" aria-pressed="false" type="button">🇩🇪</button>
+      </div>
+
+      <h1 data-i18n="mainTitle">La nostra Guida</h1>
+
+      <div class="guide-grid" id="guideGrid">
+        <button class="card-btn" type="button" data-item="wifi">
+          <span class="emoji" aria-hidden="true">📶</span>
+          <span class="label" data-i18n="wifiLabel">Wi-Fi</span>
+        </button>
+        <button class="card-btn" type="button" data-item="room">
+          <span class="emoji" aria-hidden="true">🛏️</span>
+          <span class="label" data-i18n="roomLabel">La tua Camera</span>
+        </button>
+        <button class="card-btn" type="button" data-item="checkin">
+          <span class="emoji" aria-hidden="true">🧳</span>
+          <span class="label" data-i18n="checkinLabel">Check-In / Check out</span>
+        </button>
+        <button class="card-btn" type="button" data-item="restaurants">
+          <span class="emoji" aria-hidden="true">🍽️</span>
+          <span class="label" data-i18n="restaurantsLabel">Ristoranti</span>
+        </button>
+        <button class="card-btn" type="button" data-item="shops">
+          <span class="emoji" aria-hidden="true">🛍️</span>
+          <span class="label" data-i18n="shopsLabel">Negozi</span>
+        </button>
+        <button class="card-btn" type="button" data-item="places">
+          <span class="emoji" aria-hidden="true">📍</span>
+          <span class="label" data-i18n="placesLabel">Luoghi di interesse</span>
+        </button>
+        <button class="card-btn" type="button" data-item="numbers">
+          <span class="emoji" aria-hidden="true">📞</span>
+          <span class="label" data-i18n="numbersLabel">Numeri Utili</span>
+        </button>
+        <button class="card-btn" type="button" data-item="issues">
+          <span class="emoji" aria-hidden="true">⚠️</span>
+          <span class="label" data-i18n="issuesLabel">Problemi</span>
+        </button>
+        <button class="card-btn" type="button" data-item="transfer">
+          <span class="emoji" aria-hidden="true">🚗</span>
+          <span class="label" data-i18n="transferLabel">Transfer</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="modal" id="guideModal" aria-hidden="true">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modalTitle">Titolo</h2>
+          <button class="close-modal" id="closeModal" type="button" aria-label="Chiudi">✕</button>
+        </div>
+        <div id="modalBody"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+      const translations = {
+        it: {
+          mainTitle: "La nostra Guida",
+          wifiLabel: "Wi-Fi",
+          roomLabel: "La tua Camera",
+          checkinLabel: "Check-In / Check out",
+          restaurantsLabel: "Ristoranti",
+          shopsLabel: "Negozi",
+          placesLabel: "Luoghi di interesse",
+          numbersLabel: "Numeri Utili",
+          issuesLabel: "Problemi",
+          transferLabel: "Transfer",
+          closeLabel: "Chiudi",
+          content: {
+            wifi: {
+              title: "Wi-Fi",
+              body: `<p>Nome rete: <strong>Vodafone-Vatican-Stories</strong></p><p>Password: <strong>Stories2023</strong></p><p>Se la connessione non funziona, prova a riavviare il tuo device o contattaci.</p><p>Rete Wi-Fi secondaria: <strong>fornaci-ampl</strong><br />Password: <strong>1111111111</strong> (10 volte il numero 1)</p>`,
+            },
+            room: {
+              title: "La tua Camera",
+              body: `<p><strong>Informazioni Utili:</strong><br />Nella tua camera troverai tutto il necessario per la colazione del giorno successivo. Se hai una prenotazione di più notti, noi torneremo ogni mattina alle 10:00 AM per fare una pulizia giornaliera della stanza e rifare le colazioni.</p><p>Nel periodo invernale il riscaldamento si accende in automatico. Per personalizzare la temperatura della stanza potete usare il climatizzatore con il telecomando bianco.</p><p>A questo link troverai un breve video con le istruzioni su come usare la nostra macchina del caffè:<br /><a href="https://www.bbvaticanstories.it/bb-roma-vaticano/how-to-use-our-coffee-machine/" target="_blank" rel="noopener noreferrer">Come usare la nostra macchina del caffè</a></p><p>Per i soggiorni più lunghi: il cambio asciugamani e lenzuola viene effettuato ogni 3 giorni.</p><p><strong>Regole della casa:</strong></p><ul><li>Nelle stanze è severamente vietato fumare.</li><li>Si prega di rispettare l'orario di silenzio e non fare rumore dalle 22:00 alle 08:00.</li></ul>`,
+            },
+            checkin: {
+              title: "Check-In / Check out",
+              body: `<p><strong>Istruzioni per il Check-In:</strong><br />Vi chiediamo di contattarci tramite WhatsApp al numero <strong>+393479282875</strong> per comunicarci il vostro orario di arrivo e inviarci le foto dei documenti di identità di tutti gli ospiti.</p><p>Le camere saranno pronte e accessibili dalle ore 14:00 del giorno di arrivo.</p><p>Se arrivate prima di questo orario possiamo organizzare il deposito bagagli gratuito, ma solamente a partire dalle ore 10:30 AM. In questo caso è ancora più importante che ci contattate per organizzare il deposito.</p><p>A partire dalle ore 14:00 del giorno di arrivo vi invieremo i codici di accesso e le istruzioni per il Self-Check-In.</p><p>Quando arrivate davanti all'ingresso principale, tenete a mente che il citofono è disattivato per non disturbare gli ospiti che sono all'interno, quindi dovete sempre chiamarci o scriverci su WhatsApp.</p><p><strong>Check out:</strong><br />L'orario di Check out è non più tardi delle 10:00 AM. Potete lasciare le chiavi all'interno della stanza e semplicemente chiudere la porta.</p><p>Prima del Check out verificate di aver completato il pagamento della stanza o della tassa di soggiorno.</p><p>Chiediamo inoltre di spegnere tutte le luci e l'aria condizionata prima di lasciare il B&amp;B.</p>`,
+            },
+            restaurants: {
+              title: "Ristoranti",
+              body: `<p>Ecco i nostri ristoranti consigliati:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Ristorante Dai Miei</h3><p>Il migliore per i piatti di pasta tipici della cucina Romana. Consigliamo di prenotare.</p><p><strong>Via delle Fornaci, 75</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/Tw7zjydJza7RVtAH9" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Il Piccolo Pub</h3><p>Ottima Pinsa Romana (variante della Pizza), ottime birre alla spina, vicinissimo al nostro B&amp;B.</p><p><strong>Via delle Fornaci, 22</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/WM1tmL39637HUFnE7" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Osteria Sant'Uffizio Vaticano</h3><p>Gestione Italiana, ottima cucina e orari di apertura estesi.</p><p><strong>Via delle Fornaci, 5</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/1pcsPJNQiFeyzowF7" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div></div>`,
+            },
+            shops: {
+              title: "Negozi",
+              body: `<p>Ecco i negozi e servizi utili consigliati:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Carrefour Market</h3><p>Supermercato con ottimi prodotti, aperto fino alle 22:00.</p><p><strong>Via delle Fornaci, 136</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/VUoQnUHaRb2dEw1L6" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Farmacia Leone</h3><p>Farmacia molto vicina al nostro B&amp;B, aperta fino alle 19:30.</p><p><strong>Via di Porta Cavalleggeri, 3</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/SsGCmLL1Poap1mm86" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Gelotti</h3><p>Ottima gelateria a due passi dal nostro B&amp;B.</p><p><strong>Via delle Fornaci, 16</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/fcVKUbQCRdSU4Ncw9" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Pasticceria Rispo Franca</h3><p>Pasticceria artigianale di qualità eccellente e con prezzi onesti.</p><p><strong>Via della Stazione di S.Pietro, 24</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/AaxfMUTyf4jxKinX9" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Tabaccheria Iqos Partner</h3><p>Negozio dove si possono acquistare i biglietti dell'autobus.</p><p><strong>Via della Stazione di S.Pietro, 19</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/zUkcQ2uan8wb27zr8" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>BICIEVENTO</h3><p>Noleggio biciclette professionale, interessanti tour in bicicletta.</p><p><strong>Via di Santa Maria alle Fornaci, 6</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/uKPNHWNAfnUZcBtN8" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div></div>`,
+            },
+            places: {
+              title: "Luoghi di interesse",
+              body: `<p>Ecco i nostri luoghi di interesse consigliati:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Piazza San Pietro (Vaticano)</h3><p>Il grande abbraccio del colonnato del Bernini: perfetta per foto, atmosfera e prospettive sulla Basilica.</p><p><a class="map-link" href="https://maps.app.goo.gl/PnwugsYVf5xraM2G8" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Basilica di San Pietro</h3><p>Capolavoro assoluto dell’arte sacra: cupola, marmi, altari e (se sali) una vista spettacolare su Roma.</p><p><a class="map-link" href="https://maps.app.goo.gl/AvAXwvAWh8XaS6vH8" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Musei Vaticani e Cappella Sistina</h3><p>Una delle collezioni più importanti al mondo; la Sistina vale da sola la visita (Michelangelo).</p><p><a class="map-link" href="https://maps.app.goo.gl/m1TBpPwapjMR7wCx8" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Castel Sant’Angelo (Museo Nazionale)</h3><p>Da mausoleo imperiale a fortezza papale: stanze storiche e terrazza panoramica sul Tevere.</p><p><a class="map-link" href="https://maps.app.goo.gl/6Y41RnuZ9oGJ8xKTA" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Ponte Sant’Angelo</h3><p>Passeggiata scenografica tra statue di angeli e uno dei migliori scorci su Castel Sant’Angelo.</p><p><a class="map-link" href="https://maps.app.goo.gl/pu5GGFPGStDbKRYd9" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Piazza Navona</h3><p>Piazza barocca “da cartolina”, con fontane celebri e tanta vita di strada.</p><p><a class="map-link" href="https://maps.app.goo.gl/52xaVpepdygxBpHo6" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Chiesa di Sant’Agnese in Agone</h3><p>Gioiello barocco affacciato su Piazza Navona: interni eleganti e storia affascinante.</p><p><a class="map-link" href="https://maps.app.goo.gl/6GC4TUyzrwqjZCoeA" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Chiesa di San Luigi dei Francesi</h3><p>Da non perdere per Caravaggio: nella Cappella Contarelli ci sono capolavori dedicati a San Matteo.</p><p><a class="map-link" href="https://maps.app.goo.gl/WBR9BP5wMq4E6qHB8" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Pantheon (Santa Maria ad Martyres)</h3><p>Meraviglia dell’antica Roma: la cupola e l’oculo lasciano sempre a bocca aperta.</p><p><a class="map-link" href="https://maps.app.goo.gl/pNZD4Wf81Xjv3Cdr8" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Largo di Torre Argentina</h3><p>Area archeologica con templi antichi in pieno centro: un tuffo nella Roma repubblicana.</p><p><a class="map-link" href="https://maps.app.goo.gl/XUSGks9iwRumusZJ8" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Piazza Venezia e Vittoriano (Altare della Patria)</h3><p>Punto “snodo” della città: monumentale, scenografico e pieno di viste interessanti.</p><p><a class="map-link" href="https://maps.app.goo.gl/67RH7rQsEd4q2EeF6" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Basilica di Santa Maria in Ara Coeli e Scalinata</h3><p>Chiesa sul Campidoglio raggiunta da una famosa scalinata (i “124 gradini” sono un classico).</p><p><a class="map-link" href="https://maps.app.goo.gl/2y1qFaMpmgbHuUT16" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Musei Capitolini (Campidoglio)</h3><p>Il museo civico simbolo di Roma: tra i pezzi iconici ci sono la Lupa Capitolina e grandi sculture antiche.</p><p><a class="map-link" href="https://maps.app.goo.gl/EBQXgfKYVLXXNG2cA" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Foro Romano e Via dei Fori Imperiali</h3><p>Il cuore dell’antica Roma: rovine, colonne e prospettive incredibili camminando verso il Colosseo.</p><p><a class="map-link" href="https://maps.app.goo.gl/7VwqPrgxt1TmKiEY9" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div><div class="restaurant-card"><h3>Colosseo</h3><p>L’anfiteatro più famoso del mondo: impressionante dal vivo, soprattutto al tramonto o in serata.</p><p><a class="map-link" href="https://maps.app.goo.gl/xbSWmQJRBcQE5tcc6" target="_blank" rel="noopener noreferrer">Link Google Maps</a></p></div></div>`,
+            },
+            numbers: {
+              title: "Numeri Utili",
+              body: `<p>Contatti rapidi:</p><ul><li>Principale B&amp;B: +39 347/9282875</li><li>Carmen: +39 392/0600693</li><li>Riccardo: +39 339/4916463</li><li>Taxi: +39 06/3570</li></ul>`,
+            },
+            issues: {
+              title: "Problemi",
+              body: `<p><strong>Siamo pronti ad aiutarti!</strong></p><p>Se hai un problema, scrivici subito su <a class="map-link" href="https://wa.me/393479282875" target="_blank" rel="noopener noreferrer">WhatsApp</a> oppure chiamaci al +39 347/9282875.</p><p>Facci sapere se hai trovato qualche problema o se c'è qualcosa che non funziona nella camera o in generale se hai bisogno di aiuto.</p><p>Descrivi brevemente il problema e, se possibile, invia una foto.</p>`,
+            },
+            transfer: {
+              title: "Transfer",
+              body: `<p>Organizza e prenota il tuo transfer aeroportuale e scopri delle fantastiche visite guidate visitando la nostra pagina:</p><p><a class="map-link" href="https://www.bbvaticanstories.it/servizi-bb-roma-vaticano/transfer-e-visite-guidate/" target="_blank" rel="noopener noreferrer">Transfer e Visite Guidate</a></p>`,
+            },
+          },
+        },
+        en: {
+          mainTitle: "Our Guide",
+          wifiLabel: "Wi-Fi",
+          roomLabel: "Your Room",
+          checkinLabel: "Check-In / Check out",
+          restaurantsLabel: "Restaurants",
+          shopsLabel: "Shops",
+          placesLabel: "Places of Interest",
+          numbersLabel: "Useful Numbers",
+          issuesLabel: "Problems",
+          transferLabel: "Transfer",
+          closeLabel: "Close",
+          content: {
+            wifi: {
+              title: "Wi-Fi",
+              body: `<p>Network name: <strong>Vodafone-Vatican-Stories</strong></p><p>Password: <strong>Stories2023</strong></p><p>If the connection is not working, try restarting your device or contact us.</p><p>Secondary Wi-Fi network: <strong>fornaci-ampl</strong><br />Password: <strong>1111111111</strong> (digit 1 repeated 10 times)</p>`,
+            },
+            room: {
+              title: "Your Room",
+              body: `<p><strong>Useful Information:</strong><br />In your room you will find everything you need for breakfast the next day. If your booking includes multiple nights, we will return every morning at 10:00 AM to clean the room and refresh breakfast supplies.</p><p>During the winter period, the heating turns on automatically. To customize the room temperature, you can use the air conditioner with the white remote control.</p><p>At this link you will find a short video with instructions on how to use our coffee machine:<br /><a href="https://www.bbvaticanstories.it/bb-roma-vaticano/how-to-use-our-coffee-machine/" target="_blank" rel="noopener noreferrer">How to use our coffee machine</a></p><p>For longer stays: towels and bed linen are changed every 3 days.</p><p><strong>House Rules:</strong></p><ul><li>Smoking is strictly prohibited in the rooms.</li><li>Please respect quiet hours and do not make noise from 10:00 PM to 8:00 AM.</li></ul>`,
+            },
+            checkin: {
+              title: "Check-In / Check out",
+              body: `<p><strong>Check-In Instructions:</strong><br />Please contact us on WhatsApp at <strong>+393479282875</strong> to let us know your arrival time and send photos of the identity documents for all guests.</p><p>Rooms will be ready and accessible from 2:00 PM on the day of arrival.</p><p>If you arrive earlier, we can arrange free luggage storage, but only starting from 10:30 AM. In this case, it is even more important that you contact us to organize the luggage drop-off.</p><p>From 2:00 PM on the day of arrival, we will send you the access codes and Self Check-In instructions.</p><p>When you arrive at the main entrance, please keep in mind that the intercom is disabled so as not to disturb guests inside, so you must always call us or message us on WhatsApp.</p><p><strong>Check out:</strong><br />Check-out time is no later than 10:00 AM. You can leave the keys inside the room and simply close the door.</p><p>Before check-out, please make sure you have completed payment for the room or the city tax.</p><p>We also ask you to switch off all lights and the air conditioning before leaving the B&amp;B.</p>`,
+            },
+            restaurants: {
+              title: "Restaurants",
+              body: `<p>Here are our recommended restaurants:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Ristorante Dai Miei</h3><p>The best place for traditional Roman pasta dishes. We recommend booking in advance.</p><p><strong>Via delle Fornaci, 75</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/Tw7zjydJza7RVtAH9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Il Piccolo Pub</h3><p>Excellent Roman Pinsa (a variation of pizza), great draft beers, and very close to our B&amp;B.</p><p><strong>Via delle Fornaci, 22</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/WM1tmL39637HUFnE7" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Osteria Sant'Uffizio Vaticano</h3><p>Italian management, excellent cuisine, and extended opening hours.</p><p><strong>Via delle Fornaci, 5</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/1pcsPJNQiFeyzowF7" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div></div>`,
+            },
+            shops: {
+              title: "Shops",
+              body: `<p>Here are our recommended nearby shops and services:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Carrefour Market</h3><p>Supermarket with excellent products, open until 10:00 PM.</p><p><strong>Via delle Fornaci, 136</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/VUoQnUHaRb2dEw1L6" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Farmacia Leone</h3><p>Pharmacy very close to our B&amp;B, open until 7:30 PM.</p><p><strong>Via di Porta Cavalleggeri, 3</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/SsGCmLL1Poap1mm86" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Gelotti</h3><p>Excellent gelateria just a short walk from our B&amp;B.</p><p><strong>Via delle Fornaci, 16</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/fcVKUbQCRdSU4Ncw9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Pasticceria Rispo Franca</h3><p>Artisanal pastry shop with excellent quality and fair prices.</p><p><strong>Via della Stazione di S.Pietro, 24</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/AaxfMUTyf4jxKinX9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Tabaccheria Iqos Partner</h3><p>Shop where you can buy bus tickets.</p><p><strong>Via della Stazione di S.Pietro, 19</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/zUkcQ2uan8wb27zr8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>BICIEVENTO</h3><p>Professional bike rental with interesting bike tours.</p><p><strong>Via di Santa Maria alle Fornaci, 6</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/uKPNHWNAfnUZcBtN8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div></div>`,
+            },
+            places: {
+              title: "Places of Interest",
+              body: `<p>Here are our recommended places of interest:</p><div class="restaurant-list"><div class="restaurant-card"><h3>St. Peter's Square (Vatican)</h3><p>The grand embrace of Bernini’s colonnade: perfect for photos, atmosphere, and views of the Basilica.</p><p><a class="map-link" href="https://maps.app.goo.gl/PnwugsYVf5xraM2G8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>St. Peter's Basilica</h3><p>An absolute masterpiece of sacred art: dome, marble, altars, and (if you climb) a spectacular view over Rome.</p><p><a class="map-link" href="https://maps.app.goo.gl/AvAXwvAWh8XaS6vH8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Vatican Museums & Sistine Chapel</h3><p>One of the most important collections in the world; the Sistine Chapel alone is worth the visit (Michelangelo).</p><p><a class="map-link" href="https://maps.app.goo.gl/m1TBpPwapjMR7wCx8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Castel Sant’Angelo (National Museum)</h3><p>From imperial mausoleum to papal fortress: historic rooms and a panoramic terrace over the Tiber.</p><p><a class="map-link" href="https://maps.app.goo.gl/6Y41RnuZ9oGJ8xKTA" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Ponte Sant’Angelo</h3><p>Scenic walk among angel statues with one of the best views of Castel Sant’Angelo.</p><p><a class="map-link" href="https://maps.app.goo.gl/pu5GGFPGStDbKRYd9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Piazza Navona</h3><p>A postcard-perfect Baroque square with famous fountains and lively street life.</p><p><a class="map-link" href="https://maps.app.goo.gl/52xaVpepdygxBpHo6" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Church of Sant’Agnese in Agone</h3><p>A Baroque jewel overlooking Piazza Navona: elegant interiors and fascinating history.</p><p><a class="map-link" href="https://maps.app.goo.gl/6GC4TUyzrwqjZCoeA" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Church of San Luigi dei Francesi</h3><p>Unmissable for Caravaggio: the Contarelli Chapel holds masterpieces dedicated to Saint Matthew.</p><p><a class="map-link" href="https://maps.app.goo.gl/WBR9BP5wMq4E6qHB8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Pantheon (Santa Maria ad Martyres)</h3><p>A wonder of ancient Rome: the dome and oculus always leave visitors speechless.</p><p><a class="map-link" href="https://maps.app.goo.gl/pNZD4Wf81Xjv3Cdr8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Largo di Torre Argentina</h3><p>An archaeological area with ancient temples in the city center: a dive into Republican Rome.</p><p><a class="map-link" href="https://maps.app.goo.gl/XUSGks9iwRumusZJ8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Piazza Venezia & Vittoriano (Altar of the Fatherland)</h3><p>A major city hub: monumental, scenic, and full of interesting viewpoints.</p><p><a class="map-link" href="https://maps.app.goo.gl/67RH7rQsEd4q2EeF6" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Basilica of Santa Maria in Ara Coeli & Stairway</h3><p>Church on the Capitoline Hill reached by a famous staircase (“124 steps” are a classic).</p><p><a class="map-link" href="https://maps.app.goo.gl/2y1qFaMpmgbHuUT16" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Capitoline Museums (Campidoglio)</h3><p>Rome’s symbolic civic museum: iconic pieces include the Capitoline Wolf and major ancient sculptures.</p><p><a class="map-link" href="https://maps.app.goo.gl/EBQXgfKYVLXXNG2cA" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Roman Forum & Via dei Fori Imperiali</h3><p>The heart of ancient Rome: ruins, columns, and incredible views walking toward the Colosseum.</p><p><a class="map-link" href="https://maps.app.goo.gl/7VwqPrgxt1TmKiEY9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Colosseum</h3><p>The world’s most famous amphitheater: stunning in person, especially at sunset or in the evening.</p><p><a class="map-link" href="https://maps.app.goo.gl/xbSWmQJRBcQE5tcc6" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div></div>`,
+            },
+            numbers: {
+              title: "Useful Numbers",
+              body: `<p>Quick contacts:</p><ul><li>Main B&amp;B: +39 347/9282875</li><li>Carmen: +39 392/0600693</li><li>Riccardo: +39 339/4916463</li><li>Taxi: +39 06/3570</li></ul>`,
+            },
+            issues: {
+              title: "Problems",
+              body: `<p><strong>We are ready to help you!</strong></p><p>If you have a problem, message us immediately on <a class="map-link" href="https://wa.me/393479282875" target="_blank" rel="noopener noreferrer">WhatsApp</a> or call us at +39 347/9282875.</p><p>Please let us know if you found any issue or if something is not working in the room, or if you need help in general.</p><p>Briefly describe the problem and, if possible, send a photo.</p>`,
+            },
+            transfer: {
+              title: "Transfer",
+              body: `<p>Organize and book your airport transfer and discover fantastic guided tours by visiting our page:</p><p><a class="map-link" href="https://www.bbvaticanstories.it/servizi-bb-roma-vaticano/transfer-e-visite-guidate/" target="_blank" rel="noopener noreferrer">Transfer and Guided Tours</a></p>`,
+            },
+          },
+        },
+        fr: {
+          mainTitle: "Notre Guide",
+          wifiLabel: "Wi-Fi",
+          roomLabel: "Votre Chambre",
+          checkinLabel: "Check-In / Check out",
+          restaurantsLabel: "Restaurants",
+          shopsLabel: "Magasins",
+          placesLabel: "Lieux d’intérêt",
+          numbersLabel: "Numéros utiles",
+          issuesLabel: "Problèmes",
+          transferLabel: "Transfert",
+          closeLabel: "Fermer",
+          content: {
+            wifi: {
+              title: "Wi-Fi",
+              body: `<p>Nom du réseau : <strong>Vodafone-Vatican-Stories</strong></p><p>Mot de passe : <strong>Stories2023</strong></p><p>Si la connexion ne fonctionne pas, essayez de redémarrer votre appareil ou contactez-nous.</p><p>Réseau Wi-Fi secondaire : <strong>fornaci-ampl</strong><br />Mot de passe : <strong>1111111111</strong> (le chiffre 1 répété 10 fois)</p>`,
+            },
+            room: {
+              title: "Votre Chambre",
+              body: `<p><strong>Informations utiles :</strong><br />Dans votre chambre, vous trouverez tout le nécessaire pour le petit-déjeuner du lendemain. Si votre réservation comprend plusieurs nuits, nous reviendrons chaque matin à 10h00 pour nettoyer la chambre et renouveler le petit-déjeuner.</p><p>Pendant la période hivernale, le chauffage s’allume automatiquement. Pour régler la température de la chambre, vous pouvez utiliser le climatiseur avec la télécommande blanche.</p><p>À ce lien, vous trouverez une courte vidéo avec les instructions pour utiliser notre machine à café :<br /><a href="https://www.bbvaticanstories.it/bb-roma-vaticano/how-to-use-our-coffee-machine/" target="_blank" rel="noopener noreferrer">Comment utiliser notre machine à café</a></p><p>Pour les séjours plus longs : les serviettes et les draps sont changés tous les 3 jours.</p><p><strong>Règles de la maison :</strong></p><ul><li>Il est strictement interdit de fumer dans les chambres.</li><li>Merci de respecter les heures de silence et de ne pas faire de bruit de 22h00 à 08h00.</li></ul>`,
+            },
+            checkin: {
+              title: "Check-In / Check out",
+              body: `<p><strong>Instructions de Check-In :</strong><br />Veuillez nous contacter sur WhatsApp au <strong>+393479282875</strong> pour nous communiquer votre heure d’arrivée et envoyer les photos des pièces d’identité de tous les voyageurs.</p><p>Les chambres seront prêtes et accessibles à partir de 14h00 le jour d’arrivée.</p><p>Si vous arrivez plus tôt, nous pouvons organiser une consigne bagages gratuite, mais seulement à partir de 10h30. Dans ce cas, il est encore plus important de nous contacter à l’avance.</p><p>À partir de 14h00 le jour d’arrivée, nous vous enverrons les codes d’accès et les instructions pour le Self Check-In.</p><p>Lorsque vous arrivez devant l’entrée principale, gardez à l’esprit que l’interphone est désactivé pour ne pas déranger les hôtes à l’intérieur ; vous devez donc toujours nous appeler ou nous écrire sur WhatsApp.</p><p><strong>Check out :</strong><br />L’heure de check out est au plus tard 10h00. Vous pouvez laisser les clés dans la chambre et simplement fermer la porte.</p><p>Avant le check out, veuillez vérifier que le paiement de la chambre ou de la taxe de séjour est bien effectué.</p><p>Nous vous demandons également d’éteindre toutes les lumières et la climatisation avant de quitter le B&amp;B.</p>`,
+            },
+            restaurants: {
+              title: "Restaurants",
+              body: `<p>Here are our recommended restaurants:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Ristorante Dai Miei</h3><p>The best place for traditional Roman pasta dishes. We recommend booking in advance.</p><p><strong>Via delle Fornaci, 75</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/Tw7zjydJza7RVtAH9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Il Piccolo Pub</h3><p>Excellent Roman Pinsa (a variation of pizza), great draft beers, and very close to our B&amp;B.</p><p><strong>Via delle Fornaci, 22</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/WM1tmL39637HUFnE7" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Osteria Sant'Uffizio Vaticano</h3><p>Italian management, excellent cuisine, and extended opening hours.</p><p><strong>Via delle Fornaci, 5</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/1pcsPJNQiFeyzowF7" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div></div>`,
+            },
+            shops: {
+              title: "Magasins",
+              body: `<p>Here are our recommended nearby shops and services:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Carrefour Market</h3><p>Supermarket with excellent products, open until 10:00 PM.</p><p><strong>Via delle Fornaci, 136</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/VUoQnUHaRb2dEw1L6" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Farmacia Leone</h3><p>Pharmacy very close to our B&amp;B, open until 7:30 PM.</p><p><strong>Via di Porta Cavalleggeri, 3</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/SsGCmLL1Poap1mm86" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Gelotti</h3><p>Excellent gelateria just a short walk from our B&amp;B.</p><p><strong>Via delle Fornaci, 16</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/fcVKUbQCRdSU4Ncw9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Pasticceria Rispo Franca</h3><p>Artisanal pastry shop with excellent quality and fair prices.</p><p><strong>Via della Stazione di S.Pietro, 24</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/AaxfMUTyf4jxKinX9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Tabaccheria Iqos Partner</h3><p>Shop where you can buy bus tickets.</p><p><strong>Via della Stazione di S.Pietro, 19</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/zUkcQ2uan8wb27zr8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>BICIEVENTO</h3><p>Professional bike rental with interesting bike tours.</p><p><strong>Via di Santa Maria alle Fornaci, 6</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/uKPNHWNAfnUZcBtN8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div></div>`,
+            },
+            places: {
+              title: "Lieux d’intérêt",
+              body: `<p>Here are our recommended places of interest:</p><div class="restaurant-list"><div class="restaurant-card"><h3>St. Peter's Square (Vatican)</h3><p>The grand embrace of Bernini’s colonnade: perfect for photos, atmosphere, and views of the Basilica.</p><p><a class="map-link" href="https://maps.app.goo.gl/PnwugsYVf5xraM2G8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>St. Peter's Basilica</h3><p>An absolute masterpiece of sacred art: dome, marble, altars, and (if you climb) a spectacular view over Rome.</p><p><a class="map-link" href="https://maps.app.goo.gl/AvAXwvAWh8XaS6vH8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Vatican Museums & Sistine Chapel</h3><p>One of the most important collections in the world; the Sistine Chapel alone is worth the visit (Michelangelo).</p><p><a class="map-link" href="https://maps.app.goo.gl/m1TBpPwapjMR7wCx8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Castel Sant’Angelo (National Museum)</h3><p>From imperial mausoleum to papal fortress: historic rooms and a panoramic terrace over the Tiber.</p><p><a class="map-link" href="https://maps.app.goo.gl/6Y41RnuZ9oGJ8xKTA" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Ponte Sant’Angelo</h3><p>Scenic walk among angel statues with one of the best views of Castel Sant’Angelo.</p><p><a class="map-link" href="https://maps.app.goo.gl/pu5GGFPGStDbKRYd9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Piazza Navona</h3><p>A postcard-perfect Baroque square with famous fountains and lively street life.</p><p><a class="map-link" href="https://maps.app.goo.gl/52xaVpepdygxBpHo6" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Church of Sant’Agnese in Agone</h3><p>A Baroque jewel overlooking Piazza Navona: elegant interiors and fascinating history.</p><p><a class="map-link" href="https://maps.app.goo.gl/6GC4TUyzrwqjZCoeA" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Church of San Luigi dei Francesi</h3><p>Unmissable for Caravaggio: the Contarelli Chapel holds masterpieces dedicated to Saint Matthew.</p><p><a class="map-link" href="https://maps.app.goo.gl/WBR9BP5wMq4E6qHB8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Pantheon (Santa Maria ad Martyres)</h3><p>A wonder of ancient Rome: the dome and oculus always leave visitors speechless.</p><p><a class="map-link" href="https://maps.app.goo.gl/pNZD4Wf81Xjv3Cdr8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Largo di Torre Argentina</h3><p>An archaeological area with ancient temples in the city center: a dive into Republican Rome.</p><p><a class="map-link" href="https://maps.app.goo.gl/XUSGks9iwRumusZJ8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Piazza Venezia & Vittoriano (Altar of the Fatherland)</h3><p>A major city hub: monumental, scenic, and full of interesting viewpoints.</p><p><a class="map-link" href="https://maps.app.goo.gl/67RH7rQsEd4q2EeF6" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Basilica of Santa Maria in Ara Coeli & Stairway</h3><p>Church on the Capitoline Hill reached by a famous staircase (“124 steps” are a classic).</p><p><a class="map-link" href="https://maps.app.goo.gl/2y1qFaMpmgbHuUT16" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Capitoline Museums (Campidoglio)</h3><p>Rome’s symbolic civic museum: iconic pieces include the Capitoline Wolf and major ancient sculptures.</p><p><a class="map-link" href="https://maps.app.goo.gl/EBQXgfKYVLXXNG2cA" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Roman Forum & Via dei Fori Imperiali</h3><p>The heart of ancient Rome: ruins, columns, and incredible views walking toward the Colosseum.</p><p><a class="map-link" href="https://maps.app.goo.gl/7VwqPrgxt1TmKiEY9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Colosseum</h3><p>The world’s most famous amphitheater: stunning in person, especially at sunset or in the evening.</p><p><a class="map-link" href="https://maps.app.goo.gl/xbSWmQJRBcQE5tcc6" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div></div>`,
+            },
+            numbers: {
+              title: "Numéros utiles",
+              body: `<p>Contacts rapides :</p><ul><li>B&amp;B principal : +39 347/9282875</li><li>Carmen : +39 392/0600693</li><li>Riccardo : +39 339/4916463</li><li>Taxi : +39 06/3570</li></ul>`,
+            },
+            issues: {
+              title: "Problèmes",
+              body: `<p><strong>Nous sommes prêts à vous aider !</strong></p><p>En cas de problème, écrivez-nous immédiatement sur <a class="map-link" href="https://wa.me/393479282875" target="_blank" rel="noopener noreferrer">WhatsApp</a> ou appelez-nous au +39 347/9282875.</p><p>Dites-nous si vous avez rencontré un problème ou si quelque chose ne fonctionne pas dans la chambre, ou si vous avez besoin d’aide en général.</p><p>Décrivez brièvement le problème et, si possible, envoyez une photo.</p>`,
+            },
+            transfer: {
+              title: "Transfert",
+              body: `<p>Organisez et réservez votre transfert aéroport et découvrez de fantastiques visites guidées en visitant notre page :</p><p><a class="map-link" href="https://www.bbvaticanstories.it/servizi-bb-roma-vaticano/transfer-e-visite-guidate/" target="_blank" rel="noopener noreferrer">Transfert et visites guidées</a></p>`,
+            },
+          },
+        },
+        de: {
+          mainTitle: "Unser Guide",
+          wifiLabel: "Wi-Fi",
+          roomLabel: "Ihr Zimmer",
+          checkinLabel: "Check-In / Check out",
+          restaurantsLabel: "Restaurants",
+          shopsLabel: "Geschäfte",
+          placesLabel: "Sehenswürdigkeiten",
+          numbersLabel: "Nützliche Nummern",
+          issuesLabel: "Probleme",
+          transferLabel: "Transfer",
+          closeLabel: "Schließen",
+          content: {
+            wifi: {
+              title: "Wi-Fi",
+              body: `<p>Netzwerkname: <strong>Vodafone-Vatican-Stories</strong></p><p>Passwort: <strong>Stories2023</strong></p><p>Wenn die Verbindung nicht funktioniert, versuchen Sie, Ihr Gerät neu zu starten, oder kontaktieren Sie uns.</p><p>Sekundäres Wi-Fi-Netzwerk: <strong>fornaci-ampl</strong><br />Passwort: <strong>1111111111</strong> (die Ziffer 1 zehnmal wiederholt)</p>`,
+            },
+            room: {
+              title: "Ihr Zimmer",
+              body: `<p><strong>Nützliche Informationen:</strong><br />In Ihrem Zimmer finden Sie alles Nötige für das Frühstück am nächsten Tag. Wenn Ihre Buchung mehrere Nächte umfasst, kommen wir jeden Morgen um 10:00 Uhr zurück, um das Zimmer zu reinigen und das Frühstück aufzufrischen.</p><p>In der Winterzeit schaltet sich die Heizung automatisch ein. Um die Zimmertemperatur anzupassen, können Sie die Klimaanlage mit der weißen Fernbedienung nutzen.</p><p>Über diesen Link finden Sie ein kurzes Video mit Anweisungen zur Nutzung unserer Kaffeemaschine:<br /><a href="https://www.bbvaticanstories.it/bb-roma-vaticano/how-to-use-our-coffee-machine/" target="_blank" rel="noopener noreferrer">So benutzen Sie unsere Kaffeemaschine</a></p><p>Bei längeren Aufenthalten: Handtücher und Bettwäsche werden alle 3 Tage gewechselt.</p><p><strong>Hausregeln:</strong></p><ul><li>Rauchen ist in den Zimmern strengstens verboten.</li><li>Bitte respektieren Sie die Ruhezeiten und vermeiden Sie Lärm von 22:00 bis 08:00 Uhr.</li></ul>`,
+            },
+            checkin: {
+              title: "Check-In / Check out",
+              body: `<p><strong>Check-In-Anweisungen:</strong><br />Bitte kontaktieren Sie uns per WhatsApp unter <strong>+393479282875</strong>, um uns Ihre Ankunftszeit mitzuteilen und Fotos der Ausweise aller Gäste zu senden.</p><p>Die Zimmer sind am Anreisetag ab 14:00 Uhr bereit und zugänglich.</p><p>Wenn Sie früher ankommen, können wir eine kostenlose Gepäckaufbewahrung organisieren, aber nur ab 10:30 Uhr. In diesem Fall ist es besonders wichtig, dass Sie uns vorher kontaktieren.</p><p>Ab 14:00 Uhr am Anreisetag senden wir Ihnen die Zugangscodes und die Anweisungen für den Self Check-In.</p><p>Wenn Sie vor dem Haupteingang ankommen, beachten Sie bitte, dass die Gegensprechanlage deaktiviert ist, um Gäste im Inneren nicht zu stören; daher müssen Sie uns immer anrufen oder über WhatsApp schreiben.</p><p><strong>Check out:</strong><br />Die Check-out-Zeit ist spätestens 10:00 Uhr. Sie können die Schlüssel im Zimmer lassen und die Tür einfach schließen.</p><p>Bitte prüfen Sie vor dem Check-out, ob die Zahlung für das Zimmer oder die Kurtaxe abgeschlossen ist.</p><p>Wir bitten Sie außerdem, alle Lichter und die Klimaanlage auszuschalten, bevor Sie das B&amp;B verlassen.</p>`,
+            },
+            restaurants: {
+              title: "Restaurants",
+              body: `<p>Here are our recommended restaurants:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Ristorante Dai Miei</h3><p>The best place for traditional Roman pasta dishes. We recommend booking in advance.</p><p><strong>Via delle Fornaci, 75</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/Tw7zjydJza7RVtAH9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Il Piccolo Pub</h3><p>Excellent Roman Pinsa (a variation of pizza), great draft beers, and very close to our B&amp;B.</p><p><strong>Via delle Fornaci, 22</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/WM1tmL39637HUFnE7" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Osteria Sant'Uffizio Vaticano</h3><p>Italian management, excellent cuisine, and extended opening hours.</p><p><strong>Via delle Fornaci, 5</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/1pcsPJNQiFeyzowF7" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div></div>`,
+            },
+            shops: {
+              title: "Geschäfte",
+              body: `<p>Here are our recommended nearby shops and services:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Carrefour Market</h3><p>Supermarket with excellent products, open until 10:00 PM.</p><p><strong>Via delle Fornaci, 136</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/VUoQnUHaRb2dEw1L6" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Farmacia Leone</h3><p>Pharmacy very close to our B&amp;B, open until 7:30 PM.</p><p><strong>Via di Porta Cavalleggeri, 3</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/SsGCmLL1Poap1mm86" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Gelotti</h3><p>Excellent gelateria just a short walk from our B&amp;B.</p><p><strong>Via delle Fornaci, 16</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/fcVKUbQCRdSU4Ncw9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Pasticceria Rispo Franca</h3><p>Artisanal pastry shop with excellent quality and fair prices.</p><p><strong>Via della Stazione di S.Pietro, 24</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/AaxfMUTyf4jxKinX9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Tabaccheria Iqos Partner</h3><p>Shop where you can buy bus tickets.</p><p><strong>Via della Stazione di S.Pietro, 19</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/zUkcQ2uan8wb27zr8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>BICIEVENTO</h3><p>Professional bike rental with interesting bike tours.</p><p><strong>Via di Santa Maria alle Fornaci, 6</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/uKPNHWNAfnUZcBtN8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div></div>`,
+            },
+            places: {
+              title: "Sehenswürdigkeiten",
+              body: `<p>Here are our recommended places of interest:</p><div class="restaurant-list"><div class="restaurant-card"><h3>St. Peter's Square (Vatican)</h3><p>The grand embrace of Bernini’s colonnade: perfect for photos, atmosphere, and views of the Basilica.</p><p><a class="map-link" href="https://maps.app.goo.gl/PnwugsYVf5xraM2G8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>St. Peter's Basilica</h3><p>An absolute masterpiece of sacred art: dome, marble, altars, and (if you climb) a spectacular view over Rome.</p><p><a class="map-link" href="https://maps.app.goo.gl/AvAXwvAWh8XaS6vH8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Vatican Museums & Sistine Chapel</h3><p>One of the most important collections in the world; the Sistine Chapel alone is worth the visit (Michelangelo).</p><p><a class="map-link" href="https://maps.app.goo.gl/m1TBpPwapjMR7wCx8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Castel Sant’Angelo (National Museum)</h3><p>From imperial mausoleum to papal fortress: historic rooms and a panoramic terrace over the Tiber.</p><p><a class="map-link" href="https://maps.app.goo.gl/6Y41RnuZ9oGJ8xKTA" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Ponte Sant’Angelo</h3><p>Scenic walk among angel statues with one of the best views of Castel Sant’Angelo.</p><p><a class="map-link" href="https://maps.app.goo.gl/pu5GGFPGStDbKRYd9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Piazza Navona</h3><p>A postcard-perfect Baroque square with famous fountains and lively street life.</p><p><a class="map-link" href="https://maps.app.goo.gl/52xaVpepdygxBpHo6" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Church of Sant’Agnese in Agone</h3><p>A Baroque jewel overlooking Piazza Navona: elegant interiors and fascinating history.</p><p><a class="map-link" href="https://maps.app.goo.gl/6GC4TUyzrwqjZCoeA" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Church of San Luigi dei Francesi</h3><p>Unmissable for Caravaggio: the Contarelli Chapel holds masterpieces dedicated to Saint Matthew.</p><p><a class="map-link" href="https://maps.app.goo.gl/WBR9BP5wMq4E6qHB8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Pantheon (Santa Maria ad Martyres)</h3><p>A wonder of ancient Rome: the dome and oculus always leave visitors speechless.</p><p><a class="map-link" href="https://maps.app.goo.gl/pNZD4Wf81Xjv3Cdr8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Largo di Torre Argentina</h3><p>An archaeological area with ancient temples in the city center: a dive into Republican Rome.</p><p><a class="map-link" href="https://maps.app.goo.gl/XUSGks9iwRumusZJ8" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Piazza Venezia & Vittoriano (Altar of the Fatherland)</h3><p>A major city hub: monumental, scenic, and full of interesting viewpoints.</p><p><a class="map-link" href="https://maps.app.goo.gl/67RH7rQsEd4q2EeF6" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Basilica of Santa Maria in Ara Coeli & Stairway</h3><p>Church on the Capitoline Hill reached by a famous staircase (“124 steps” are a classic).</p><p><a class="map-link" href="https://maps.app.goo.gl/2y1qFaMpmgbHuUT16" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Capitoline Museums (Campidoglio)</h3><p>Rome’s symbolic civic museum: iconic pieces include the Capitoline Wolf and major ancient sculptures.</p><p><a class="map-link" href="https://maps.app.goo.gl/EBQXgfKYVLXXNG2cA" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Roman Forum & Via dei Fori Imperiali</h3><p>The heart of ancient Rome: ruins, columns, and incredible views walking toward the Colosseum.</p><p><a class="map-link" href="https://maps.app.goo.gl/7VwqPrgxt1TmKiEY9" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div><div class="restaurant-card"><h3>Colosseum</h3><p>The world’s most famous amphitheater: stunning in person, especially at sunset or in the evening.</p><p><a class="map-link" href="https://maps.app.goo.gl/xbSWmQJRBcQE5tcc6" target="_blank" rel="noopener noreferrer">Google Maps Link</a></p></div></div>`,
+            },
+            numbers: {
+              title: "Nützliche Nummern",
+              body: `<p>Schnellkontakte:</p><ul><li>Haupt-B&amp;B: +39 347/9282875</li><li>Carmen: +39 392/0600693</li><li>Riccardo: +39 339/4916463</li><li>Taxi: +39 06/3570</li></ul>`,
+            },
+            issues: {
+              title: "Probleme",
+              body: `<p><strong>Wir sind bereit, Ihnen zu helfen!</strong></p><p>Wenn Sie ein Problem haben, schreiben Sie uns sofort über <a class="map-link" href="https://wa.me/393479282875" target="_blank" rel="noopener noreferrer">WhatsApp</a> oder rufen Sie uns unter +39 347/9282875 an.</p><p>Teilen Sie uns mit, wenn Sie ein Problem gefunden haben oder wenn im Zimmer etwas nicht funktioniert oder Sie allgemein Hilfe benötigen.</p><p>Beschreiben Sie das Problem kurz und senden Sie, wenn möglich, ein Foto.</p>`,
+            },
+            transfer: {
+              title: "Transfer",
+              body: `<p>Organisieren und buchen Sie Ihren Flughafentransfer und entdecken Sie fantastische geführte Touren auf unserer Seite:</p><p><a class="map-link" href="https://www.bbvaticanstories.it/servizi-bb-roma-vaticano/transfer-e-visite-guidate/" target="_blank" rel="noopener noreferrer">Transfer und geführte Touren</a></p>`,
+            },
+          },
+        },
+        es: {
+          mainTitle: "Nuestra Guía",
+          wifiLabel: "Wi-Fi",
+          roomLabel: "Tu Habitación",
+          checkinLabel: "Check-In / Check out",
+          restaurantsLabel: "Restaurantes",
+          shopsLabel: "Tiendas",
+          placesLabel: "Lugares de interés",
+          numbersLabel: "Números útiles",
+          issuesLabel: "Problemas",
+          transferLabel: "Transfer",
+          closeLabel: "Cerrar",
+          content: {
+            wifi: {
+              title: "Wi-Fi",
+              body: `<p>Nombre de la red: <strong>Vodafone-Vatican-Stories</strong></p><p>Contraseña: <strong>Stories2023</strong></p><p>Si la conexión no funciona, intenta reiniciar tu dispositivo o contáctanos.</p><p>Red Wi-Fi secundaria: <strong>fornaci-ampl</strong><br />Contraseña: <strong>1111111111</strong> (el número 1 repetido 10 veces)</p>`,
+            },
+            room: {
+              title: "Tu Habitación",
+              body: `<p><strong>Información útil:</strong><br />En tu habitación encontrarás todo lo necesario para el desayuno del día siguiente. Si tienes una reserva de varias noches, volveremos cada mañana a las 10:00 AM para hacer la limpieza diaria de la habitación y reponer los desayunos.</p><p>Durante el período invernal, la calefacción se enciende automáticamente. Para personalizar la temperatura de la habitación, puedes usar el aire acondicionado con el mando blanco.</p><p>En este enlace encontrarás un breve video con instrucciones sobre cómo usar nuestra cafetera:<br /><a href="https://www.bbvaticanstories.it/bb-roma-vaticano/how-to-use-our-coffee-machine/" target="_blank" rel="noopener noreferrer">Cómo usar nuestra cafetera</a></p><p>Para estancias más largas: el cambio de toallas y sábanas se realiza cada 3 días.</p><p><strong>Reglas de la casa:</strong></p><ul><li>Está estrictamente prohibido fumar en las habitaciones.</li><li>Por favor, respeta el horario de silencio y no hagas ruido de 22:00 a 08:00.</li></ul>`,
+            },
+            checkin: {
+              title: "Check-In / Check out",
+              body: `<p><strong>Instrucciones para el Check-In:</strong><br />Les pedimos que nos contacten por WhatsApp al número <strong>+393479282875</strong> para comunicarnos su hora de llegada y enviarnos las fotos de los documentos de identidad de todos los huéspedes.</p><p>Las habitaciones estarán listas y accesibles a partir de las 14:00 del día de llegada.</p><p>Si llegan antes de ese horario, podemos organizar el depósito gratuito de equipaje, pero solo a partir de las 10:30 AM. En este caso, es aún más importante que nos contacten para organizar el depósito.</p><p>A partir de las 14:00 del día de llegada les enviaremos los códigos de acceso y las instrucciones para el Self Check-In.</p><p>Cuando lleguen frente a la entrada principal, tengan en cuenta que el interfono está desactivado para no molestar a los huéspedes que están dentro, por lo que siempre deben llamarnos o escribirnos por WhatsApp.</p><p><strong>Check out:</strong><br />La hora de check out es como máximo a las 10:00 AM. Pueden dejar las llaves dentro de la habitación y simplemente cerrar la puerta.</p><p>Antes del check out, verifiquen haber completado el pago de la habitación o de la tasa turística.</p><p>También les pedimos que apaguen todas las luces y el aire acondicionado antes de salir del B&amp;B.</p>`,
+            },
+            restaurants: {
+              title: "Restaurantes",
+              body: `<p>Aquí están nuestros restaurantes recomendados:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Ristorante Dai Miei</h3><p>El mejor para platos de pasta típicos de la cocina romana. Recomendamos reservar.</p><p><strong>Via delle Fornaci, 75</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/Tw7zjydJza7RVtAH9" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Il Piccolo Pub</h3><p>Excelente Pinsa Romana (variante de la pizza), excelentes cervezas de barril y muy cerca de nuestro B&amp;B.</p><p><strong>Via delle Fornaci, 22</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/WM1tmL39637HUFnE7" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Osteria Sant'Uffizio Vaticano</h3><p>Gestión italiana, excelente cocina y horarios de apertura amplios.</p><p><strong>Via delle Fornaci, 5</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/1pcsPJNQiFeyzowF7" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div></div>`,
+            },
+            shops: {
+              title: "Tiendas",
+              body: `<p>Aquí tienes nuestras tiendas y servicios recomendados cerca:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Carrefour Market</h3><p>Supermercado con excelentes productos, abierto hasta las 22:00.</p><p><strong>Via delle Fornaci, 136</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/VUoQnUHaRb2dEw1L6" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Farmacia Leone</h3><p>Farmacia muy cerca de nuestro B&amp;B, abierta hasta las 19:30.</p><p><strong>Via di Porta Cavalleggeri, 3</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/SsGCmLL1Poap1mm86" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Gelotti</h3><p>Excelente heladería a pocos pasos de nuestro B&amp;B.</p><p><strong>Via delle Fornaci, 16</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/fcVKUbQCRdSU4Ncw9" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Pasticceria Rispo Franca</h3><p>Pastelería artesanal de excelente calidad y con precios justos.</p><p><strong>Via della Stazione di S.Pietro, 24</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/AaxfMUTyf4jxKinX9" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Tabaccheria Iqos Partner</h3><p>Tienda donde se pueden comprar los billetes del autobús.</p><p><strong>Via della Stazione di S.Pietro, 19</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/zUkcQ2uan8wb27zr8" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>BICIEVENTO</h3><p>Alquiler profesional de bicicletas, con interesantes tours en bicicleta.</p><p><strong>Via di Santa Maria alle Fornaci, 6</strong></p><p><a class="map-link" href="https://maps.app.goo.gl/uKPNHWNAfnUZcBtN8" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div></div>`,
+            },
+            places: {
+              title: "Lugares de interés",
+              body: `<p>Aquí tienes nuestros lugares de interés recomendados:</p><div class="restaurant-list"><div class="restaurant-card"><h3>Plaza de San Pedro (Vaticano)</h3><p>El gran abrazo de la columnata de Bernini: perfecta para fotos, ambiente y perspectivas de la Basílica.</p><p><a class="map-link" href="https://maps.app.goo.gl/PnwugsYVf5xraM2G8" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Basílica de San Pedro</h3><p>Obra maestra absoluta del arte sacro: cúpula, mármoles, altares y (si subes) una vista espectacular de Roma.</p><p><a class="map-link" href="https://maps.app.goo.gl/AvAXwvAWh8XaS6vH8" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Museos Vaticanos y Capilla Sixtina</h3><p>Una de las colecciones más importantes del mundo; la Sixtina por sí sola merece la visita (Miguel Ángel).</p><p><a class="map-link" href="https://maps.app.goo.gl/m1TBpPwapjMR7wCx8" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Castel Sant’Angelo (Museo Nacional)</h3><p>De mausoleo imperial a fortaleza papal: salas históricas y terraza panorámica sobre el Tíber.</p><p><a class="map-link" href="https://maps.app.goo.gl/6Y41RnuZ9oGJ8xKTA" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Ponte Sant’Angelo</h3><p>Paseo escenográfico entre estatuas de ángeles y una de las mejores vistas de Castel Sant’Angelo.</p><p><a class="map-link" href="https://maps.app.goo.gl/pu5GGFPGStDbKRYd9" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Piazza Navona</h3><p>Plaza barroca de postal, con fuentes célebres y mucha vida en la calle.</p><p><a class="map-link" href="https://maps.app.goo.gl/52xaVpepdygxBpHo6" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Iglesia de Sant’Agnese in Agone</h3><p>Joya barroca frente a Piazza Navona: interiores elegantes e historia fascinante.</p><p><a class="map-link" href="https://maps.app.goo.gl/6GC4TUyzrwqjZCoeA" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Iglesia de San Luigi dei Francesi</h3><p>Imprescindible por Caravaggio: en la Capilla Contarelli hay obras maestras dedicadas a San Mateo.</p><p><a class="map-link" href="https://maps.app.goo.gl/WBR9BP5wMq4E6qHB8" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Panteón (Santa Maria ad Martyres)</h3><p>Maravilla de la antigua Roma: la cúpula y el óculo siempre dejan sin palabras.</p><p><a class="map-link" href="https://maps.app.goo.gl/pNZD4Wf81Xjv3Cdr8" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Largo di Torre Argentina</h3><p>Área arqueológica con templos antiguos en pleno centro: un viaje a la Roma republicana.</p><p><a class="map-link" href="https://maps.app.goo.gl/XUSGks9iwRumusZJ8" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Piazza Venezia y Vittoriano (Altare della Patria)</h3><p>Punto clave de la ciudad: monumental, escenográfico y lleno de vistas interesantes.</p><p><a class="map-link" href="https://maps.app.goo.gl/67RH7rQsEd4q2EeF6" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Basílica de Santa Maria in Ara Coeli y Escalinata</h3><p>Iglesia en el Campidoglio a la que se llega por una famosa escalinata (los “124 escalones” son un clásico).</p><p><a class="map-link" href="https://maps.app.goo.gl/2y1qFaMpmgbHuUT16" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Museos Capitolinos (Campidoglio)</h3><p>El museo cívico símbolo de Roma: entre las piezas icónicas están la Loba Capitolina y grandes esculturas antiguas.</p><p><a class="map-link" href="https://maps.app.goo.gl/EBQXgfKYVLXXNG2cA" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Foro Romano y Via dei Fori Imperiali</h3><p>El corazón de la antigua Roma: ruinas, columnas y perspectivas increíbles caminando hacia el Coliseo.</p><p><a class="map-link" href="https://maps.app.goo.gl/7VwqPrgxt1TmKiEY9" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div><div class="restaurant-card"><h3>Coliseo</h3><p>El anfiteatro más famoso del mundo: impresionante en vivo, sobre todo al atardecer o por la noche.</p><p><a class="map-link" href="https://maps.app.goo.gl/xbSWmQJRBcQE5tcc6" target="_blank" rel="noopener noreferrer">Enlace Google Maps</a></p></div></div>`,
+            },
+            numbers: {
+              title: "Números útiles",
+              body: `<p>Contactos rápidos:</p><ul><li>B&amp;B principal: +39 347/9282875</li><li>Carmen: +39 392/0600693</li><li>Riccardo: +39 339/4916463</li><li>Taxi: +39 06/3570</li></ul>`,
+            },
+            issues: {
+              title: "Problemas",
+              body: `<p><strong>¡Estamos listos para ayudarte!</strong></p><p>Si tienes un problema, escríbenos de inmediato por <a class="map-link" href="https://wa.me/393479282875" target="_blank" rel="noopener noreferrer">WhatsApp</a> o llámanos al +39 347/9282875.</p><p>Cuéntanos si encontraste algún problema o si hay algo que no funciona en la habitación, o en general si necesitas ayuda.</p><p>Describe brevemente el problema y, si es posible, envía una foto.</p>`,
+            },
+            transfer: {
+              title: "Transfer",
+              body: `<p>Organiza y reserva tu transfer al aeropuerto y descubre fantásticas visitas guiadas visitando nuestra página:</p><p><a class="map-link" href="https://www.bbvaticanstories.it/servizi-bb-roma-vaticano/transfer-e-visite-guidate/" target="_blank" rel="noopener noreferrer">Transfer y Visitas Guiadas</a></p>`,
+            },
+          },
+        },
+      };
+
+      function initGuideDiv() {
+        const root = document.getElementById("gvd-root");
+        if (!root || root.dataset.gvdInitialized === "true") return false;
+
+        const langButtons = root.querySelectorAll(".lang-btn");
+        const i18nNodes = root.querySelectorAll("[data-i18n]");
+        const modal = root.querySelector("#guideModal");
+        const modalTitle = root.querySelector("#modalTitle");
+        const modalBody = root.querySelector("#modalBody");
+        const closeModalBtn = root.querySelector("#closeModal");
+        const cards = root.querySelectorAll(".card-btn");
+
+        if (!modal || !modalTitle || !modalBody || !closeModalBtn || !langButtons.length || !cards.length) {
+          return false;
+        }
+
+        let currentLang = "it";
+
+        function applyLanguage(lang) {
+          currentLang = translations[lang] ? lang : "it";
+          i18nNodes.forEach((node) => {
+            const key = node.dataset.i18n;
+            if (translations[currentLang][key]) {
+              node.textContent = translations[currentLang][key];
+            }
+          });
+
+          closeModalBtn.setAttribute("aria-label", translations[currentLang].closeLabel);
+
+          langButtons.forEach((btn) => {
+            btn.setAttribute("aria-pressed", String(btn.dataset.lang === currentLang));
+          });
+        }
+
+        function openModal(itemKey) {
+          const section = translations[currentLang].content[itemKey];
+          if (!section) return;
+
+          modalTitle.textContent = section.title;
+          modalBody.innerHTML = section.body;
+          modal.classList.add("open");
+          modal.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+          modal.classList.remove("open");
+          modal.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+        }
+
+        langButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            applyLanguage(button.dataset.lang);
+          });
+        });
+
+        cards.forEach((card) => {
+          card.addEventListener("click", () => openModal(card.dataset.item));
+        });
+
+        closeModalBtn.addEventListener("click", closeModal);
+        modal.addEventListener("click", (event) => {
+          if (event.target === modal) closeModal();
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && modal.classList.contains("open")) {
+            closeModal();
+          }
+        });
+
+        applyLanguage("it");
+        root.dataset.gvdInitialized = "true";
+        return true;
+      }
+
+      if (!initGuideDiv()) {
+        document.addEventListener("DOMContentLoaded", initGuideDiv, { once: true });
+        const observer = new MutationObserver(() => {
+          if (initGuideDiv()) observer.disconnect();
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+      }
+    
+</script>
