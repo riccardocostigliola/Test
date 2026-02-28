@@ -71,7 +71,7 @@
         color: var(--color-accent-2);
       }
 
-      .grid {
+      .guide-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 12px;
@@ -195,7 +195,7 @@
       }
 
       @media (max-width: 850px) {
-        .grid {
+        .guide-grid {
           grid-template-columns: repeat(3, minmax(0, 1fr));
         }
       }
@@ -205,7 +205,7 @@
           padding: 20px 12px 24px;
         }
 
-        .grid {
+        .guide-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
@@ -214,8 +214,8 @@
         }
       }
 
-      @media (max-width: 380px) {
-        .grid {
+      @media (max-width: 340px) {
+        .guide-grid {
           grid-template-columns: 1fr;
         }
 
@@ -237,7 +237,7 @@
 
       <h1 data-i18n="mainTitle">La nostra Guida</h1>
 
-      <div class="grid" id="guideGrid">
+      <div class="guide-grid" id="guideGrid">
         <button class="card-btn" type="button" data-item="wifi">
           <span class="emoji" aria-hidden="true">📶</span>
           <span class="label" data-i18n="wifiLabel">Wi-Fi</span>
