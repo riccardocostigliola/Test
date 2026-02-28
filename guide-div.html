@@ -166,6 +166,13 @@
         font-size: 1rem;
       }
 
+      body.gvd-modal-open #top-header,
+      body.gvd-modal-open #main-header {
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+
       .restaurant-list {
         display: grid;
         gap: 12px;
@@ -662,12 +669,14 @@
           modal.classList.add("open");
           modal.setAttribute("aria-hidden", "false");
           document.body.style.overflow = "hidden";
+          document.body.classList.add("gvd-modal-open");
         }
 
         function closeModal() {
           modal.classList.remove("open");
           modal.setAttribute("aria-hidden", "true");
           document.body.style.overflow = "";
+          document.body.classList.remove("gvd-modal-open");
         }
 
         langButtons.forEach((button) => {
