@@ -194,6 +194,28 @@
         word-break: break-word;
       }
 
+
+      /* Strong embed isolation against theme CSS conflicts */
+      #gvd-root .guide-grid,
+      #gvd-root .grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+        align-items: stretch !important;
+      }
+
+      #gvd-root .guide-grid > .card-btn,
+      #gvd-root .grid > .card-btn {
+        width: 100% !important;
+        margin: 0 !important;
+        float: none !important;
+        max-width: none !important;
+      }
+
+      #gvd-root .guide-wrapper {
+        width: 100% !important;
+      }
+
       @media (max-width: 850px) {
         .guide-grid {
           grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -205,8 +227,9 @@
           padding: 20px 12px 24px;
         }
 
-        .guide-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+        .guide-grid,
+        #gvd-root .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         }
 
         .card-btn {
@@ -215,8 +238,9 @@
       }
 
       @media (max-width: 340px) {
-        .guide-grid {
-          grid-template-columns: 1fr;
+        .guide-grid,
+        #gvd-root .grid {
+          grid-template-columns: 1fr !important;
         }
 
         .lang-btn {
@@ -226,6 +250,7 @@
     
 </style>
 
+    <div id="gvd-root">
     <div class="guide-wrapper">
       <div class="lang-switcher" aria-label="Language switcher">
         <button class="lang-btn" data-lang="en" aria-pressed="false" type="button">🇬🇧</button>
@@ -286,8 +311,7 @@
         <div id="modalBody"></div>
       </div>
     </div>
-
-    
+  </div>
 
 <script>
       const translations = {
@@ -548,13 +572,14 @@
         },
       };
 
-      const langButtons = document.querySelectorAll(".lang-btn");
-      const i18nNodes = document.querySelectorAll("[data-i18n]");
-      const modal = document.getElementById("guideModal");
-      const modalTitle = document.getElementById("modalTitle");
-      const modalBody = document.getElementById("modalBody");
-      const closeModalBtn = document.getElementById("closeModal");
-      const cards = document.querySelectorAll(".card-btn");
+      const root = document.getElementById("gvd-root");
+      const langButtons = root.querySelectorAll(".lang-btn");
+      const i18nNodes = root.querySelectorAll("[data-i18n]");
+      const modal = root.querySelector("#guideModal");
+      const modalTitle = root.querySelector("#modalTitle");
+      const modalBody = root.querySelector("#modalBody");
+      const closeModalBtn = root.querySelector("#closeModal");
+      const cards = root.querySelectorAll(".card-btn");
 
       let currentLang = "it";
 
