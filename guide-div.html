@@ -115,7 +115,7 @@
         background: rgba(30, 38, 41, 0.88);
         display: none;
         z-index: 9999;
-        padding: env(safe-area-inset-top, 16px) 16px env(safe-area-inset-bottom, 16px);
+        padding: calc(var(--gvd-header-offset, 0px) + env(safe-area-inset-top, 16px) + 8px) 16px env(safe-area-inset-bottom, 16px);
       }
 
       .modal.open {
@@ -592,6 +592,25 @@
 
         let currentLang = "it";
 
+        function getOverlayHeaderOffset() {
+          const headerIds = ["top-header", "main-header"];
+          return headerIds.reduce((total, id) => {
+            const el = document.getElementById(id);
+            if (!el) return total;
+            const style = window.getComputedStyle(el);
+            if (style.display === "none" || style.visibility === "hidden") return total;
+            const isOverlayHeader = style.position === "fixed" || style.position === "sticky";
+            if (!isOverlayHeader) return total;
+            const rect = el.getBoundingClientRect();
+            if (rect.height <= 0) return total;
+            return total + rect.height;
+          }, 0);
+        }
+
+        function updateModalOffset() {
+          root.style.setProperty("--gvd-header-offset", `${Math.ceil(getOverlayHeaderOffset())}px`);
+        }
+
         function applyLanguage(lang) {
           currentLang = translations[lang] ? lang : "it";
           i18nNodes.forEach((node) => {
@@ -646,6 +665,12 @@
           }
         });
 
+        updateModalOffset();
+        if (!window.__gvdOffsetListenersBound) {
+          window.addEventListener("resize", updateModalOffset, { passive: true });
+          window.addEventListener("scroll", updateModalOffset, { passive: true });
+          window.__gvdOffsetListenersBound = true;
+        }
         applyLanguage("it");
         root.__gvdInitialized = true;
         return true;
