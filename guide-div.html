@@ -227,6 +227,7 @@
           padding: 20px 12px 24px;
         }
 
+        #gvd-root .guide-grid,
         .guide-grid,
         #gvd-root .grid {
           grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -238,6 +239,7 @@
       }
 
       @media (max-width: 340px) {
+        #gvd-root .guide-grid,
         .guide-grid,
         #gvd-root .grid {
           grid-template-columns: 1fr !important;
@@ -574,7 +576,7 @@
 
       function initGuideDiv() {
         const root = document.getElementById("gvd-root");
-        if (!root || root.dataset.gvdInitialized === "true") return false;
+        if (!root || root.__gvdInitialized === true) return false;
 
         const langButtons = root.querySelectorAll(".lang-btn");
         const i18nNodes = root.querySelectorAll("[data-i18n]");
@@ -645,16 +647,15 @@
         });
 
         applyLanguage("it");
-        root.dataset.gvdInitialized = "true";
+        root.__gvdInitialized = true;
         return true;
       }
 
-      if (!initGuideDiv()) {
-        document.addEventListener("DOMContentLoaded", initGuideDiv, { once: true });
-        const observer = new MutationObserver(() => {
-          if (initGuideDiv()) observer.disconnect();
-        });
-        observer.observe(document.documentElement, { childList: true, subtree: true });
-      }
+      initGuideDiv();
+      document.addEventListener("DOMContentLoaded", initGuideDiv);
+      const observer = new MutationObserver(() => {
+        initGuideDiv();
+      });
+      observer.observe(document.documentElement, { childList: true, subtree: true });
     
 </script>
