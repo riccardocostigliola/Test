@@ -71,6 +71,7 @@
 		website: 'https://www.totovaticanhouse.it',
 		phone: '347/9282875',
 		iban: 'IT51A0760103200001065017004',
+		bic: 'BPPIITRRXXX',
 		ibanName: 'Carmen Famiglietti'
 	  },
 	  totoSuite: {
@@ -83,6 +84,7 @@
 		website: 'https://www.totovaticansuite.it',
 		phone: '376/2059504',
 		iban: 'IT66D0760103200001068361219',
+		bic: 'BPPIITRRXXX',
 		ibanName: 'Riccardo Costigliola'
 	  },
 	  kingSuite: {
@@ -95,6 +97,7 @@
 		website: 'https://www.kingvaticansuite.com',
 		phone: '347/9282875',
 		iban: 'IT51A0760103200001065017004',
+		bic: 'BPPIITRRXXX',
 		ibanName: 'Carmen Famiglietti'
 	  },
 	  totoCollection: {
@@ -107,6 +110,7 @@
 		website: 'https://www.totocollection.com',
 		phone: '347/9282875',
 		iban: 'IT84R0538703270000049661138',
+		bic: 'BPMOIT22XXX',
 		ibanName: 'Toto Collection S.r.l.'
 	  },
 	  totoCollectionOttaviano: {
@@ -121,6 +125,7 @@
 		services: 'Due camere da letto matrimoniali, Soggiorno con divano letto, bagno, cucina, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.',
 		servicesEn: 'Two double bedrooms, living room with sofa bed, bathroom, kitchen, air conditioning, Wi-Fi, coffee machine, refrigerator, microwave, etc.',
 		iban: 'IT84R0538703270000049661138',
+		bic: 'BPMOIT22XXX',
 		ibanName: 'Toto Collection S.r.l.'
 	  }
 	};
@@ -183,7 +188,7 @@
 		touristTaxShort: 'tourist tax',
 		depositIntro: acconto => `To confirm your reservation, we kindly ask you to make a deposit of <b>€${acconto.toFixed(2)}</b> using one of the following payment methods:`,
 		paypal: 'PayPal transfer',
-		bankTransfer: cfg => `Bank transfer to the following IBAN: ${cfg.iban}, account holder ${cfg.ibanName}`,
+		bankTransfer: cfg => `Bank transfer to the following IBAN: ${cfg.iban}, BIC: ${cfg.bic}, account holder ${cfg.ibanName}`,
 		location: cfg => `The apartment is located at <b>${cfg.addressFullEn}</b>.`,
 		requestIntro: 'Please kindly reply to this message with the following information:',
 		guestNames: 'Full names of all guests',
