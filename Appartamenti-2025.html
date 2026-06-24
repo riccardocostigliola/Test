@@ -47,6 +47,12 @@
 	<label for="acconto">Importo Acconto (€):</label>
 	<input type="number" id="acconto" value="50" step="1">
 
+	<label for="lingua">Lingua:</label>
+	<select id="lingua">
+	  <option value="it">Italiano</option>
+	  <option value="en">English</option>
+	</select>
+
 	<button onclick="generaEmail()">Genera Email</button>
 	<button onclick="copiaVisuale()">Copia Testo Formattato</button>
 
@@ -59,7 +65,9 @@
 		name: 'Toto Vatican House',
 		gradient: 'linear-gradient(90deg, #4254f5, #76a7ff)',
 		addressFull: 'Via Gregorio VII, 407, Piano terra, Interno 1',
+		addressFullEn: 'Via Gregorio VII, 407, ground floor, Interior 1',
 		addressSimple: 'Via Gregorio VII, 407, Roma',
+		addressSimpleEn: 'Via Gregorio VII, 407, Rome',
 		website: 'https://www.totovaticanhouse.it',
 		phone: '347/9282875',
 		iban: 'IT51A0760103200001065017004',
@@ -69,7 +77,9 @@
 		name: 'Toto Vatican Suite',
 		gradient: 'linear-gradient(90deg, #A34521, #E6A935)',
 		addressFull: 'Via San Tommaso d\'Aquino, 18, Piano terra, Interno 1',
+		addressFullEn: 'Via San Tommaso d\'Aquino, 18, ground floor, Interior 1',
 		addressSimple: 'Via San Tommaso d\'Aquino, 18, Roma',
+		addressSimpleEn: 'Via San Tommaso d\'Aquino, 18, Rome',
 		website: 'https://www.totovaticansuite.it',
 		phone: '376/2059504',
 		iban: 'IT66D0760103200001068361219',
@@ -79,7 +89,9 @@
 		name: 'King Vatican Suite',
 		gradient: 'linear-gradient(90deg, #5D3A9B, #7D49BD)',
 		addressFull: 'Via Gregorio VII, 90, Scala B, Interno 5, Primo piano (con ascensore)',
+		addressFullEn: 'Via Gregorio VII, 90, Staircase B, Interior 5, first floor (with elevator)',
 		addressSimple: 'Via Gregorio VII, 90, Roma',
+		addressSimpleEn: 'Via Gregorio VII, 90, Rome',
 		website: 'https://www.kingvaticansuite.com',
 		phone: '347/9282875',
 		iban: 'IT51A0760103200001065017004',
@@ -89,7 +101,9 @@
 		name: 'Toto Collection Vaticano',
 		gradient: 'linear-gradient(90deg, #1a1a1a, #d4af37)',
 		addressFull: 'Via Gregorio VII, 42, Interno 1, Piano terra',
+		addressFullEn: 'Via Gregorio VII, 42, Interior 1, ground floor',
 		addressSimple: 'Via Gregorio VII, 42, Roma',
+		addressSimpleEn: 'Via Gregorio VII, 42, Rome',
 		website: 'https://www.totocollection.com',
 		phone: '347/9282875',
 		iban: 'IT84R0538703270000049661138',
@@ -99,12 +113,93 @@
 		name: 'Toto Collection Ottaviano',
 		gradient: 'linear-gradient(90deg, #d4af37, #1a1a1a)',
 		addressFull: 'Via Ottaviano, 118, Interno 9, Piano 3',
+		addressFullEn: 'Via Ottaviano, 118, Interior 9, 3rd floor',
 		addressSimple: 'Via Ottaviano, 118, Roma',
+		addressSimpleEn: 'Via Ottaviano, 118, Rome',
 		website: 'https://www.totocollection.com',
 		phone: '347/9282875',
 		services: 'Due camere da letto matrimoniali, Soggiorno con divano letto, bagno, cucina, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.',
+		servicesEn: 'Two double bedrooms, living room with sofa bed, bathroom, kitchen, air conditioning, Wi-Fi, coffee machine, refrigerator, microwave, etc.',
 		iban: 'IT84R0538703270000049661138',
 		ibanName: 'Toto Collection S.r.l.'
+	  }
+	};
+
+	const testi = {
+	  it: {
+		greeting: 'Buongiorno',
+		intro: 'Grazie per averci scelto per il vostro soggiorno a Roma.',
+		summary: 'Ecco il riepilogo della vostra prenotazione:',
+		entireApartment: 'Intero Appartamento',
+		oneGuest: 'per 1 ospite',
+		manyGuests: ospiti => `per ${ospiti} ospiti`,
+		services: 'Servizi',
+		checkin: 'Check-In',
+		checkinTime: '(dalle 14.00)',
+		checkout: 'Check-Out',
+		checkoutTime: '(entro le ore 10.00)',
+		pricePerNight: 'Prezzo per Notte',
+		touristTax: 'Tassa di Soggiorno',
+		touristTaxText: '6€ a persona per notte (esclusi bambini sotto ai 10 anni e per motivi ospedalieri)',
+		totalBooking: 'Totale Prenotazione',
+		touristTaxShort: 'tassa di soggiorno',
+		depositIntro: acconto => `Per confermare la prenotazione, vi chiediamo gentilmente di effettuare un acconto di <b>${acconto.toFixed(2)}€</b> utilizzando uno dei seguenti metodi di pagamento:`,
+		paypal: 'Trasferimento PayPal',
+		postepay: 'Ricarica PostePay N: 4023601034886028 intestata a Carmen Famiglietti, Codice Fiscale: FMGCMN99S62I281R',
+		bankTransfer: cfg => `Bonifico al seguente IBAN: ${cfg.iban} intestato a ${cfg.ibanName}`,
+		location: cfg => `L’appartamento si trova in <b>${cfg.addressFull}</b>.`,
+		requestIntro: 'Attendo gentilmente un riscontro a questo messaggio con i seguenti dati:',
+		guestNames: 'Nominativi di tutti gli ospiti',
+		phoneNumber: 'Numero di telefono',
+		arrivalTime: 'Orario di arrivo presso stazione / aeroporto',
+		availability: 'Siamo a vostra disposizione per qualsiasi ulteriore informazione, non esitate a contattarci.',
+		thanks: 'Grazie mille e a presto,',
+		phoneLabel: 'Tel.',
+		bedroom: 'Camera da letto matrimoniale',
+		livingRoom: ospiti => ospiti > 2 ? 'Soggiorno con divano letto matrimoniale' : 'Soggiorno',
+		bathroom: 'bagno',
+		kitchen: 'cucina',
+		outdoor: key => key === 'kingSuite' ? 'balcone' : key === 'totoCollection' ? 'Giardino privato' : 'Ampio terrazzo esterno',
+		amenities: 'Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.',
+		addressSimple: cfg => cfg.addressSimple,
+		totalTaxAmount: totaleTassa => `${totaleTassa},00 €`
+	  },
+	  en: {
+		greeting: 'Good morning',
+		intro: 'Thank you for choosing us for your stay in Rome.',
+		summary: 'Here is the summary of your reservation:',
+		entireApartment: 'Entire Apartment',
+		oneGuest: 'for 1 guest',
+		manyGuests: ospiti => `for ${ospiti} guests`,
+		services: 'Services',
+		checkin: 'Check-In',
+		checkinTime: '(from 2:00 PM)',
+		checkout: 'Check-Out',
+		checkoutTime: '(by 10:00 AM)',
+		pricePerNight: 'Price per Night',
+		touristTax: 'Tourist Tax',
+		touristTaxText: '€6 per person per night (children under 10 and hospital-related stays excluded)',
+		totalBooking: 'Total Reservation',
+		touristTaxShort: 'tourist tax',
+		depositIntro: acconto => `To confirm your reservation, we kindly ask you to make a deposit of <b>€${acconto.toFixed(2)}</b> using one of the following payment methods:`,
+		paypal: 'PayPal transfer',
+		bankTransfer: cfg => `Bank transfer to the following IBAN: ${cfg.iban}, account holder ${cfg.ibanName}`,
+		location: cfg => `The apartment is located at <b>${cfg.addressFullEn}</b>.`,
+		requestIntro: 'Please kindly reply to this message with the following information:',
+		guestNames: 'Full names of all guests',
+		phoneNumber: 'Phone number',
+		arrivalTime: 'Arrival time at the station / airport',
+		availability: 'We remain at your disposal for any further information, please do not hesitate to contact us.',
+		thanks: 'Thank you very much and see you soon,',
+		phoneLabel: 'Phone',
+		bedroom: 'Double bedroom',
+		livingRoom: ospiti => ospiti > 2 ? 'Living room with double sofa bed' : 'Living room',
+		bathroom: 'bathroom',
+		kitchen: 'kitchen',
+		outdoor: key => key === 'kingSuite' ? 'balcony' : key === 'totoCollection' ? 'private garden' : 'large outdoor terrace',
+		amenities: 'Air conditioning, Wi-Fi, coffee machine, refrigerator, microwave, etc.',
+		addressSimple: cfg => cfg.addressSimpleEn,
+		totalTaxAmount: totaleTassa => `€ ${totaleTassa}.00`
 	  }
 	};
 
@@ -116,6 +211,7 @@
 	populate();
 
 	function formattaData(data) {
+	  if (!data) return '';
 	  const [yyyy, mm, dd] = data.split('-'); return `${dd}/${mm}/${yyyy}`;
 	}
 	function giorni(ci, co) { return Math.round((new Date(co)-new Date(ci))/(1000*60*60*24)); }
@@ -123,63 +219,74 @@
 	function generaEmail() {
 	  const key = aptSelector.value;
 	  const cfg = aptConfigs[key];
+	  const lingua = document.getElementById('lingua').value;
+	  const t = testi[lingua];
 	  const nome = document.getElementById('nome').value;
 	  const ospiti = parseInt(document.getElementById('ospiti').value) || 1;
-	  const ospitiText = ospiti === 1 ? 'per 1 ospite' : `per ${ospiti} ospiti`;
+	  const ospitiText = ospiti === 1 ? t.oneGuest : t.manyGuests(ospiti);
 	  const checkinRaw = document.getElementById('checkin').value;
 	  const checkoutRaw = document.getElementById('checkout').value;
 	  const checkin = formattaData(checkinRaw);
 	  const checkout = formattaData(checkoutRaw);
 	  const prezzo = parseFloat(document.getElementById('prezzo').value) || 0;
-	  const totaleTassa = document.getElementById('tassa').value;
+	  const totaleTassa = document.getElementById('tassa').value || '0';
 	  const acconto = parseFloat(document.getElementById('acconto').value) || 0;
 	  const nNotti = giorni(checkinRaw, checkoutRaw);
 	  const totalAlloggio = prezzo * nNotti;
+	  const totalAlloggioText = Number.isFinite(totalAlloggio) ? totalAlloggio.toFixed(2) : '0.00';
 
-	  const soggiornoDesc = ospiti > 2 ? 'Soggiorno con divano letto matrimoniale' : 'Soggiorno';
-	  const esterno = key === 'kingSuite' ? 'balcone' : key === 'totoCollection' ? 'Giardino privato' : 'Ampio terrazzo esterno';
-	  const servizi = key === 'totoCollectionOttaviano'
+	  const servizi = key === 'totoCollectionOttaviano' && lingua === 'it'
 		? cfg.services
-		: `Camera da letto matrimoniale, ${soggiornoDesc}, bagno, cucina, ${esterno}, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.`;
+		: key === 'totoCollectionOttaviano'
+		  ? cfg.servicesEn
+		  : `${t.bedroom}, ${t.livingRoom(ospiti)}, ${t.bathroom}, ${t.kitchen}, ${t.outdoor(key)}, ${t.amenities}`;
 	  
-	  const paymentHTML = `
+	  const paypalLink = `<a href="https://paypal.me/costigliola/${acconto.toFixed(0)}">https://paypal.me/costigliola/${acconto.toFixed(0)}</a>`;
+	  const paymentHTML = lingua === 'it'
+		? `
 	  <ul>
-		<li>Trasferimento PayPal: <a href="https://paypal.me/costigliola/${acconto.toFixed(0)}">https://paypal.me/costigliola/${acconto.toFixed(0)}</a></li>
-		<li>Ricarica PostePay N: 4023601034886028 intestata a Carmen Famiglietti, Codice Fiscale: FMGCMN99S62I281R</li>
-		<li>Bonifico al seguente IBAN: ${cfg.iban} intestato a ${cfg.ibanName}</li>
+		<li>${t.paypal}: ${paypalLink}</li>
+		<li>${t.postepay}</li>
+		<li>${t.bankTransfer(cfg)}</li>
+	  </ul>
+	  `
+		: `
+	  <ul>
+		<li>${t.paypal}: ${paypalLink}</li>
+		<li>${t.bankTransfer(cfg)}</li>
 	  </ul>
 	  `;
 
 	  const html = `
 	  <div style="font-family: Helvetica; font-size: 14px; padding: 15px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
-<p>Buongiorno <b>${nome}</b>,</p>
-<p>Grazie per averci scelto per il vostro soggiorno a Roma.</p>
-<p>Ecco il riepilogo della vostra prenotazione:</p>
+<p>${t.greeting} <b>${nome}</b>,</p>
+<p>${t.intro}</p>
+<p>${t.summary}</p>
 <ul>
-  <li><b>Intero Appartamento:</b> ${ospitiText}</li>
-  <li><b>Servizi:</b> ${servizi}</li>
-  <li><b>Check-In:</b> ${checkin} (dalle 14.00)</li>
-  <li><b>Check-Out:</b> ${checkout} (entro le ore 10.00)</li>
-  <li><b>Prezzo per Notte:</b> ${prezzo.toFixed(2)}€</li>
-  <li><b>Tassa di Soggiorno:</b> 6€ a persona per notte (esclusi bambini sotto ai 10 anni e per motivi ospedalieri)</li>
-  <li><b>Totale Prenotazione:</b> € ${totalAlloggio.toFixed(2)} + ${totaleTassa},00 € tassa di soggiorno</li>
+  <li><b>${t.entireApartment}:</b> ${ospitiText}</li>
+  <li><b>${t.services}:</b> ${servizi}</li>
+  <li><b>${t.checkin}:</b> ${checkin} ${t.checkinTime}</li>
+  <li><b>${t.checkout}:</b> ${checkout} ${t.checkoutTime}</li>
+  <li><b>${t.pricePerNight}:</b> ${prezzo.toFixed(2)}€</li>
+  <li><b>${t.touristTax}:</b> ${t.touristTaxText}</li>
+  <li><b>${t.totalBooking}:</b> € ${totalAlloggioText} + ${t.totalTaxAmount(totaleTassa)} ${t.touristTaxShort}</li>
 </ul>
-<p>Per confermare la prenotazione, vi chiediamo gentilmente di effettuare un acconto di <b>${acconto.toFixed(2)}€</b> utilizzando uno dei seguenti metodi di pagamento:</p>
+<p>${t.depositIntro(acconto)}</p>
 ${paymentHTML}
-<p>L’appartamento si trova in <b>${cfg.addressFull}</b>.</p>
-<p>Attendo gentilmente un riscontro a questo messaggio con i seguenti dati:</p>
+<p>${t.location(cfg)}</p>
+<p>${t.requestIntro}</p>
 <ul>
-  <li>Nominativi di tutti gli ospiti</li>
-  <li>Numero di telefono</li>
-  <li>Orario di arrivo presso stazione / aeroporto</li>
+  <li>${t.guestNames}</li>
+  <li>${t.phoneNumber}</li>
+  <li>${t.arrivalTime}</li>
 </ul>
-<p>Siamo a vostra disposizione per qualsiasi ulteriore informazione, non esitate a contattarci.</p>
-<p>Grazie mille e a presto,<br>
+<p>${t.availability}</p>
+<p>${t.thanks}<br>
 Carmen & Riccardo.<br>
 <b>${cfg.name}</b><br>
-${cfg.addressSimple}<br>
+${t.addressSimple(cfg)}<br>
 <a href="${cfg.website}">${cfg.website}</a><br>
-Tel. ${cfg.phone}</p>
+${t.phoneLabel} ${cfg.phone}</p>
 </div>`;
 	  
 	  const preview = document.getElementById('preview').contentDocument;
