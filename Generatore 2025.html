@@ -50,6 +50,12 @@
 	<label for="acconto">Importo Acconto (€):</label>
 	<input type="number" id="acconto" value="50" step="1">
 
+	<label for="lingua">Lingua:</label>
+	<select id="lingua">
+	  <option value="it">Italiano</option>
+	  <option value="en">English</option>
+	</select>
+
 	<button onclick="generaEmail()">Genera Email</button>
 	<button onclick="copiaVisuale()">Copia Testo Formattato</button>
 
@@ -63,13 +69,26 @@
 		name: 'B&B Vatican Stories',
 		gradient: 'linear-gradient(90deg, #eb5e3e, #cb3975)',
 		cameras: ['Camera Diamante','Camera Panorama','Camera Stella','Camera Oro'],
+		cameraNamesEn: {
+		  'Camera Diamante': 'Diamond Room',
+		  'Camera Panorama': 'Panorama Room',
+		  'Camera Stella': 'Star Room',
+		  'Camera Oro': 'Gold Room'
+		},
 		serviziMap: {
 		  'Camera Diamante': 'Bagno privato interno',
 		  'Camera Panorama': 'Bagno privato interno, Balcone Privato con vista sulla Cupola di San Pietro',
 		  'Camera Stella': 'Bagno privato esterno ad utilizzo esclusivo',
 		  'Camera Oro': 'Bagno privato esterno ad utilizzo esclusivo'
 		},
+		serviziMapEn: {
+		  'Camera Diamante': 'Private en-suite bathroom',
+		  'Camera Panorama': 'Private en-suite bathroom, Private balcony with a view of St. Peter\'s Dome',
+		  'Camera Stella': 'Private external bathroom for exclusive use',
+		  'Camera Oro': 'Private external bathroom for exclusive use'
+		},
 		addressLine: 'Via delle Fornaci, 20, Roma, Interno 9 - Piano 4 (senza ascensore)',
+		addressLineEn: 'Via delle Fornaci, 20, Rome, Apartment 9 - 4th floor (no elevator)',
 		mapLink: 'https://www.bbvaticanstories.it/dove-siamo-bb-roma-vaticano/',
 		website: 'https://www.bbvaticanstories.it',
 		phone: '347/9282875',
@@ -79,16 +98,25 @@
 		  postePayName: 'Carmen Famiglietti',
 		  postePayCF: 'FMGCMN99S62I281R',
 		  iban: 'IT51A0760103200001065017004',
-		  ibanName: 'Carmen Famiglietti'
+		  ibanName: 'Carmen Famiglietti',
+		  bic: 'BPPIITRRXXX'
 		}
 	  },
 	  toto: {
 		name: 'B&B Toto al Vaticano',
 		gradient: 'linear-gradient(90deg, #057c7c, #8acbbf)',
 		cameras: ['Camera Corallo','Camera Perla','Camera Smeraldo'],
+		cameraNamesEn: {
+		  'Camera Corallo': 'Coral Room',
+		  'Camera Perla': 'Pearl Room',
+		  'Camera Smeraldo': 'Emerald Room'
+		},
 		serviziMap: {},
+		serviziMapEn: {},
 		defaultServizi: 'Bagno privato interno, Colazione Inclusa, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.',
+		defaultServiziEn: 'Private en-suite bathroom, Breakfast included, Air conditioning, Wi-Fi, Coffee machine, Refrigerator, Microwave, etc.',
 		addressLine: 'Via Agostino Valiero, 12, Roma, Scala C - Interno 2 - Piano Terra',
+		addressLineEn: 'Via Agostino Valiero, 12, Rome, Building C - Apartment 2 - Ground floor',
 		mapLink: 'https://www.bbvatican.it/dove-siamo-bb-toto-al-vaticano/',
 		website: 'https://www.bbvatican.it',
 		phone: '376/2059504',
@@ -98,7 +126,8 @@
 		  postePayName: 'Carmen Famiglietti',
 		  postePayCF: 'FMGCMN99S62I281R',
 		  iban: 'IT66D0760103200001068361219',
-		  ibanName: 'Riccardo Costigliola'
+		  ibanName: 'Riccardo Costigliola',
+		  bic: 'BPPIITRRXXX'
 		}
 	  }
 	};
@@ -107,12 +136,12 @@
 	const bbSelector = document.getElementById('bbSelector');
 	const cameraSelect = document.getElementById('camera');
 	const title = document.getElementById('title');
+
 	function populateFields() {
 	  const key = bbSelector.value;
 	  const cfg = bbConfigs[key];
 	  document.body.style.background = cfg.gradient;
-	  title.textContent = `Generatore Email ${cfg.name}`;
-	  // Popola camere
+	  title.textContent = 'Generatore Email ' + cfg.name;
 	  cameraSelect.innerHTML = '';
 	  cfg.cameras.forEach(cam => {
 		const o = document.createElement('option');
@@ -121,82 +150,166 @@
 		cameraSelect.appendChild(o);
 	  });
 	}
+
 	bbSelector.addEventListener('change', populateFields);
 	populateFields();
 
 	function formattaData(data) {
-	  const [yyyy, mm, dd] = data.split('-');
-	  return `${dd}/${mm}/${yyyy}`;
+	  const parti = data.split('-');
+	  return parti[2] + '/' + parti[1] + '/' + parti[0];
 	}
+
 	function giorniDifferenza(ci, co) {
-	  return Math.round((new Date(co) - new Date(ci))/(1000*60*60*24));
+	  return Math.round((new Date(co) - new Date(ci)) / (1000 * 60 * 60 * 24));
+	}
+
+	function emailItaliana(dati) {
+	  return [
+		'<div style="font-family: Helvetica; font-size: 14px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2); padding: 15px;">',
+		'<p>Buonasera <b>' + dati.nome + '</b>,</p>',
+		'<p>Grazie per aver scelto il nostro <b>' + dati.cfg.name + '</b> per il vostro soggiorno a Roma.</p>',
+		'<p>Ecco il riepilogo della vostra prenotazione:</p>',
+		'<ul>',
+		'<li><b>Camera:</b> N.1 per ' + dati.descrPersone + ' (' + dati.camera + ')</li>',
+		'<li><b>Servizi Inclusi:</b> ' + dati.servizi + '</li>',
+		'<li><b>Check-In:</b> ' + dati.checkin + ' (dalle 14.00)</li>',
+		'<li><b>Check-Out:</b> ' + dati.checkout + ' (entro le ore 10.00)</li>',
+		'<li><b>Prezzo a Camera per Notte:</b> ' + dati.prezzo.toFixed(2) + ' €</li>',
+		'<li><b>Tassa di soggiorno:</b> 6€ a persona per notte (esclusi i bambini sotto ai 10 anni o per motivi ospedalieri)</li>',
+		'<li><b>Totale Prenotazione:</b> ' + dati.totaleCamera.toFixed(2) + ' € + ' + dati.totaleTassa.toFixed(2) + ' € di tassa di soggiorno</li>',
+		'</ul>',
+		'<p>Per confermare la prenotazione, vi chiediamo gentilmente di effettuare un acconto di <b>' + dati.acconto.toFixed(2) + '€ </b> utilizzando uno dei seguenti metodi di pagamento:</p>',
+		'<ul>' + dati.paymentHTML + '</ul>',
+		'<p>Il B&B si trova in ' + dati.addressLine + '.<br>',
+		'<a href="' + dati.cfg.mapLink + '">Visualizza la posizione sul nostro sito web</a></p>',
+		'<p><b>Attendo gentilmente un riscontro con i seguenti dati:</b></p>',
+		'<ul>',
+		'<li>Nominativi di tutti gli ospiti</li>',
+		'<li>Numero di telefono</li>',
+		'<li>Orario di arrivo presso stazione / aeroporto</li>',
+		'</ul>',
+		'<p>Resto a disposizione per qualsiasi ulteriore richiesta.</p>',
+		'<p>Grazie e a presto,<br>',
+		'<b>Carmen & Riccardo</b><br>',
+		dati.cfg.name + '<br>',
+		dati.addressLine + '<br>',
+		'<a href="' + dati.cfg.website + '">' + dati.cfg.website + '</a><br>',
+		'Tel. ' + dati.cfg.phone + '</p>',
+		'</div>'
+	  ].join('');
+	}
+
+	function emailInglese(dati) {
+	  return [
+		'<div style="font-family: Helvetica; font-size: 14px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2); padding: 15px;">',
+		'<p>Good evening <b>' + dati.nome + '</b>,</p>',
+		'<p>Thank you for choosing our <b>' + dati.cfg.name + '</b> for your stay in Rome.</p>',
+		'<p>Here is a summary of your reservation:</p>',
+		'<ul>',
+		'<li><b>Room:</b> No. 1 for ' + dati.descrPersone + ' (' + dati.camera + ')</li>',
+		'<li><b>Included amenities:</b> ' + dati.servizi + '</li>',
+		'<li><b>Check-in:</b> ' + dati.checkin + ' (from 2:00 PM)</li>',
+		'<li><b>Check-out:</b> ' + dati.checkout + ' (by 10:00 AM)</li>',
+		'<li><b>Price per room per night:</b> €' + dati.prezzo.toFixed(2) + '</li>',
+		'<li><b>Tourist tax:</b> €6 per person per night (children under 10 and guests travelling for hospital-related reasons are exempt)</li>',
+		'<li><b>Reservation total:</b> €' + dati.totaleCamera.toFixed(2) + ' + €' + dati.totaleTassa.toFixed(2) + ' tourist tax</li>',
+		'</ul>',
+		'<p>To confirm your reservation, we kindly ask you to pay a deposit of <b>€' + dati.acconto.toFixed(2) + '</b> using one of the following payment methods:</p>',
+		'<ul>' + dati.paymentHTML + '</ul>',
+		'<p>The B&B is located at ' + dati.addressLine + '.<br>',
+		'<a href="' + dati.cfg.mapLink + '">View the location on our website</a></p>',
+		'<p><b>Please reply with the following information:</b></p>',
+		'<ul>',
+		'<li>Full names of all guests</li>',
+		'<li>Telephone number</li>',
+		'<li>Arrival time at the train station / airport</li>',
+		'</ul>',
+		'<p>Please feel free to contact us if you have any further questions.</p>',
+		'<p>Thank you and see you soon,<br>',
+		'<b>Carmen & Riccardo</b><br>',
+		dati.cfg.name + '<br>',
+		dati.addressLine + '<br>',
+		'<a href="' + dati.cfg.website + '">' + dati.cfg.website + '</a><br>',
+		'Tel. ' + dati.cfg.phone + '</p>',
+		'</div>'
+	  ].join('');
 	}
 
 	function generaEmail() {
 	  const key = bbSelector.value;
 	  const cfg = bbConfigs[key];
+	  const lingua = document.getElementById('lingua').value;
+	  const inglese = lingua === 'en';
 	  const nome = document.getElementById('nome').value;
 	  const checkinRaw = document.getElementById('checkin').value;
 	  const checkoutRaw = document.getElementById('checkout').value;
 	  const checkin = formattaData(checkinRaw);
 	  const checkout = formattaData(checkoutRaw);
-	  const camera = cameraSelect.value;
-	  const adulti = parseInt(document.getElementById('adulti').value)||0;
-	  const bambini = parseInt(document.getElementById('bambini').value)||0;
-	  const prezzo = parseFloat(document.getElementById('prezzo').value)||0;
-	  const totaleTassa = parseFloat(document.getElementById('tassa').value)||0;
-	  const acconto = parseFloat(document.getElementById('acconto').value)||0;
-	  if(adulti===0){ alert('Devi indicare almeno 1 adulto.'); return; }
+	  const cameraSelezionata = cameraSelect.value;
+	  const adulti = parseInt(document.getElementById('adulti').value) || 0;
+	  const bambini = parseInt(document.getElementById('bambini').value) || 0;
+	  const prezzo = parseFloat(document.getElementById('prezzo').value) || 0;
+	  const totaleTassa = parseFloat(document.getElementById('tassa').value) || 0;
+	  const acconto = parseFloat(document.getElementById('acconto').value) || 0;
+
+	  if (adulti === 0) {
+		alert(inglese ? 'Please enter at least 1 adult.' : 'Devi indicare almeno 1 adulto.');
+		return;
+	  }
+
 	  const notti = giorniDifferenza(checkinRaw, checkoutRaw);
 	  const totaleCamera = prezzo * notti;
-	  let descrPersone = adulti===1? '1 adulto': `${adulti} adulti`;
-	  if(bambini>0) descrPersone += bambini===1? ' + 1 bambino': ` + ${bambini} bambini`;
-	  let servizi = cfg.defaultServizi || cfg.serviziMap[camera] + ', Colazione Inclusa, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.';
+	  let descrPersone;
+	  if (inglese) {
+		descrPersone = adulti === 1 ? '1 adult' : adulti + ' adults';
+		if (bambini > 0) descrPersone += bambini === 1 ? ' + 1 child' : ' + ' + bambini + ' children';
+	  } else {
+		descrPersone = adulti === 1 ? '1 adulto' : adulti + ' adulti';
+		if (bambini > 0) descrPersone += bambini === 1 ? ' + 1 bambino' : ' + ' + bambini + ' bambini';
+	  }
 
-	  const html = `
-	  <div style="font-family: Helvetica; font-size: 14px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2); padding: 15px;">
-<p>Buonasera <b>${nome}</b>,</p>
-<p>Grazie per aver scelto il nostro <b>${cfg.name}</b> per il vostro soggiorno a Roma.</p>
-<p>Ecco il riepilogo della vostra prenotazione:</p>
-<ul>
-  <li><b>Camera:</b> N.1 per ${descrPersone} (${camera})</li>
-  <li><b>Servizi Inclusi:</b> ${servizi}</li>
-  <li><b>Check-In:</b> ${checkin} (dalle 14.00)</li>
-  <li><b>Check-Out:</b> ${checkout} (entro le ore 10.00)</li>
-  <li><b>Prezzo a Camera per Notte:</b> ${prezzo.toFixed(2)} €</li>
-  <li><b>Tassa di soggiorno:</b> 6€ a persona per notte (esclusi i bambini sotto ai 10 anni o per motivi ospedalieri)</li>
-  <li><b>Totale Prenotazione:</b> ${totaleCamera.toFixed(2)} € + ${totaleTassa.toFixed(2)} € di tassa di soggiorno</li>
-</ul>
-<p>Per confermare la prenotazione, vi chiediamo gentilmente di effettuare un acconto di <b>${acconto.toFixed(2)}€ </b> utilizzando uno dei seguenti metodi di pagamento:</p>
-<ul>
-  <li>PayPal: <a href='${cfg.payment.paypalBase}${acconto.toFixed(0)}'>${cfg.payment.paypalBase}${acconto.toFixed(0)}</a></li>
-  <li>Ricarica PostePay: ${cfg.payment.postePayNumber} intestata a ${cfg.payment.postePayName}, Codice Fiscale: ${cfg.payment.postePayCF}</li>
-  <li>Bonifico IBAN: ${cfg.payment.iban} intestato a ${cfg.payment.ibanName}</li>
-</ul>
-<p>Il B&B si trova in ${cfg.addressLine}.<br>
-<a href='${cfg.mapLink}'>Visualizza la posizione sul nostro sito web</a></p>
-<p><b>Attendo gentilmente un riscontro con i seguenti dati:</b></p>
-<ul>
-  <li>Nominativi di tutti gli ospiti</li>
-  <li>Numero di telefono</li>
-  <li>Orario di arrivo presso stazione / aeroporto</li>
-</ul>
-<p>Resto a disposizione per qualsiasi ulteriore richiesta.</p>
-<p>Grazie e a presto,<br>
-<b>Carmen & Riccardo</b><br>
-${cfg.name}<br>
-${cfg.addressLine.split('.')[0]}<br>
-<a href='${cfg.website}'>${cfg.website}</a><br>
-Tel. ${cfg.phone}</p>
-</div>`;
+	  const camera = inglese ? cfg.cameraNamesEn[cameraSelezionata] : cameraSelezionata;
+	  const servizi = inglese
+		? (cfg.defaultServiziEn || cfg.serviziMapEn[cameraSelezionata] + ', Breakfast included, Air conditioning, Wi-Fi, Coffee machine, Refrigerator, Microwave, etc.')
+		: (cfg.defaultServizi || cfg.serviziMap[cameraSelezionata] + ', Colazione Inclusa, Aria Condizionata, Wi-Fi, Macchina del caffè, Frigo, Microonde ecc.');
+	  const addressLine = inglese ? cfg.addressLineEn : cfg.addressLine;
+	  const paypalLink = cfg.payment.paypalBase + acconto.toFixed(0);
+	  const paymentHTML = inglese
+		? '<li>PayPal: <a href="' + paypalLink + '">' + paypalLink + '</a></li>' +
+		  '<li>Bank transfer: IBAN ' + cfg.payment.iban + ', BIC ' + cfg.payment.bic + ', account holder ' + cfg.payment.ibanName + '</li>'
+		: '<li>PayPal: <a href="' + paypalLink + '">' + paypalLink + '</a></li>' +
+		  '<li>Ricarica PostePay: ' + cfg.payment.postePayNumber + ' intestata a ' + cfg.payment.postePayName + ', Codice Fiscale: ' + cfg.payment.postePayCF + '</li>' +
+		  '<li>Bonifico IBAN: ' + cfg.payment.iban + ' intestato a ' + cfg.payment.ibanName + '</li>';
 
+	  const dati = {
+		nome: nome,
+		cfg: cfg,
+		descrPersone: descrPersone,
+		camera: camera,
+		servizi: servizi,
+		checkin: checkin,
+		checkout: checkout,
+		prezzo: prezzo,
+		totaleCamera: totaleCamera,
+		totaleTassa: totaleTassa,
+		acconto: acconto,
+		paymentHTML: paymentHTML,
+		addressLine: addressLine
+	  };
+	  const html = inglese ? emailInglese(dati) : emailItaliana(dati);
 	  const preview = document.getElementById('preview').contentDocument;
-	  preview.open(); preview.write(html); preview.close();
+	  preview.open();
+	  preview.write(html);
+	  preview.close();
+	  preview.documentElement.lang = lingua;
 	}
+
 	function copiaVisuale() {
 	  const doc = document.getElementById('preview').contentWindow.document;
-	  doc.execCommand('selectAll'); doc.execCommand('copy');
-	  alert('Contenuto formattato copiato!');
+	  doc.execCommand('selectAll');
+	  doc.execCommand('copy');
+	  const inglese = document.getElementById('lingua').value === 'en';
+	  alert(inglese ? 'Formatted content copied!' : 'Contenuto formattato copiato!');
 	}
   </script>
 </body>
