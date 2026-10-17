@@ -5,10 +5,10 @@
 	 data-utm-source="widgetPm"
 	 data-open-target="_blank">
 
-  <div class="bnbw__bar" role="group" aria-label="Selettore disponibilità">
+  <div class="bnbw__bar" role="group" aria-label="Sélecteur de disponibilité">
 	<!-- Check-in -->
 	<button type="button" class="bnbw__seg bnbw__seg--date" data-bnbw-open="calendar" data-bnbw-date-part="in" aria-haspopup="dialog">
-	  <div class="bnbw__label">Check-In</div>
+	  <div class="bnbw__label">Arrivée</div>
 	  <div class="bnbw__dateRow">
 		<div class="bnbw__bigDay" data-bnbw-in-day>--</div>
 		<div class="bnbw__dateText">
@@ -20,7 +20,7 @@
 
 	<!-- Check-out -->
 	<button type="button" class="bnbw__seg bnbw__seg--date" data-bnbw-open="calendar" data-bnbw-date-part="out" aria-haspopup="dialog">
-	  <div class="bnbw__label">Check-Out</div>
+	  <div class="bnbw__label">Départ</div>
 	  <div class="bnbw__dateRow">
 		<div class="bnbw__bigDay" data-bnbw-out-day>--</div>
 		<div class="bnbw__dateText">
@@ -31,13 +31,13 @@
 	</button>
 
 	<!-- Reset (icona X tra date e ospiti, come reference) -->
-	<button type="button" class="bnbw__reset" data-bnbw-reset aria-label="Reimposta date e ospiti" title="Reimposta">
+	<button type="button" class="bnbw__reset" data-bnbw-reset aria-label="Réinitialiser les dates et les voyageurs" title="Réinitialiser">
 	  <span aria-hidden="true">×</span>
 	</button>
 
 	<!-- Ospiti -->
 	<button type="button" class="bnbw__seg bnbw__seg--guests" data-bnbw-open="guests" aria-haspopup="dialog">
-	  <div class="bnbw__label">Ospiti</div>
+	  <div class="bnbw__label">Voyageurs</div>
 	  <div class="bnbw__guestsRow">
 		<div class="bnbw__guestsText" data-bnbw-guests-summary>--</div>
 		<span class="bnbw__chev" aria-hidden="true">
@@ -50,7 +50,7 @@
 
 	<!-- CTA -->
 	<button type="button" class="bnbw__cta" data-bnbw-submit>
-	  Verifica disponibilità
+	  Vérifier la disponibilité
 	</button>
   </div>
 
@@ -58,62 +58,62 @@
   <div class="bnbw__overlay" data-bnbw-overlay hidden></div>
 
   <!-- POPUP: Calendario -->
-  <div class="bnbw__pop bnbw__pop--calendar" data-bnbw-pop="calendar" role="dialog" aria-modal="true" aria-label="Selezione date" hidden>
+  <div class="bnbw__pop bnbw__pop--calendar" data-bnbw-pop="calendar" role="dialog" aria-modal="true" aria-label="Sélection des dates" hidden>
 	<div class="bnbw__popHead">
-	  <button type="button" class="bnbw__nav" data-bnbw-cal-prev aria-label="Mese precedente">‹</button>
-	  <div class="bnbw__popTitle" data-bnbw-cal-title>Seleziona il <strong>check-in</strong></div>
-	  <button type="button" class="bnbw__nav" data-bnbw-cal-next aria-label="Mese successivo">›</button>
+	  <button type="button" class="bnbw__nav" data-bnbw-cal-prev aria-label="Mois précédent">‹</button>
+	  <div class="bnbw__popTitle" data-bnbw-cal-title>Sélectionnez l'<strong>arrivée</strong></div>
+	  <button type="button" class="bnbw__nav" data-bnbw-cal-next aria-label="Mois suivant">›</button>
 	</div>
 
 	<div class="bnbw__months" data-bnbw-months></div>
 
 	<!-- (mobile) chiusura in basso stile reference -->
-	<button type="button" class="bnbw__bottomClose" data-bnbw-close aria-label="Chiudi calendario">×</button>
+	<button type="button" class="bnbw__bottomClose" data-bnbw-close aria-label="Fermer le calendrier">×</button>
   </div>
 
   <!-- POPUP: Ospiti -->
-  <div class="bnbw__pop bnbw__pop--guests" data-bnbw-pop="guests" role="dialog" aria-modal="true" aria-label="Selezione ospiti" hidden>
+  <div class="bnbw__pop bnbw__pop--guests" data-bnbw-pop="guests" role="dialog" aria-modal="true" aria-label="Sélection des voyageurs" hidden>
 	<div class="bnbw__guestRows">
 	  <div class="bnbw__row">
-		<div class="bnbw__rowLabel">Camere</div>
+		<div class="bnbw__rowLabel">Chambres</div>
 		<div class="bnbw__stepper">
-		  <button type="button" class="bnbw__btn bnbw__btn--minus" data-bnbw-dec="rooms" aria-label="Diminuisci camere">−</button>
+		  <button type="button" class="bnbw__btn bnbw__btn--minus" data-bnbw-dec="rooms" aria-label="Réduire les chambres">−</button>
 		  <div class="bnbw__val" data-bnbw-val="rooms">1</div>
-		  <button type="button" class="bnbw__btn bnbw__btn--plus" data-bnbw-inc="rooms" aria-label="Aumenta camere">+</button>
+		  <button type="button" class="bnbw__btn bnbw__btn--plus" data-bnbw-inc="rooms" aria-label="Augmenter les chambres">+</button>
 		</div>
 	  </div>
 
 	  <div class="bnbw__row">
-		<div class="bnbw__rowLabel">Adulti</div>
+		<div class="bnbw__rowLabel">Adultes</div>
 		<div class="bnbw__stepper">
-		  <button type="button" class="bnbw__btn bnbw__btn--minus" data-bnbw-dec="adults" aria-label="Diminuisci adulti">−</button>
+		  <button type="button" class="bnbw__btn bnbw__btn--minus" data-bnbw-dec="adults" aria-label="Réduire les adultes">−</button>
 		  <div class="bnbw__val" data-bnbw-val="adults">2</div>
-		  <button type="button" class="bnbw__btn bnbw__btn--plus" data-bnbw-inc="adults" aria-label="Aumenta adulti">+</button>
+		  <button type="button" class="bnbw__btn bnbw__btn--plus" data-bnbw-inc="adults" aria-label="Augmenter les adultes">+</button>
 		</div>
 	  </div>
 
 	  <div class="bnbw__row">
-		<div class="bnbw__rowLabel">Bambini</div>
+		<div class="bnbw__rowLabel">Enfants</div>
 		<div class="bnbw__stepper">
-		  <button type="button" class="bnbw__btn bnbw__btn--minus" data-bnbw-dec="children" aria-label="Diminuisci bambini">−</button>
+		  <button type="button" class="bnbw__btn bnbw__btn--minus" data-bnbw-dec="children" aria-label="Réduire les enfants">−</button>
 		  <div class="bnbw__val" data-bnbw-val="children">0</div>
-		  <button type="button" class="bnbw__btn bnbw__btn--plus" data-bnbw-inc="children" aria-label="Aumenta bambini">+</button>
+		  <button type="button" class="bnbw__btn bnbw__btn--plus" data-bnbw-inc="children" aria-label="Augmenter les enfants">+</button>
 		</div>
 	  </div>
 
 	  <div class="bnbw__childAges" data-bnbw-child-ages hidden>
-		<div class="bnbw__childAgesTitle">Età dei bambini:</div>
+		<div class="bnbw__childAgesTitle">Âge des enfants :</div>
 		<div class="bnbw__childAgesGrid" data-bnbw-child-ages-grid></div>
 	  </div>
 
 	  <div class="bnbw__selectWrap">
-		<select class="bnbw__select" data-bnbw-pets aria-label="Animali">
-		  <option value="0" selected>viaggio senza animali</option>
-		  <option value="1">viaggio con animali</option>
+		<select class="bnbw__select" data-bnbw-pets aria-label="Animaux">
+		  <option value="0" selected>voyage sans animaux</option>
+		  <option value="1">voyage avec animaux</option>
 		</select>
 	  </div>
 
-	  <button type="button" class="bnbw__apply" data-bnbw-apply>Applica</button>
+	  <button type="button" class="bnbw__apply" data-bnbw-apply>Appliquer</button>
 	</div>
   </div>
 
@@ -613,16 +613,16 @@
 	return a && b && a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
   }
 
-  var MONTHS = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
-  var DOW = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
+  var MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  var DOW = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 
   function buildSummary(adults, children){
 	var parts = [];
-	if(adults === 1) parts.push('1 adulto');
-	else parts.push(adults + ' adulti');
+	if(adults === 1) parts.push('1 adulte');
+	else parts.push(adults + ' adultes');
 	if(children > 0){
-	  if(children === 1) parts.push('1 bambino');
-	  else parts.push(children + ' bambini');
+	  if(children === 1) parts.push('1 enfant');
+	  else parts.push(children + ' enfants');
 	}
 	return parts.join(', ');
   }
@@ -737,12 +737,12 @@
 	  // Check-in
 	  inDayEl.textContent = pad2(state.checkIn.getDate()).replace(/^0/,'');
 	  inMYEl.textContent = MONTHS[state.checkIn.getMonth()] + ' ' + state.checkIn.getFullYear();
-	  inWDEl.textContent = cap(state.checkIn.toLocaleDateString('it-IT', { weekday:'long' }));
+	  inWDEl.textContent = cap(state.checkIn.toLocaleDateString('fr-FR', { weekday:'long' }));
 
 	  // Check-out
 	  outDayEl.textContent = pad2(state.checkOut.getDate()).replace(/^0/,'');
 	  outMYEl.textContent = MONTHS[state.checkOut.getMonth()] + ' ' + state.checkOut.getFullYear();
-	  outWDEl.textContent = cap(state.checkOut.toLocaleDateString('it-IT', { weekday:'long' }));
+	  outWDEl.textContent = cap(state.checkOut.toLocaleDateString('fr-FR', { weekday:'long' }));
 
 	  guestsSummaryEl.textContent = buildSummary(state.adults, state.children);
 	}
@@ -789,7 +789,7 @@
 	  childAgesWrapEl.hidden = false;
 	  var html = '';
 	  for(var i=0;i<state.children;i++){
-		html += '<select class="bnbw__childAge" data-bnbw-child-age="' + i + '" aria-label="Età bambino ' + (i+1) + '">';
+		html += '<select class="bnbw__childAge" data-bnbw-child-age="' + i + '" aria-label="Âge enfant ' + (i+1) + '">';
 		html += ageOptionsHtml(state.childAges[i] || 0);
 		html += '</select>';
 	  }
@@ -857,7 +857,7 @@
 		  }else{
 			cell.setAttribute('role','button');
 			cell.setAttribute('tabindex','0');
-			cell.setAttribute('aria-label', 'Seleziona ' + formatForUrl(date));
+			cell.setAttribute('aria-label', 'Sélectionner ' + formatForUrl(date));
 			cell.addEventListener('click', function(){ onPickDate(date); });
 			cell.addEventListener('keydown', function(e){
 			  if(e.key === 'Enter' || e.key === ' '){
@@ -873,14 +873,14 @@
 			cell.textContent = String(dayNum);
 			var tag = document.createElement('div');
 			tag.className = 'bnbw__tag';
-			tag.textContent = 'Check-in';
+			tag.textContent = 'Arrivée';
 			cell.appendChild(tag);
 		  } else if(isSameDay(date, state.checkOut)){
 			cell.className += ' bnbw__day--selected';
 			cell.textContent = String(dayNum);
 			var tag2 = document.createElement('div');
 			tag2.className = 'bnbw__tag';
-			tag2.textContent = 'Check-out';
+			tag2.textContent = 'Départ';
 			cell.appendChild(tag2);
 		  }
 
@@ -895,9 +895,9 @@
 	function renderCalendar(){
 	  // Titolo
 	  if(state.selecting === 'in'){
-		calTitle.innerHTML = 'Seleziona il <strong>check-in</strong>';
+		calTitle.innerHTML = 'Sélectionnez l\'<strong>arrivée</strong>';
 	  } else {
-		calTitle.innerHTML = 'Seleziona il <strong>check-out</strong>';
+		calTitle.innerHTML = 'Sélectionnez le <strong>départ</strong>';
 	  }
 
 	  // Render 2 mesi: baseMonth e baseMonth+1 (desktop affiancati, mobile in colonna)
