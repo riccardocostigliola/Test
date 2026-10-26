@@ -1081,6 +1081,7 @@
 	});
 
 	// Click fuori dal widget (desktop) -> chiudi
+	// Usa la cattura: renderCalendar può rimuovere la cella cliccata prima del bubbling.
 	document.addEventListener('click', function(e){
 	  if(!state.open) return;
 	  var insideWidget = root.contains(e.target);
@@ -1090,7 +1091,7 @@
 	  if(!insideWidget && !insideCalendar && !insideGuests && !onOverlay){
 		closeAll();
 	  }
-	});
+	}, true);
 
 	window.addEventListener('resize', updateViewportHeightVar);
 	window.addEventListener('pagehide', function(){ setBodyScrollLocked(false); });
