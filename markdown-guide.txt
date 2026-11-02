@@ -1,0 +1,280 @@
+# La nostra Guida
+
+## Riferimenti del documento
+
+- Struttura di riferimento: B&B Vatican Stories.
+- File di origine: guide-div.html.
+- Lingua dei contenuti: italiano.
+
+I testi e i dati riportati nelle sezioni seguenti provengono dalla versione italiana del file originale. Le sezioni seguono l'ordine del menu della guida; i collegamenti mantengono gli URL originali.
+
+Questa copia in Markdown può essere usata come base per un altro B&B, sostituendo le informazioni di Vatican Stories con quelle della nuova struttura.
+
+## Indice delle sezioni
+
+1. Wi-Fi
+2. La tua Camera
+3. Check-In / Check out
+4. Ristoranti
+5. Negozi
+6. Luoghi di interesse
+7. Numeri Utili
+8. Problemi
+9. Transfer
+
+## 1. Wi-Fi
+
+Nome rete: **Vodafone-Vatican-Stories**
+
+Password: **Stories2023**
+
+Se la connessione non funziona, prova a riavviare il tuo device o contattaci.
+
+Rete Wi-Fi secondaria: **fornaci-ampl**
+Password: **1111111111** (10 volte il numero 1)
+
+## 2. La tua Camera
+
+### Informazioni Utili:
+
+Nella tua camera troverai tutto il necessario per la colazione del giorno successivo. Se hai una prenotazione di più notti, noi torneremo ogni mattina alle 10:00 AM per fare una pulizia giornaliera della stanza e rifare le colazioni.
+
+Nel periodo invernale il riscaldamento si accende in automatico. Per personalizzare la temperatura della stanza potete usare il climatizzatore con il telecomando bianco.
+
+A questo link troverai un breve video con le istruzioni su come usare la nostra macchina del caffè:
+[Come usare la nostra macchina del caffè](https://www.bbvaticanstories.it/bb-roma-vaticano/how-to-use-our-coffee-machine/)
+
+Per i soggiorni più lunghi: il cambio asciugamani e lenzuola viene effettuato ogni 3 giorni.
+
+### Regole della casa:
+
+- Nelle stanze è severamente vietato fumare.
+- Si prega di rispettare l'orario di silenzio e non fare rumore dalle 22:00 alle 08:00.
+
+## 3. Check-In / Check out
+
+### Istruzioni per il Check-In:
+
+Vi chiediamo di contattarci tramite WhatsApp al numero **+393479282875** per comunicarci il vostro orario di arrivo e inviarci le foto dei documenti di identità di tutti gli ospiti.
+
+Le camere saranno pronte e accessibili dalle ore 14:00 del giorno di arrivo.
+
+Se arrivate prima di questo orario possiamo organizzare il deposito bagagli gratuito, ma solamente a partire dalle ore 10:30 AM. In questo caso è ancora più importante che ci contattate per organizzare il deposito.
+
+A partire dalle ore 14:00 del giorno di arrivo vi invieremo i codici di accesso e le istruzioni per il Self-Check-In.
+
+Quando arrivate davanti all'ingresso principale, tenete a mente che il citofono è disattivato per non disturbare gli ospiti che sono all'interno, quindi dovete sempre chiamarci o scriverci su WhatsApp.
+
+### Check out:
+
+L'orario di Check out è non più tardi delle 10:00 AM. Potete lasciare le chiavi all'interno della stanza e semplicemente chiudere la porta.
+
+Prima del Check out verificate di aver completato il pagamento della stanza o della tassa di soggiorno.
+
+Chiediamo inoltre di spegnere tutte le luci e l'aria condizionata prima di lasciare il B&B.
+
+## 4. Ristoranti
+
+Ecco i nostri ristoranti consigliati:
+
+### Ristorante Dai Miei
+
+Il migliore per i piatti di pasta tipici della cucina Romana. Consigliamo di prenotare.
+
+**Via delle Fornaci, 75**
+
+[Link Google Maps](https://maps.app.goo.gl/Tw7zjydJza7RVtAH9)
+
+### Il Piccolo Pub
+
+Ottima Pinsa Romana (variante della Pizza), ottime birre alla spina, vicinissimo al nostro B&B.
+
+**Via delle Fornaci, 22**
+
+[Link Google Maps](https://maps.app.goo.gl/WM1tmL39637HUFnE7)
+
+### Osteria Sant'Uffizio Vaticano
+
+Gestione Italiana, ottima cucina e orari di apertura estesi.
+
+**Via delle Fornaci, 5**
+
+[Link Google Maps](https://maps.app.goo.gl/1pcsPJNQiFeyzowF7)
+
+## 5. Negozi
+
+Ecco i negozi e servizi utili consigliati:
+
+### Carrefour Market
+
+Supermercato con ottimi prodotti, aperto fino alle 22:00.
+
+**Via delle Fornaci, 136**
+
+[Link Google Maps](https://maps.app.goo.gl/VUoQnUHaRb2dEw1L6)
+
+### Farmacia Leone
+
+Farmacia molto vicina al nostro B&B, aperta fino alle 19:30.
+
+**Via di Porta Cavalleggeri, 3**
+
+[Link Google Maps](https://maps.app.goo.gl/SsGCmLL1Poap1mm86)
+
+### Gelotti
+
+Ottima gelateria a due passi dal nostro B&B.
+
+**Via delle Fornaci, 16**
+
+[Link Google Maps](https://maps.app.goo.gl/fcVKUbQCRdSU4Ncw9)
+
+### Pasticceria Rispo Franca
+
+Pasticceria artigianale di qualità eccellente e con prezzi onesti.
+
+**Via della Stazione di S.Pietro, 24**
+
+[Link Google Maps](https://maps.app.goo.gl/AaxfMUTyf4jxKinX9)
+
+### Tabaccheria Iqos Partner
+
+Negozio dove si possono acquistare i biglietti dell'autobus.
+
+**Via della Stazione di S.Pietro, 19**
+
+[Link Google Maps](https://maps.app.goo.gl/zUkcQ2uan8wb27zr8)
+
+### BICIEVENTO
+
+Noleggio biciclette professionale, interessanti tour in bicicletta.
+
+**Via di Santa Maria alle Fornaci, 6**
+
+[Link Google Maps](https://maps.app.goo.gl/uKPNHWNAfnUZcBtN8)
+
+## 6. Luoghi di interesse
+
+Ecco i nostri luoghi di interesse consigliati:
+
+### Piazza San Pietro (Vaticano)
+
+Il grande abbraccio del colonnato del Bernini: perfetta per foto, atmosfera e prospettive sulla Basilica.
+
+[Link Google Maps](https://maps.app.goo.gl/PnwugsYVf5xraM2G8)
+
+### Basilica di San Pietro
+
+Capolavoro assoluto dell’arte sacra: cupola, marmi, altari e (se sali) una vista spettacolare su Roma.
+
+[Link Google Maps](https://maps.app.goo.gl/AvAXwvAWh8XaS6vH8)
+
+### Musei Vaticani e Cappella Sistina
+
+Una delle collezioni più importanti al mondo; la Sistina vale da sola la visita (Michelangelo).
+
+[Link Google Maps](https://maps.app.goo.gl/m1TBpPwapjMR7wCx8)
+
+### Castel Sant’Angelo (Museo Nazionale)
+
+Da mausoleo imperiale a fortezza papale: stanze storiche e terrazza panoramica sul Tevere.
+
+[Link Google Maps](https://maps.app.goo.gl/6Y41RnuZ9oGJ8xKTA)
+
+### Ponte Sant’Angelo
+
+Passeggiata scenografica tra statue di angeli e uno dei migliori scorci su Castel Sant’Angelo.
+
+[Link Google Maps](https://maps.app.goo.gl/pu5GGFPGStDbKRYd9)
+
+### Piazza Navona
+
+Piazza barocca “da cartolina”, con fontane celebri e tanta vita di strada.
+
+[Link Google Maps](https://maps.app.goo.gl/52xaVpepdygxBpHo6)
+
+### Chiesa di Sant’Agnese in Agone
+
+Gioiello barocco affacciato su Piazza Navona: interni eleganti e storia affascinante.
+
+[Link Google Maps](https://maps.app.goo.gl/6GC4TUyzrwqjZCoeA)
+
+### Chiesa di San Luigi dei Francesi
+
+Da non perdere per Caravaggio: nella Cappella Contarelli ci sono capolavori dedicati a San Matteo.
+
+[Link Google Maps](https://maps.app.goo.gl/WBR9BP5wMq4E6qHB8)
+
+### Pantheon (Santa Maria ad Martyres)
+
+Meraviglia dell’antica Roma: la cupola e l’oculo lasciano sempre a bocca aperta.
+
+[Link Google Maps](https://maps.app.goo.gl/pNZD4Wf81Xjv3Cdr8)
+
+### Largo di Torre Argentina
+
+Area archeologica con templi antichi in pieno centro: un tuffo nella Roma repubblicana.
+
+[Link Google Maps](https://maps.app.goo.gl/XUSGks9iwRumusZJ8)
+
+### Piazza Venezia e Vittoriano (Altare della Patria)
+
+Punto “snodo” della città: monumentale, scenografico e pieno di viste interessanti.
+
+[Link Google Maps](https://maps.app.goo.gl/67RH7rQsEd4q2EeF6)
+
+### Basilica di Santa Maria in Ara Coeli e Scalinata
+
+Chiesa sul Campidoglio raggiunta da una famosa scalinata (i “124 gradini” sono un classico).
+
+[Link Google Maps](https://maps.app.goo.gl/2y1qFaMpmgbHuUT16)
+
+### Musei Capitolini (Campidoglio)
+
+Il museo civico simbolo di Roma: tra i pezzi iconici ci sono la Lupa Capitolina e grandi sculture antiche.
+
+[Link Google Maps](https://maps.app.goo.gl/EBQXgfKYVLXXNG2cA)
+
+### Foro Romano e Via dei Fori Imperiali
+
+Il cuore dell’antica Roma: rovine, colonne e prospettive incredibili camminando verso il Colosseo.
+
+[Link Google Maps](https://maps.app.goo.gl/7VwqPrgxt1TmKiEY9)
+
+### Colosseo
+
+L’anfiteatro più famoso del mondo: impressionante dal vivo, soprattutto al tramonto o in serata.
+
+[Link Google Maps](https://maps.app.goo.gl/xbSWmQJRBcQE5tcc6)
+
+## 7. Numeri Utili
+
+Contatti rapidi:
+
+- Principale B&B: +39 347/9282875
+- Carmen: +39 392/0600693
+- Riccardo: +39 339/4916463
+- Taxi: +39 06/3570
+
+## 8. Problemi
+
+**Siamo pronti ad aiutarti!**
+
+Se hai un problema, scrivici subito su [WhatsApp](https://wa.me/393479282875) oppure chiamaci al +39 347/9282875.
+
+Facci sapere se hai trovato qualche problema o se c'è qualcosa che non funziona nella camera o in generale se hai bisogno di aiuto.
+
+Descrivi brevemente il problema e, se possibile, invia una foto.
+
+## 9. Transfer
+
+Organizza e prenota il tuo transfer aeroportuale e scopri delle fantastiche visite guidate visitando la nostra pagina:
+
+[Transfer e Visite Guidate](https://www.bbvaticanstories.it/servizi-bb-roma-vaticano/transfer-e-visite-guidate/)
+
+## Altri testi dell'interfaccia
+
+- Titolo principale della guida: La nostra Guida.
+- Etichette delle voci del menu: riportate nell'indice delle sezioni.
+- Etichetta del pulsante di chiusura: Chiudi.
+- Segnaposto iniziale del titolo della finestra: Titolo. Viene sostituito dal titolo della sezione quando la finestra viene aperta.
