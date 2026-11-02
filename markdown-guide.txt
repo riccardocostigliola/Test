@@ -2,8 +2,9 @@
 
 ## Riferimenti del documento
 
-- Struttura di riferimento: B&B Vatican Stories.
+- Struttura di riferimento: B&B Toto al Vaticano.
 - File di origine: guide-div.html.
+- File di destinazione: guida-bb-toto.html
 - Lingua dei contenuti: italiano.
 
 I testi e i dati riportati nelle sezioni seguenti provengono dalla versione italiana del file originale. Le sezioni seguono l'ordine del menu della guida; i collegamenti mantengono gli URL originali.
@@ -24,20 +25,17 @@ Questa copia in Markdown può essere usata come base per un altro B&B, sostituen
 
 ## 1. Wi-Fi
 
-Nome rete: **Vodafone-Vatican-Stories**
+Nome rete: **Vodafone-BB-Toto-Al-Vaticano**
 
-Password: **Stories2023**
+Password: **Vaticano2024**
 
 Se la connessione non funziona, prova a riavviare il tuo device o contattaci.
-
-Rete Wi-Fi secondaria: **fornaci-ampl**
-Password: **1111111111** (10 volte il numero 1)
 
 ## 2. La tua Camera
 
 ### Informazioni Utili:
 
-Nella tua camera troverai tutto il necessario per la colazione del giorno successivo. Se hai una prenotazione di più notti, noi torneremo ogni mattina alle 10:00 AM per fare una pulizia giornaliera della stanza e rifare le colazioni.
+Nella tua camera troverai tutto il necessario per la colazione del giorno successivo e nella zona della Cucina puoi utilizzare: Microonde, Bollitore e Angolo Cottura. Se hai una prenotazione di più notti, noi torneremo ogni mattina alle 10:00 AM per fare una pulizia giornaliera della stanza e rifare le colazioni.
 
 Nel periodo invernale il riscaldamento si accende in automatico. Per personalizzare la temperatura della stanza potete usare il climatizzatore con il telecomando bianco.
 
@@ -50,12 +48,13 @@ Per i soggiorni più lunghi: il cambio asciugamani e lenzuola viene effettuato o
 
 - Nelle stanze è severamente vietato fumare.
 - Si prega di rispettare l'orario di silenzio e non fare rumore dalle 22:00 alle 08:00.
+- Se viene utilizzata la cucina chiediamo gentilmente di lasciarla pulita e di lavare gli utensili che avete utilizzato.
 
 ## 3. Check-In / Check out
 
 ### Istruzioni per il Check-In:
 
-Vi chiediamo di contattarci tramite WhatsApp al numero **+393479282875** per comunicarci il vostro orario di arrivo e inviarci le foto dei documenti di identità di tutti gli ospiti.
+Vi chiediamo di contattarci tramite WhatsApp al numero **+393762059504** per comunicarci il vostro orario di arrivo e inviarci le foto dei documenti di identità di tutti gli ospiti.
 
 Le camere saranno pronte e accessibili dalle ore 14:00 del giorno di arrivo.
 
@@ -85,21 +84,21 @@ Il migliore per i piatti di pasta tipici della cucina Romana. Consigliamo di pre
 
 [Link Google Maps](https://maps.app.goo.gl/Tw7zjydJza7RVtAH9)
 
-### Il Piccolo Pub
+### Casa Sceppa
 
-Ottima Pinsa Romana (variante della Pizza), ottime birre alla spina, vicinissimo al nostro B&B.
+Cucina tipica Romana in un ristorante elegante e molto tranquillo, a pochi minuti a piedi dal nostro B&B.
 
-**Via delle Fornaci, 22**
+**Via Angelo Ranucci, 40**
 
-[Link Google Maps](https://maps.app.goo.gl/WM1tmL39637HUFnE7)
+[Link Google Maps](https://maps.app.goo.gl/2NuPe1TM8jGuHW5f7)
 
-### Osteria Sant'Uffizio Vaticano
+### Ci Piace Roma - Bistrot
 
 Gestione Italiana, ottima cucina e orari di apertura estesi.
 
-**Via delle Fornaci, 5**
+**Via Gregorio VII, 103**
 
-[Link Google Maps](https://maps.app.goo.gl/1pcsPJNQiFeyzowF7)
+[Link Google Maps](https://maps.app.goo.gl/E1mimYYRoicpRp3Y8)
 
 ## 5. Negozi
 
@@ -109,41 +108,41 @@ Ecco i negozi e servizi utili consigliati:
 
 Supermercato con ottimi prodotti, aperto fino alle 22:00.
 
-**Via delle Fornaci, 136**
+**Via Gregorio VII, 125**
 
-[Link Google Maps](https://maps.app.goo.gl/VUoQnUHaRb2dEw1L6)
+[Link Google Maps](https://maps.app.goo.gl/pXRK7Sgf47mUUHjQ8)
 
-### Farmacia Leone
+### Farmacia Gregorio VII
 
-Farmacia molto vicina al nostro B&B, aperta fino alle 19:30.
+Farmacia molto vicina al nostro B&B, aperta fino alle 20:00.
 
-**Via di Porta Cavalleggeri, 3**
+**Via Gregorio VII, 154**
 
-[Link Google Maps](https://maps.app.goo.gl/SsGCmLL1Poap1mm86)
+[Link Google Maps](https://maps.app.goo.gl/WFVN2WkJJ4umnYs58)
 
-### Gelotti
+### Capitancono
 
-Ottima gelateria a due passi dal nostro B&B.
+Ottima gelateria molto vicina al nostro B&B.
 
-**Via delle Fornaci, 16**
+**Via Angelo Ranucci, 32**
 
-[Link Google Maps](https://maps.app.goo.gl/fcVKUbQCRdSU4Ncw9)
+[Link Google Maps](https://maps.app.goo.gl/76Bd21CjE68m6Jza6)
 
-### Pasticceria Rispo Franca
+### Golden Pasticceria
 
 Pasticceria artigianale di qualità eccellente e con prezzi onesti.
 
-**Via della Stazione di S.Pietro, 24**
+**Via Gregorio VII, 182**
 
-[Link Google Maps](https://maps.app.goo.gl/AaxfMUTyf4jxKinX9)
+[Link Google Maps](https://maps.app.goo.gl/mTXaWRanZYTJJuuy8)
 
-### Tabaccheria Iqos Partner
+### Il Pappagallo - Bar Tabacchi
 
-Negozio dove si possono acquistare i biglietti dell'autobus.
+Ottimo Bar dove si possono acquistare i biglietti dell'autobus.
 
-**Via della Stazione di S.Pietro, 19**
+**Via Gregorio VII, 71**
 
-[Link Google Maps](https://maps.app.goo.gl/zUkcQ2uan8wb27zr8)
+[Link Google Maps](https://maps.app.goo.gl/pQPTMGSCQeX8oFAy9)
 
 ### BICIEVENTO
 
@@ -251,7 +250,7 @@ L’anfiteatro più famoso del mondo: impressionante dal vivo, soprattutto al tr
 
 Contatti rapidi:
 
-- Principale B&B: +39 347/9282875
+- Principale B&B: +39 376/2059504
 - Carmen: +39 392/0600693
 - Riccardo: +39 339/4916463
 - Taxi: +39 06/3570
@@ -260,7 +259,7 @@ Contatti rapidi:
 
 **Siamo pronti ad aiutarti!**
 
-Se hai un problema, scrivici subito su [WhatsApp](https://wa.me/393479282875) oppure chiamaci al +39 347/9282875.
+Se hai un problema, scrivici subito su [WhatsApp](https://wa.me/393762059504) oppure chiamaci al +39 376/2059504.
 
 Facci sapere se hai trovato qualche problema o se c'è qualcosa che non funziona nella camera o in generale se hai bisogno di aiuto.
 
@@ -270,7 +269,7 @@ Descrivi brevemente il problema e, se possibile, invia una foto.
 
 Organizza e prenota il tuo transfer aeroportuale e scopri delle fantastiche visite guidate visitando la nostra pagina:
 
-[Transfer e Visite Guidate](https://www.bbvaticanstories.it/servizi-bb-roma-vaticano/transfer-e-visite-guidate/)
+[Transfer e Visite Guidate](https://totocollection.com/esperienze/)
 
 ## Altri testi dell'interfaccia
 
